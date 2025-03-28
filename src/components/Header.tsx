@@ -1,5 +1,6 @@
 import { Avatar, Indicator } from "@mantine/core";
 import { IconAnchor, IconBell, IconSettings } from "@tabler/icons-react";
+import NavLinks from "./NavLinks";
 
 const Header = () => {
   return (
@@ -8,12 +9,7 @@ const Header = () => {
         <IconAnchor className="h-8 w-8" stroke={2.5} />
         <div className="text-3xl font-semibold">JobHook</div>
       </div>
-      <div className="flex gap-5">
-        <a href="">Find Jobs</a>
-        <a href="">Find Talent</a>
-        <a href="">Upload Jobs</a>
-        <a href="">About us</a>
-      </div>
+      <NavLinks />
       <div className="flex gap-5 items-center">
         <div className="flex items-center gap-3">
           <div>Sanskar</div>
