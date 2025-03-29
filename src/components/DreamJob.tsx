@@ -1,4 +1,4 @@
-import { TextInput } from "@mantine/core";
+import { Avatar, TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 
 const DreamJob = () => {
@@ -32,8 +32,34 @@ const DreamJob = () => {
         </div>
       </div>
       <div className="w-[55%] flex items-center justify-center">
-        <div className="w-[30rem]">
+        <div className="w-[30rem] relative">
           <img src="/Boy.png" alt="Boy" />
+          <div className="w-fit border-bright-sun-400 border rounded-lg p-2 absolute -right-10 top-[50%] backdrop-blur-md">
+            <div className="text-center mb-1 text-sm text-mine-shaft-100">
+              10K+ got jobs
+              <Avatar.Group>
+                <Avatar src="avatar.png" />
+                <Avatar src="avatar1.png" />
+                <Avatar src="avatar2.png" />
+                <Avatar>+9K</Avatar>
+              </Avatar.Group>
+            </div>
+          </div>
+          <div className="w-fit border-bright-sun-400 border rounded-lg p-2 absolute -left-5 top-[30%] backdrop-blur-md gap-3 flex flex-col">
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 p-1 bg-mine-shaft-900 rounded-lg">
+                <img src="/Icons/Google.png" alt="Google" />
+              </div>
+              <div className="text-sm text-mine-shaft-100">
+                <div>Software Engineer</div>
+                <div className="text-mine-shaft-200 text-xs">New York</div>
+              </div>
+            </div>
+            <div className="flex gap-2 justify-around text-mine-shaft-200 text-xs">
+              <span>1 day ago</span>
+              <span>120 Applicants</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
