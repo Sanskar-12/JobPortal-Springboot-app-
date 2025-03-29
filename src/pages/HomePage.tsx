@@ -1,5 +1,5 @@
-import DreamJob from "../components/DreamJob";
-import Header from "../components/Header";
+import Header from "../components/Header/Header";
+import DreamJob from "../components/LandingPage/DreamJob";
 
 const HomePage = () => {
   return (
