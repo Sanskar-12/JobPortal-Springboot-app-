@@ -2,6 +2,7 @@ import Header from "../components/Header/Header";
 import Companies from "../components/LandingPage/Companies";
 import DreamJob from "../components/LandingPage/DreamJob";
 import JobCategory from "../components/LandingPage/JobCategory";
+import Working from "../components/LandingPage/Working";
 
 const HomePage = () => {
   return (
@@ -10,6 +11,7 @@ const HomePage = () => {
       <DreamJob />
       <Companies />
       <JobCategory />
+      <Working />
     </div>
   );
 };
