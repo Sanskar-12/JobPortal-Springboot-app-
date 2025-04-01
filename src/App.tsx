@@ -41,7 +41,7 @@ function App() {
   });
 
   return (
-    <MantineProvider theme={theme}>
+    <MantineProvider defaultColorScheme="dark" theme={theme}>
       <Router>
         <Header />
         <Routes>
