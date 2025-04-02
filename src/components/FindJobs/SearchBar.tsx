@@ -20,11 +20,11 @@ const SearchBar = () => {
           <Divider mr={"xs"} size="xs" orientation="vertical" />
         </>
       ))}
-      <div className="w-1/5">
-        <div className="flex justify-between">
+      <div className="w-1/5 [&_.mantine-Slider-label]:!translate-y-10">
+        <div className="flex justify-between text-sm">
           <div>Salary</div>
           <div>
-            &#8377;{value[0]} - &#8377;{value[1]}
+            &#8377;{value[0]} LPA - &#8377;{value[1]} LPA
           </div>
         </div>
         <RangeSlider
