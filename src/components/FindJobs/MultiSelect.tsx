@@ -1,4 +1,9 @@
-import { useState } from "react";
+import {
+  ForwardRefExoticComponent,
+  RefAttributes,
+  useEffect,
+  useState,
+} from "react";
 import {
   Checkbox,
   Combobox,
@@ -8,24 +13,22 @@ import {
   PillsInput,
   useCombobox,
 } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
+import { Icon, IconProps, IconSelector } from "@tabler/icons-react";
 
-const groceries = [
-  "🍎 Apples",
-  "🍌 Bananas",
-  "🥦 Broccoli",
-  "🥕 Carrots",
-  "🍫 Chocolate",
-];
+interface MultiSelectProps {
+  title: string;
+  Icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+  option: string[];
+}
 
-export const MultiSelect = () => {
+export const MultiSelect = ({ title, Icon, option }: MultiSelectProps) => {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
     onDropdownOpen: () => combobox.updateSelectedOptionIndex("active"),
   });
 
   const [search, setSearch] = useState("");
-  const [data, setData] = useState(groceries);
+  const [data, setData] = useState<string[]>([]);
   const [value, setValue] = useState<string[]>([]);
 
   const exactOptionMatch = data.some((item) => item === search);
@@ -73,6 +76,10 @@ export const MultiSelect = () => {
       </Combobox.Option>
     ));
 
+  useEffect(() => {
+    setData(option);
+  }, [option]);
+
   return (
     <Combobox
       store={combobox}
@@ -83,10 +90,10 @@ export const MultiSelect = () => {
         <PillsInput
           onClick={() => combobox.toggleDropdown()}
           variant="unstyled"
-          rightSection={<Combobox.Chevron />}
+          rightSection={<IconSelector />}
           leftSection={
             <div className="text-bright-sun-400 p-1 bg-mine-shaft-900 rounded-full mr-2">
-              <IconSearch />
+              <Icon />
             </div>
           }
         >
@@ -98,7 +105,7 @@ export const MultiSelect = () => {
               </>
             ) : (
               <Input.Placeholder className="!text-mine-shaft-200">
-                Job Title
+                {title}
               </Input.Placeholder>
             )}
           </Pill.Group>
@@ -109,7 +116,7 @@ export const MultiSelect = () => {
         <Combobox.Search
           value={search}
           onChange={(event) => setSearch(event.currentTarget.value)}
-          placeholder="Search groceries"
+          placeholder="Search"
         />
         <Combobox.Options>
           {options}
