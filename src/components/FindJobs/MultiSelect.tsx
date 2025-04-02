@@ -1,12 +1,14 @@
 import { useState } from "react";
 import {
-  CheckIcon,
+  Checkbox,
   Combobox,
   Group,
+  Input,
   Pill,
   PillsInput,
   useCombobox,
 } from "@mantine/core";
+import { IconSearch } from "@tabler/icons-react";
 
 const groceries = [
   "🍎 Apples",
@@ -46,7 +48,7 @@ export const MultiSelect = () => {
   const handleValueRemove = (val: string) =>
     setValue((current) => current.filter((v) => v !== val));
 
-  const values = value.map((item) => (
+  const values = value.slice(0, 1).map((item) => (
     <Pill key={item} withRemoveButton onRemove={() => handleValueRemove(item)}>
       {item}
     </Pill>
@@ -57,8 +59,16 @@ export const MultiSelect = () => {
     .map((item) => (
       <Combobox.Option value={item} key={item} active={value.includes(item)}>
         <Group gap="sm">
-          {value.includes(item) ? <CheckIcon size={12} /> : null}
-          <span>{item}</span>
+          <Checkbox
+            checked={value.includes(item)}
+            onChange={() => {}}
+            aria-hidden
+            tabIndex={-1}
+            style={{ pointerEvents: "none" }}
+            size="xs"
+            color="bright-sun.4"
+          />
+          <span className="text-mine-shaft-300">{item}</span>
         </Group>
       </Combobox.Option>
     ));
@@ -70,34 +80,37 @@ export const MultiSelect = () => {
       withinPortal={false}
     >
       <Combobox.DropdownTarget>
-        <PillsInput onClick={() => combobox.openDropdown()}>
+        <PillsInput
+          onClick={() => combobox.toggleDropdown()}
+          variant="unstyled"
+          rightSection={<Combobox.Chevron />}
+          leftSection={
+            <div className="text-bright-sun-400 p-1 bg-mine-shaft-900 rounded-full mr-2">
+              <IconSearch />
+            </div>
+          }
+        >
           <Pill.Group>
-            {values}
-
-            <Combobox.EventsTarget>
-              <PillsInput.Field
-                variant="unstyled"
-                onFocus={() => combobox.openDropdown()}
-                onBlur={() => combobox.closeDropdown()}
-                value={search}
-                placeholder="Search values"
-                onChange={(event) => {
-                  combobox.updateSelectedOptionIndex();
-                  setSearch(event.currentTarget.value);
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === "Backspace" && search.length === 0) {
-                    event.preventDefault();
-                    handleValueRemove(value[value.length - 1]);
-                  }
-                }}
-              />
-            </Combobox.EventsTarget>
+            {value.length > 0 ? (
+              <>
+                {values}
+                {value.length > 1 && <Pill>+{value.length - 1} more</Pill>}
+              </>
+            ) : (
+              <Input.Placeholder className="!text-mine-shaft-200">
+                Job Title
+              </Input.Placeholder>
+            )}
           </Pill.Group>
         </PillsInput>
       </Combobox.DropdownTarget>
 
       <Combobox.Dropdown>
+        <Combobox.Search
+          value={search}
+          onChange={(event) => setSearch(event.currentTarget.value)}
+          placeholder="Search groceries"
+        />
         <Combobox.Options>
           {options}
 
