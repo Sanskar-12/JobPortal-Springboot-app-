@@ -1,5 +1,6 @@
 import { Divider } from "@mantine/core";
 import FindTalentSearchBar from "../components/FindTalent/FindTalentSearchBar";
+import Talents from "../components/FindTalent/Talents";
 
 const FindTalent = () => {
   return (
@@ -7,6 +8,7 @@ const FindTalent = () => {
       <Divider size={"xs"} mx={"md"} />
       <FindTalentSearchBar />
       <Divider size={"xs"} mx={"md"} />
+      <Talents />
     </div>
   );
 };
