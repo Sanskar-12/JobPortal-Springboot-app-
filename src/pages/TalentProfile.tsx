@@ -2,6 +2,7 @@ import { Button, Divider } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import Profile from "../components/TalentProfile/Profile";
+import { profile } from "../Data/TalentData";
 
 const TalentProfile = () => {
   return (
@@ -17,7 +18,7 @@ const TalentProfile = () => {
         </Button>
       </Link>
       <div className="flex gap-5">
-        <Profile />
+        <Profile profile={profile} />
       </div>
     </div>
   );
