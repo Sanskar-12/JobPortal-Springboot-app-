@@ -16,7 +16,6 @@ const TalentProfile = () => {
           Back
         </Button>
       </Link>
-      <Divider size={"xs"} />
       <div className="flex gap-5">
         <Profile />
       </div>
