@@ -1,6 +1,7 @@
 import { Button, Divider } from "@mantine/core";
 import { IconBriefcase, IconMapPin } from "@tabler/icons-react";
 import ExperienceCard from "./ExperienceCard";
+import CertificationsCard from "./CertificationsCard";
 
 const Profile = () => {
   return (
@@ -59,6 +60,11 @@ const Profile = () => {
       <div className="px-3">
         <div className="text-2xl font-semibold mb-5">Experience</div>
         <ExperienceCard />
+      </div>
+      <Divider mx={"xs"} my={"xl"} />
+      <div className="px-3">
+        <div className="text-2xl font-semibold mb-5">Certifications</div>
+        <CertificationsCard />
       </div>
     </div>
   );
