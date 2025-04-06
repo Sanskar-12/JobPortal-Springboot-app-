@@ -20,3 +20,9 @@ export type profileType = {
     certificateId: string;
   }[];
 };
+
+export type option = {
+  label: string;
+  options: string[];
+  placeholder: string;
+};

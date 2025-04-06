@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { Combobox, InputBase, useCombobox } from "@mantine/core";
+import { Combobox, InputBase, ScrollArea, useCombobox } from "@mantine/core";
 
 interface SelectInputProps {
-  option: string[];
+  option: {
+    label: string;
+    options: string[];
+    placeholder: string;
+  };
 }
 
 const SelectInput = ({ option }: SelectInputProps) => {
@@ -28,7 +32,7 @@ const SelectInput = ({ option }: SelectInputProps) => {
   ));
 
   useEffect(() => {
-    setData(option);
+    setData(option.options);
   }, [option]);
 
   return (
@@ -49,6 +53,9 @@ const SelectInput = ({ option }: SelectInputProps) => {
     >
       <Combobox.Target>
         <InputBase
+          withAsterisk
+          className="[&_input]:font-medium"
+          label={option.label}
           rightSection={<Combobox.Chevron />}
           value={search}
           onChange={(event) => {
@@ -62,17 +69,21 @@ const SelectInput = ({ option }: SelectInputProps) => {
             combobox.closeDropdown();
             setSearch(value || "");
           }}
-          placeholder="Search value"
+          placeholder={option.placeholder}
           rightSectionPointerEvents="none"
         />
       </Combobox.Target>
 
       <Combobox.Dropdown>
         <Combobox.Options>
-          {options}
-          {!exactOptionMatch && search.trim().length > 0 && (
-            <Combobox.Option value="$create">+ Create {search}</Combobox.Option>
-          )}
+          <ScrollArea.Autosize mah={200} type="scroll">
+            {options}
+            {!exactOptionMatch && search.trim().length > 0 && (
+              <Combobox.Option value="$create">
+                + Create {search}
+              </Combobox.Option>
+            )}
+          </ScrollArea.Autosize>
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>
