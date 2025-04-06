@@ -13,8 +13,8 @@ const NavLinks = () => {
       url: "find-talent",
     },
     {
-      name: "Upload Jobs",
-      url: "upload-jobs",
+      name: "Post Jobs",
+      url: "post-jobs",
     },
     {
       name: "About us",

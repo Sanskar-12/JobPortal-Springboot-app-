@@ -5,7 +5,6 @@ import Talents from "../components/FindTalent/Talents";
 const FindTalent = () => {
   return (
     <div className="min-h-[100vh] bg-mine-shaft-950 font-['poppins']">
-      <Divider size={"xs"} mx={"md"} />
       <FindTalentSearchBar />
       <Divider size={"xs"} mx={"md"} />
       <Talents />
