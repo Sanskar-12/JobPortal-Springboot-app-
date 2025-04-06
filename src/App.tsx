@@ -55,7 +55,6 @@ function App() {
       <Router>
         <Header />
         <Divider size={"xs"} mx={"md"} />
-
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/find-jobs" element={<FindJobs />} />
