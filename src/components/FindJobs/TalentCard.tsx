@@ -11,6 +11,7 @@ interface TalentCardProps {
   expectedCtc: string;
   location: string;
   image: string;
+  width?: string;
 }
 
 const TalentCard = ({
@@ -22,9 +23,14 @@ const TalentCard = ({
   image,
   location,
   topSkills,
+  width,
 }: TalentCardProps) => {
   return (
-    <div className="bg-mine-shaft-900 p-4 w-72 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] !shadow-bright-sun-400">
+    <div
+      className={`bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200 ${
+        width && "w-full"
+      }`}
+    >
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
           <div className="p-2 bg-mine-shaft-800 rounded-full">

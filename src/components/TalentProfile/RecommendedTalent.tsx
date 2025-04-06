@@ -3,7 +3,7 @@ import TalentCard from "../FindJobs/TalentCard";
 
 const RecommendedTalent = () => {
   return (
-    <div>
+    <div className="w-1/3">
       <div className="text-xl font-semibold mb-5">Recommended Talent</div>
       <div className="flex flex-col flex-wrap gap-5">
         {talents.map(
@@ -19,6 +19,7 @@ const RecommendedTalent = () => {
                 image={talent.image}
                 location={talent.location}
                 topSkills={talent.topSkills}
+                width={"full"}
               />
             )
         )}

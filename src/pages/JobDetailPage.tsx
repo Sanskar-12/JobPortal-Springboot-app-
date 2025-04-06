@@ -1,6 +1,7 @@
 import { Button } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import JobDetails from "../components/JobDetailsComp/JobDetails";
 
 const JobDetailPage = () => {
   return (
@@ -14,7 +15,9 @@ const JobDetailPage = () => {
           Back
         </Button>
       </Link>
-      <div className="flex gap-5"></div>
+      <div className="flex gap-5">
+        <JobDetails />
+      </div>
     </div>
   );
 };
