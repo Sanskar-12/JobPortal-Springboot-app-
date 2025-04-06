@@ -11,6 +11,7 @@ import Footer from "./components/Footer/Footer";
 import FindTalent from "./pages/FindTalent";
 import TalentProfile from "./pages/TalentProfile";
 import PostJobs from "./pages/PostJobs";
+import JobDetailPage from "./pages/JobDetailPage";
 
 function App() {
   const theme = createTheme({
@@ -60,6 +61,7 @@ function App() {
           <Route path="/find-jobs" element={<FindJobs />} />
           <Route path="/post-jobs" element={<PostJobs />} />
           <Route path="/find-talent" element={<FindTalent />} />
+          <Route path="/jobs" element={<JobDetailPage />} />
           <Route path="/talent-profile" element={<TalentProfile />} />
         </Routes>
         <Footer />
