@@ -12,6 +12,7 @@ import FindTalent from "./pages/FindTalent";
 import TalentProfile from "./pages/TalentProfile";
 import PostJobs from "./pages/PostJobs";
 import JobDetailPage from "./pages/JobDetailPage";
+import ApplyJobPage from "./pages/ApplyJobPage";
 
 function App() {
   const theme = createTheme({
@@ -53,17 +54,20 @@ function App() {
   return (
     <MantineProvider defaultColorScheme="dark" theme={theme}>
       <Router>
-        <Header />
-        <Divider size={"xs"} mx={"md"} />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/find-jobs" element={<FindJobs />} />
-          <Route path="/post-jobs" element={<PostJobs />} />
-          <Route path="/find-talent" element={<FindTalent />} />
-          <Route path="/jobs" element={<JobDetailPage />} />
-          <Route path="/talent-profile" element={<TalentProfile />} />
-        </Routes>
-        <Footer />
+        <div className="relative">
+          <Header />
+          <Divider size={"xs"} mx={"md"} />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/find-jobs" element={<FindJobs />} />
+            <Route path="/post-jobs" element={<PostJobs />} />
+            <Route path="/find-talent" element={<FindTalent />} />
+            <Route path="/jobs" element={<JobDetailPage />} />
+            <Route path="/apply-job" element={<ApplyJobPage />} />
+            <Route path="/talent-profile" element={<TalentProfile />} />
+          </Routes>
+          <Footer />
+        </div>
       </Router>
     </MantineProvider>
   );
