@@ -26,3 +26,13 @@ export type option = {
   options: string[];
   placeholder: string;
 };
+
+export type companyDataType = {
+  Name: string;
+  Overview: string;
+  Industry: string;
+  Website: string;
+  Size: string;
+  Headquarters: string;
+  Specialties: string[];
+};
