@@ -85,7 +85,7 @@ const JobDetails = () => {
               <div className="text-lg text-mine-shaft-300">10K+ Employees</div>
             </div>
           </div>
-          <Link to={"/company-page"}>
+          <Link to={"/company"}>
             <Button size="sm" color="bright-sun.4" variant="light">
               Company Page
             </Button>
