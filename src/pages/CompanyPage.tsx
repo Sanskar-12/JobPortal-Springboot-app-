@@ -2,6 +2,7 @@ import { Button } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import Company from "../components/Company/Company";
+import SimilarCompanies from "../components/Company/SimilarCompanies";
 
 const CompanyPage = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const CompanyPage = () => {
       </Button>
       <div className="flex gap-5">
         <Company />
+        <SimilarCompanies />
       </div>
     </div>
   );
