@@ -1,6 +1,7 @@
 import { Avatar, Divider, Tabs } from "@mantine/core";
 import { IconMapPin } from "@tabler/icons-react";
 import AboutCompany from "./AboutCompany";
+import CompanyJob from "./CompanyJob";
 
 const Company = () => {
   return (
@@ -38,7 +39,9 @@ const Company = () => {
             <Tabs.Panel value="about">
               <AboutCompany />
             </Tabs.Panel>
-            <Tabs.Panel value="jobs">Jobs</Tabs.Panel>
+            <Tabs.Panel value="jobs">
+              <CompanyJob />
+            </Tabs.Panel>
             <Tabs.Panel value="employees">Employees</Tabs.Panel>
           </Tabs>
         </div>
