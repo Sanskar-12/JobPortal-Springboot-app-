@@ -29,7 +29,7 @@ const Company = () => {
         <Divider my={"xl"} />
         <div>
           <Tabs variant="outline" radius="lg" defaultValue="about">
-            <Tabs.List className="[&_button]:!text-lg font-semibold [&_button[data-active='true']]:text-bright-sun-400">
+            <Tabs.List className="[&_button]:!text-lg font-semibold [&_button[data-active='true']]:text-bright-sun-400 mb-5">
               <Tabs.Tab value="about">About</Tabs.Tab>
               <Tabs.Tab value="jobs">Jobs</Tabs.Tab>
               <Tabs.Tab value="employees">Employees</Tabs.Tab>
