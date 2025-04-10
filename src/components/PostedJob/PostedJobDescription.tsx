@@ -27,7 +27,7 @@ const PostedJobDescription = () => {
             <JobDetails edit={true} />
           </Tabs.Panel>
           <Tabs.Panel value="applicants">
-            <div className="mt-10 grid grid-cols-4 gap-5">
+            <div className="mt-10 grid grid-cols-4 gap-5 justify-around">
               {talents.map(
                 (talent, index) =>
                   index < 6 && (
@@ -47,7 +47,27 @@ const PostedJobDescription = () => {
               )}
             </div>
           </Tabs.Panel>
-          <Tabs.Panel value="invited">invited</Tabs.Panel>
+          <Tabs.Panel value="invited">
+            <div className="mt-10 grid grid-cols-4 gap-5 justify-around">
+              {talents.map(
+                (talent, index) =>
+                  index < 6 && (
+                    <TalentCard
+                      about={talent.about}
+                      company={talent.company}
+                      expectedCtc={talent.expectedCtc}
+                      image={talent.image}
+                      location={talent.location}
+                      name={talent.name}
+                      role={talent.role}
+                      topSkills={talent.topSkills}
+                      invited={true}
+                      key={index}
+                    />
+                  )
+              )}
+            </div>
+          </Tabs.Panel>
         </Tabs>
       </div>
     </div>

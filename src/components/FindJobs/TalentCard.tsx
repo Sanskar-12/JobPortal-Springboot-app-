@@ -15,6 +15,7 @@ interface TalentCardProps {
   location: string;
   image: string;
   posted?: boolean;
+  invited?: boolean;
   width?: string;
 }
 
@@ -29,6 +30,7 @@ const TalentCard = ({
   topSkills,
   width,
   posted,
+  invited,
 }: TalentCardProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [value, setValue] = useState<Date | null>(null);
@@ -66,36 +68,61 @@ const TalentCard = ({
         {about}
       </Text>
       <Divider size={"xs"} color="mine-shaft.7" />
-      <div className="flex justify-between">
-        <div className="font-semibold text-mine-shaft-200">{expectedCtc}</div>
-        <div className="flex gap-1 text-xs text-mine-shaft-400 items-center">
-          <IconMapPin className="h-5 w-5" stroke={1.5} /> {location}
+      {invited ? (
+        <div className="flex gap-1 text-mine-shaft-200 text-sm items-center">
+          <IconCalendarMonth stroke={1.5} /> Interview: August 27, 2024 10:00 AM
         </div>
-      </div>
+      ) : (
+        <div className="flex justify-between">
+          <div className="font-semibold text-mine-shaft-200">{expectedCtc}</div>
+          <div className="flex gap-1 text-xs text-mine-shaft-400 items-center">
+            <IconMapPin className="h-5 w-5" stroke={1.5} /> {location}
+          </div>
+        </div>
+      )}
+
       <Divider size={"xs"} color="mine-shaft.7" />
       <div className="flex [&>*]:w-1/2 [&>*]:p-1">
-        <Link to={"/talent-profile"}>
-          <Button color="bright-sun.4" variant="outline" fullWidth>
-            Profile
-          </Button>
-        </Link>
-        <div>
-          {posted ? (
-            <Button
-              rightSection={<IconCalendarMonth />}
-              color="bright-sun.4"
-              variant="light"
-              fullWidth
-              onClick={open}
-            >
-              Schedule
-            </Button>
-          ) : (
-            <Button color="bright-sun.4" variant="light" fullWidth>
-              Message
-            </Button>
-          )}
-        </div>
+        {!invited && (
+          <>
+            <Link to={"/talent-profile"}>
+              <Button color="bright-sun.4" variant="outline" fullWidth>
+                Profile
+              </Button>
+            </Link>
+            <div>
+              {posted ? (
+                <Button
+                  rightSection={<IconCalendarMonth />}
+                  color="bright-sun.4"
+                  variant="light"
+                  fullWidth
+                  onClick={open}
+                >
+                  Schedule
+                </Button>
+              ) : (
+                <Button color="bright-sun.4" variant="light" fullWidth>
+                  Message
+                </Button>
+              )}
+            </div>
+          </>
+        )}
+        {invited && (
+          <>
+            <div>
+              <Button color="bright-sun.4" variant="outline" fullWidth>
+                Accept
+              </Button>
+            </div>
+            <div>
+              <Button color="bright-sun.4" variant="light" fullWidth>
+                Reject
+              </Button>
+            </div>
+          </>
+        )}
       </div>
       <Modal
         opened={opened}
