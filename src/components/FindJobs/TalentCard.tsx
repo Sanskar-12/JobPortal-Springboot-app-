@@ -2,6 +2,8 @@ import { Avatar, Button, Divider, Modal, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCalendarMonth, IconHeart, IconMapPin } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import { DateInput, TimeInput } from "@mantine/dates";
+import { useRef, useState } from "react";
 
 interface TalentCardProps {
   name: string;
@@ -29,6 +31,8 @@ const TalentCard = ({
   posted,
 }: TalentCardProps) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [value, setValue] = useState<Date | null>(null);
+  const ref = useRef<HTMLInputElement>(null);
 
   return (
     <div
@@ -93,8 +97,29 @@ const TalentCard = ({
           )}
         </div>
       </div>
-      <Modal opened={opened} onClose={close} title="Schedule Interview">
-        {/* Modal content */}
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="Schedule Interview"
+        centered
+      >
+        <div className="flex flex-col gap-4">
+          <DateInput
+            minDate={new Date()}
+            value={value}
+            onChange={setValue}
+            label="Date"
+            placeholder="Enter Date"
+          />
+          <TimeInput
+            label="Time"
+            ref={ref}
+            onClick={() => ref.current?.showPicker()}
+          />
+          <Button color="bright-sun.4" variant="light" fullWidth>
+            Schedule
+          </Button>
+        </div>
       </Modal>
     </div>
   );
