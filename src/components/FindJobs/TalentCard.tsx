@@ -1,5 +1,6 @@
-import { Avatar, Button, Divider, Text } from "@mantine/core";
-import { IconHeart, IconMapPin } from "@tabler/icons-react";
+import { Avatar, Button, Divider, Modal, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { IconCalendarMonth, IconHeart, IconMapPin } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 
 interface TalentCardProps {
@@ -11,6 +12,7 @@ interface TalentCardProps {
   expectedCtc: string;
   location: string;
   image: string;
+  posted?: boolean;
   width?: string;
 }
 
@@ -24,7 +26,10 @@ const TalentCard = ({
   location,
   topSkills,
   width,
+  posted,
 }: TalentCardProps) => {
+  const [opened, { open, close }] = useDisclosure(false);
+
   return (
     <div
       className={`bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200 ${
@@ -71,11 +76,26 @@ const TalentCard = ({
           </Button>
         </Link>
         <div>
-          <Button color="bright-sun.4" variant="light" fullWidth>
-            Message
-          </Button>
+          {posted ? (
+            <Button
+              rightSection={<IconCalendarMonth />}
+              color="bright-sun.4"
+              variant="light"
+              fullWidth
+              onClick={open}
+            >
+              Schedule
+            </Button>
+          ) : (
+            <Button color="bright-sun.4" variant="light" fullWidth>
+              Message
+            </Button>
+          )}
         </div>
       </div>
+      <Modal opened={opened} onClose={close} title="Schedule Interview">
+        {/* Modal content */}
+      </Modal>
     </div>
   );
 };

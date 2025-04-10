@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 import { card, desc, skills } from "../../Data/JobDescData";
 import DomPurify from "dompurify";
 
-const JobDetails = () => {
+interface JobDetailsProps {
+  edit: boolean;
+}
+
+const JobDetails = ({ edit }: JobDetailsProps) => {
   const data = DomPurify.sanitize(desc);
 
   return (
@@ -24,10 +28,16 @@ const JobDetails = () => {
         <div className="flex flex-col gap-2 items-center">
           <Link to={"/apply-job"}>
             <Button size="sm" color="bright-sun.4" variant="light">
-              Apply
+              {edit ? "Edit" : "Apply"}
             </Button>
           </Link>
-          <IconBookmark className="text-bright-sun-400 cursor-pointer" />
+          {edit ? (
+            <Button color="red.5" size="sm" variant="outline">
+              Delete
+            </Button>
+          ) : (
+            <IconBookmark className="text-bright-sun-400 cursor-pointer" />
+          )}
         </div>
       </div>
       <Divider my={"xl"} />
@@ -50,7 +60,7 @@ const JobDetails = () => {
       </div>
       <Divider my={"xl"} />
       <div>
-        <div>Required Skills</div>
+        <div className="mb-3 font-semibold">Required Skills</div>
         <div className="flex flex-wrap gap-2">
           {skills.map((item, index) => (
             <ActionIcon
