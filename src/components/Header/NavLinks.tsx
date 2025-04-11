@@ -24,6 +24,10 @@ const NavLinks = () => {
       name: "Job History",
       url: "job-history",
     },
+    {
+      name: "Sign Up",
+      url: "sign-up",
+    },
   ];
 
   return (
