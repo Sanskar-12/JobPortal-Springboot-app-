@@ -9,6 +9,8 @@ import { profileType } from "../../types";
 import ExperienceCard from "./ExpCard";
 import CertificationsCard from "./CertCard";
 import { useState } from "react";
+import fields from "../../Data/Profile";
+import SelectInput from "./SelectInput";
 
 interface ProfileProps {
   profile: profileType;
@@ -22,6 +24,8 @@ const Profile = ({ profile }: ProfileProps) => {
     newData[index] = !newData[index];
     setEdit(newData);
   };
+
+  const select = fields;
 
   return (
     <div className="w-4/5 mx-auto">
@@ -49,14 +53,26 @@ const Profile = ({ profile }: ProfileProps) => {
             )}
           </ActionIcon>
         </div>
-        <div className="text-xl flex gap-1 items-center">
-          {" "}
-          <IconBriefcase className="h-5 w-5" stroke={1.5} />
-          {profile.role} &bull; {profile.company}
-        </div>
-        <div className="text-lg flex gap-1 items-center text-mine-shaft-300">
-          <IconMapPin className="h-5 w-5" stroke={1.5} /> {profile.location}
-        </div>
+        {edit[0] ? (
+          <>
+            <div className="flex gap-10 [&>*]:w-1/2">
+              <SelectInput option={select[0]} />
+              <SelectInput option={select[1]} />
+            </div>
+            <SelectInput option={select[2]} />
+          </>
+        ) : (
+          <>
+            <div className="text-xl flex gap-1 items-center">
+              {" "}
+              <IconBriefcase className="h-5 w-5" stroke={1.5} />
+              {profile.role} &bull; {profile.company}
+            </div>
+            <div className="text-lg flex gap-1 items-center text-mine-shaft-300">
+              <IconMapPin className="h-5 w-5" stroke={1.5} /> {profile.location}
+            </div>
+          </>
+        )}
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">
