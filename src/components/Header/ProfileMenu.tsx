@@ -1,21 +1,21 @@
 import { Menu, Avatar, Switch } from "@mantine/core";
 import {
   IconMessageCircle,
-  IconTrash,
-  IconArrowsLeftRight,
   IconUserCircle,
   IconFileText,
   IconMoon,
   IconSun,
   IconMoonStars,
+  IconLogout2,
 } from "@tabler/icons-react";
 import { useState } from "react";
 
 const ProfileMenu = () => {
   const [checked, setChecked] = useState(false);
+  const [opened, setOpened] = useState(false);
 
   return (
-    <Menu shadow="md" width={200}>
+    <Menu shadow="md" width={200} opened={opened} onChange={setOpened}>
       <Menu.Target>
         <div className="flex items-center gap-3 cursor-pointer">
           <div>Sanskar</div>
@@ -23,7 +23,7 @@ const ProfileMenu = () => {
         </div>
       </Menu.Target>
 
-      <Menu.Dropdown>
+      <Menu.Dropdown onChange={() => setOpened(true)}>
         <Menu.Item leftSection={<IconUserCircle size={14} />}>
           Profile
         </Menu.Item>
@@ -49,12 +49,8 @@ const ProfileMenu = () => {
 
         <Menu.Divider />
 
-        <Menu.Label>Danger zone</Menu.Label>
-        <Menu.Item leftSection={<IconArrowsLeftRight size={14} />}>
-          Transfer my data
-        </Menu.Item>
-        <Menu.Item color="red" leftSection={<IconTrash size={14} />}>
-          Delete my account
+        <Menu.Item color="red" leftSection={<IconLogout2 size={14} />}>
+          Logout
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>
