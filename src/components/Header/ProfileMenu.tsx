@@ -9,6 +9,7 @@ import {
   IconLogout2,
 } from "@tabler/icons-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const ProfileMenu = () => {
   const [checked, setChecked] = useState(false);
@@ -24,9 +25,11 @@ const ProfileMenu = () => {
       </Menu.Target>
 
       <Menu.Dropdown onChange={() => setOpened(true)}>
-        <Menu.Item leftSection={<IconUserCircle size={14} />}>
-          Profile
-        </Menu.Item>
+        <Link to={"/profile"}>
+          <Menu.Item leftSection={<IconUserCircle size={14} />}>
+            Profile
+          </Menu.Item>
+        </Link>
         <Menu.Item leftSection={<IconMessageCircle size={14} />}>
           Messages
         </Menu.Item>
