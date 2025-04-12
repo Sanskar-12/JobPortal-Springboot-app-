@@ -168,7 +168,7 @@ const Profile = ({ profile }: ProfileProps) => {
         </div>
         <div className="flex flex-col gap-8">
           {profile.experience.map((exp, index) => (
-            <ExperienceCard exp={exp} key={index} />
+            <ExperienceCard exp={exp} edit={edit[3]} key={index} />
           ))}
         </div>
       </div>
