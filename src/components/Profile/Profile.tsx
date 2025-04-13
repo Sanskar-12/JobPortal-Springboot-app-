@@ -13,6 +13,7 @@ import { useState } from "react";
 import fields from "../../Data/Profile";
 import SelectInput from "./SelectInput";
 import ExpInput from "./ExpInput";
+import CertInput from "./CertInput";
 
 interface ProfileProps {
   profile: profileType;
@@ -23,6 +24,7 @@ const Profile = ({ profile }: ProfileProps) => {
   const [about, setAbout] = useState(profile.about);
   const [skills, setSkills] = useState<string[]>(profile.skills);
   const [addExp, setAddExp] = useState(false);
+  const [addCert, setAddCert] = useState(false);
 
   const handleEdit = (index: number) => {
     const newData = [...edit];
@@ -190,23 +192,34 @@ const Profile = ({ profile }: ProfileProps) => {
       <div className="px-3">
         <div className="text-2xl font-semibold mb-5 flex justify-between">
           Certifications{" "}
-          <ActionIcon
-            variant="subtle"
-            color="bright-sun.4"
-            size={"lg"}
-            onClick={() => handleEdit(4)}
-          >
-            {edit[4] ? (
-              <IconDeviceFloppy className="h-4/5 w-4/5" />
-            ) : (
-              <IconPencil className="h-4/5 w-4/5" />
-            )}
-          </ActionIcon>
+          <div className="flex gap-2">
+            <ActionIcon
+              variant="subtle"
+              color="bright-sun.4"
+              size={"lg"}
+              onClick={() => setAddCert(true)}
+            >
+              <IconPlus className="h-4/5 w-4/5" />
+            </ActionIcon>
+            <ActionIcon
+              variant="subtle"
+              color="bright-sun.4"
+              size={"lg"}
+              onClick={() => handleEdit(4)}
+            >
+              {edit[4] ? (
+                <IconDeviceFloppy className="h-4/5 w-4/5" />
+              ) : (
+                <IconPencil className="h-4/5 w-4/5" />
+              )}
+            </ActionIcon>
+          </div>
         </div>
         <div className="flex flex-col gap-8">
           {profile.certifications.map((cert, index) => (
-            <CertificationsCard cert={cert} key={index} />
+            <CertificationsCard cert={cert} key={index} edit={edit[4]} />
           ))}
+          {addCert && <CertInput add={true} setEdit={setAddCert} />}
         </div>
       </div>
     </div>
