@@ -4,6 +4,7 @@ import {
   IconDeviceFloppy,
   IconMapPin,
   IconPencil,
+  IconPlus,
 } from "@tabler/icons-react";
 import { profileType } from "../../types";
 import ExperienceCard from "./ExpCard";
@@ -11,6 +12,7 @@ import CertificationsCard from "./CertCard";
 import { useState } from "react";
 import fields from "../../Data/Profile";
 import SelectInput from "./SelectInput";
+import ExpInput from "./ExpInput";
 
 interface ProfileProps {
   profile: profileType;
@@ -20,6 +22,7 @@ const Profile = ({ profile }: ProfileProps) => {
   const [edit, setEdit] = useState([false, false, false, false, false]);
   const [about, setAbout] = useState(profile.about);
   const [skills, setSkills] = useState<string[]>(profile.skills);
+  const [addExp, setAddExp] = useState(false);
 
   const handleEdit = (index: number) => {
     const newData = [...edit];
@@ -153,23 +156,34 @@ const Profile = ({ profile }: ProfileProps) => {
       <div className="px-3">
         <div className="text-2xl font-semibold mb-5 flex justify-between">
           Experience{" "}
-          <ActionIcon
-            variant="subtle"
-            color="bright-sun.4"
-            size={"lg"}
-            onClick={() => handleEdit(3)}
-          >
-            {edit[3] ? (
-              <IconDeviceFloppy className="h-4/5 w-4/5" />
-            ) : (
-              <IconPencil className="h-4/5 w-4/5" />
-            )}
-          </ActionIcon>
+          <div className="flex gap-2">
+            <ActionIcon
+              variant="subtle"
+              color="bright-sun.4"
+              size={"lg"}
+              onClick={() => setAddExp(true)}
+            >
+              <IconPlus className="h-4/5 w-4/5" />
+            </ActionIcon>
+            <ActionIcon
+              variant="subtle"
+              color="bright-sun.4"
+              size={"lg"}
+              onClick={() => handleEdit(3)}
+            >
+              {edit[3] ? (
+                <IconDeviceFloppy className="h-4/5 w-4/5" />
+              ) : (
+                <IconPencil className="h-4/5 w-4/5" />
+              )}
+            </ActionIcon>
+          </div>
         </div>
         <div className="flex flex-col gap-8">
           {profile.experience.map((exp, index) => (
             <ExperienceCard exp={exp} edit={edit[3]} key={index} />
           ))}
+          {addExp && <ExpInput add={true} setEdit={setAddExp} />}
         </div>
       </div>
       <Divider mx={"xs"} my={"xl"} />

@@ -5,10 +5,11 @@ import { useState } from "react";
 import { MonthPickerInput } from "@mantine/dates";
 
 interface ExpInputProps {
+  add?: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ExpInput = ({ setEdit }: ExpInputProps) => {
+const ExpInput = ({ add, setEdit }: ExpInputProps) => {
   const select = fields;
 
   const [desc, setDesc] = useState(
@@ -20,6 +21,9 @@ const ExpInput = ({ setEdit }: ExpInputProps) => {
 
   return (
     <div className="flex flex-col gap-3">
+      <div className="text-lg font-semibold">
+        {add ? "Add Experience" : "Edit Experience"}
+      </div>
       <div className="flex gap-10 [&>*]:w-1/2">
         <SelectInput option={select[0]} />
         <SelectInput option={select[1]} />
