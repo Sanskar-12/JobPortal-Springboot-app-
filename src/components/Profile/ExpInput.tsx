@@ -1,4 +1,4 @@
-import { Textarea } from "@mantine/core";
+import { Button, Checkbox, Textarea } from "@mantine/core";
 import fields from "../../Data/Profile";
 import SelectInput from "./SelectInput";
 import { useState } from "react";
@@ -16,6 +16,7 @@ const ExpInput = ({ setEdit }: ExpInputProps) => {
   );
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const [checked, setChecked] = useState(false);
 
   return (
     <div className="flex flex-col gap-3">
@@ -49,7 +50,26 @@ const ExpInput = ({ setEdit }: ExpInputProps) => {
           onChange={setEndDate}
           minDate={startDate || undefined}
           withAsterisk
+          disabled={checked}
         />
+      </div>
+      <Checkbox
+        autoContrast
+        label="Currently working here"
+        checked={checked}
+        onChange={(event) => setChecked(event.currentTarget.checked)}
+      />
+      <div className="flex gap-8">
+        <Button
+          color="bright-sun.4"
+          variant="outline"
+          onClick={() => setEdit(false)}
+        >
+          Save
+        </Button>
+        <Button color="red.4" onClick={() => setEdit(false)} variant="light">
+          Cancel
+        </Button>
       </div>
     </div>
   );
