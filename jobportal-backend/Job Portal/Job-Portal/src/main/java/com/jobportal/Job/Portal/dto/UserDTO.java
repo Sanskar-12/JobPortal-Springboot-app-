@@ -16,13 +16,13 @@ import org.springframework.data.mongodb.core.index.Indexed;
 @NoArgsConstructor
 public class UserDTO {
     private String id;
-    @NotBlank(message = "Name is null or blank")
+    @NotBlank(message = "{user.name.absent}")
     private String name;
-    @NotBlank(message = "Email is null or blank")
-    @Email(message = "Email is invaliduppa")
+    @NotBlank(message = "{user.email.absent}")
+    @Email(message = "{user.email.invalid}")
     private String email;
-    @NotBlank(message = "Password is null or blank")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,15}$\n", message = "Password is invalid")
+    @NotBlank(message = "{user.password.absent}")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,15}$\n", message = "{user.password.invalid}")
     private String password;
     private AccountType accountType;
 
