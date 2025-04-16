@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 // Repository gives in built methods for interacting with database
 @Repository(value = "userRepo")
-public interface UserRepository extends MongoRepository<User, String> {
+public interface UserRepository extends MongoRepository<User, Long> {
 }
