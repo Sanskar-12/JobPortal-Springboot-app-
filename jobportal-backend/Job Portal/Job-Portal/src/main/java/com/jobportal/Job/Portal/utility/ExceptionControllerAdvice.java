@@ -1,5 +1,6 @@
 package com.jobportal.Job.Portal.utility;
 
+import com.jobportal.Job.Portal.exception.JobPortalException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,17 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorInfo> generalException(Exception exception) {
+        ErrorInfo error = new ErrorInfo(
+                exception.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(JobPortalException.class)
+    public ResponseEntity<ErrorInfo> generalException(JobPortalException exception) {
         ErrorInfo error = new ErrorInfo(
                 exception.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
