@@ -3,6 +3,8 @@ package com.jobportal.Job.Portal.utility;
 import com.jobportal.Job.Portal.exception.JobPortalException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -15,6 +17,9 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
+
+    @Autowired
+    private Environment environment;
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorInfo> generalException(Exception exception) {
@@ -29,8 +34,10 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(JobPortalException.class)
     public ResponseEntity<ErrorInfo> generalException(JobPortalException exception) {
+        String msg = environment.getProperty(exception.getMessage());
+
         ErrorInfo error = new ErrorInfo(
-                exception.getMessage(),
+                msg,
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 LocalDateTime.now()
         );
