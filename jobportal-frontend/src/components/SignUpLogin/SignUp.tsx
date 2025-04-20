@@ -9,7 +9,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { IconAt, IconLock } from "@tabler/icons-react";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
 const form = {
@@ -24,13 +24,18 @@ const SignUp = () => {
   const [value, setValue] = useState("react");
   const [data, setData] = useState(form);
 
-  const handleChange = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
-
-    console.log(data);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (typeof e === "string") {
+      setData({
+        ...data,
+        accountType: e,
+      });
+    } else {
+      setData({
+        ...data,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   return (
