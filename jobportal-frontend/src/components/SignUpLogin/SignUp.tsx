@@ -1,7 +1,5 @@
 import {
-  Anchor,
   Button,
-  Checkbox,
   Group,
   PasswordInput,
   Radio,
@@ -12,17 +10,19 @@ import { IconAt, IconLock } from "@tabler/icons-react";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { registerUser } from "../../Services/UserService";
+import { signUpValidation } from "../../Services/SignUpValidation";
 
 const form = {
   name: "",
   email: "",
   password: "",
   confirmPassword: "",
-  accountType: "",
+  accountType: "APPLICANT",
 };
 
 const SignUp = () => {
   const [data, setData] = useState(form);
+  const [formError, setFormError] = useState(form);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement> | string) => {
     if (typeof e === "string") {
@@ -30,12 +30,18 @@ const SignUp = () => {
         ...data,
         accountType: e,
       });
-    } else {
-      setData({
-        ...data,
-        [e.target.name]: e.target.value,
-      });
+      return;
     }
+    const name = e.target.name,
+      value = e.target.value;
+    setData({
+      ...data,
+      [name]: value,
+    });
+    setFormError({
+      ...formError,
+      [name]: signUpValidation(name, value),
+    });
   };
 
   const handleSubmit = async () => {
@@ -57,6 +63,7 @@ const SignUp = () => {
         placeholder="Your name"
         onChange={handleChange}
         name="name"
+        error={formError.name}
       />
       <TextInput
         value={data.email}
@@ -73,6 +80,7 @@ const SignUp = () => {
         placeholder="Your email"
         onChange={handleChange}
         name="email"
+        error={formError.email}
       />
       <PasswordInput
         value={data.password}
@@ -90,6 +98,7 @@ const SignUp = () => {
         placeholder="Password"
         onChange={handleChange}
         name="password"
+        error={formError.password}
       />
       <PasswordInput
         value={data.confirmPassword}
@@ -107,6 +116,9 @@ const SignUp = () => {
         placeholder="Confirm Password"
         onChange={handleChange}
         name="confirmPassword"
+        error={
+          data.password !== data.confirmPassword ? "Passwords do not match" : ""
+        }
       />
       <Radio.Group
         label="You are?"
@@ -130,15 +142,20 @@ const SignUp = () => {
           />
         </Group>
       </Radio.Group>
-      <Checkbox
+      <Button
         autoContrast
-        label={
-          <>
-            I accept <Anchor>terms & conditions</Anchor>
-          </>
+        variant="filled"
+        onClick={handleSubmit}
+        disabled={
+          !!formError.name ||
+          (data.name === "" ? true : false) ||
+          !!formError.email ||
+          (data.email === "" ? true : false) ||
+          !!formError.password ||
+          (data.password === "" ? true : false) ||
+          data.password !== data.confirmPassword
         }
-      />
-      <Button autoContrast variant="filled" onClick={handleSubmit}>
+      >
         Sign up
       </Button>
       <div className="mx-auto">
