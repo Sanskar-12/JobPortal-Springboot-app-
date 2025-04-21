@@ -11,6 +11,7 @@ import {
 import { IconAt, IconLock } from "@tabler/icons-react";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
+import { registerUser } from "../../Services/UserService";
 
 const form = {
   name: "",
@@ -21,10 +22,9 @@ const form = {
 };
 
 const SignUp = () => {
-  const [value, setValue] = useState("react");
   const [data, setData] = useState(form);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement> | string) => {
     if (typeof e === "string") {
       setData({
         ...data,
@@ -35,6 +35,15 @@ const SignUp = () => {
         ...data,
         [e.target.name]: e.target.value,
       });
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const res = await registerUser(data);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -129,7 +138,7 @@ const SignUp = () => {
           </>
         }
       />
-      <Button autoContrast variant="filled">
+      <Button autoContrast variant="filled" onClick={handleSubmit}>
         Sign up
       </Button>
       <div className="mx-auto">
