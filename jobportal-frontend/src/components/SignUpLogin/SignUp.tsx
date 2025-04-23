@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
   Group,
@@ -6,11 +7,12 @@ import {
   rem,
   TextInput,
 } from "@mantine/core";
-import { IconAt, IconLock } from "@tabler/icons-react";
+import { IconAt, IconCheck, IconLock, IconX } from "@tabler/icons-react";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { registerUser } from "../../Services/UserService";
 import { signUpValidation } from "../../Services/SignUpValidation";
+import { showNotification } from "@mantine/notifications";
 
 const form = {
   name: "",
@@ -47,8 +49,40 @@ const SignUp = () => {
   const handleSubmit = async () => {
     try {
       const res = await registerUser(data);
+      showNotification({
+        title: "Registered Successfully",
+        message: "Redirecting to login page...",
+        withCloseButton: true,
+        icon: (
+          <IconCheck
+            style={{
+              width: "90%",
+              height: "90%",
+            }}
+          />
+        ),
+        color: "teal",
+        withBorder: true,
+        className: "!border-green-500",
+      });
       console.log(res);
     } catch (error) {
+      showNotification({
+        title: "Registration Failed",
+        message: (error as any)?.response?.data?.message || "An error occurred",
+        withCloseButton: true,
+        icon: (
+          <IconX
+            style={{
+              width: "90%",
+              height: "90%",
+            }}
+          />
+        ),
+        color: "red",
+        withBorder: true,
+        className: "!border-red-500",
+      });
       console.log(error);
     }
   };
