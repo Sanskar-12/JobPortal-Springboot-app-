@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { IconAt, IconCheck, IconLock, IconX } from "@tabler/icons-react";
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../Services/UserService";
 import { signUpValidation } from "../../Services/SignUpValidation";
 import { showNotification } from "@mantine/notifications";
@@ -25,6 +25,8 @@ const form = {
 const SignUp = () => {
   const [data, setData] = useState(form);
   const [formError, setFormError] = useState(form);
+
+  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement> | string) => {
     if (typeof e === "string") {
@@ -48,7 +50,14 @@ const SignUp = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await registerUser(data);
+      await registerUser(data);
+      setData({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        accountType: "APPLICANT",
+      });
       showNotification({
         title: "Registered Successfully",
         message: "Redirecting to login page...",
@@ -65,7 +74,9 @@ const SignUp = () => {
         withBorder: true,
         className: "!border-green-500",
       });
-      console.log(res);
+      setTimeout(() => {
+        navigate("/login");
+      }, 4000);
     } catch (error) {
       showNotification({
         title: "Registration Failed",
@@ -85,6 +96,24 @@ const SignUp = () => {
       });
       console.log(error);
     }
+  };
+
+  const handleLoginButton = () => {
+    navigate("/login");
+    setData({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      accountType: "APPLICANT",
+    });
+    setFormError({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      accountType: "APPLICANT",
+    });
   };
 
   return (
@@ -194,9 +223,12 @@ const SignUp = () => {
       </Button>
       <div className="mx-auto">
         Have an account?{" "}
-        <Link to={"/login"} className="text-bright-sun-400 hover:underline">
+        <span
+          onClick={handleLoginButton}
+          className="text-bright-sun-400 hover:underline cursor-pointer"
+        >
           Login
-        </Link>
+        </span>
       </div>
     </div>
   );
