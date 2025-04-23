@@ -2,7 +2,7 @@
 import { Button, PasswordInput, rem, TextInput } from "@mantine/core";
 import { IconAt, IconCheck, IconLock, IconX } from "@tabler/icons-react";
 import { ChangeEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../Services/UserService";
 import { loginValidation } from "../../Services/loginValidation";
 import { showNotification } from "@mantine/notifications";
@@ -75,6 +75,18 @@ const Login = () => {
     }
   };
 
+  const handleSignUpButton = () => {
+    navigate("/sign-up");
+    setData({
+      email: "",
+      password: "",
+    });
+    setFormError({
+      email: "",
+      password: "",
+    });
+  };
+
   return (
     <div className="w-1/2 px-20 flex flex-col justify-center gap-3">
       <div className="text-2xl font-semibold">Login Account</div>
@@ -129,9 +141,12 @@ const Login = () => {
       </Button>
       <div className="mx-auto">
         Don't have an account?{" "}
-        <Link to={"/sign-up"} className="text-bright-sun-400 hover:underline">
+        <span
+          onClick={handleSignUpButton}
+          className="text-bright-sun-400 hover:underline"
+        >
           Sign up
-        </Link>
+        </span>
       </div>
     </div>
   );
