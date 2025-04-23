@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, PasswordInput, rem, TextInput } from "@mantine/core";
-import { IconAt, IconLock } from "@tabler/icons-react";
+import { IconAt, IconCheck, IconLock, IconX } from "@tabler/icons-react";
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../Services/UserService";
+import { loginValidation } from "../../Services/loginValidation";
+import { showNotification } from "@mantine/notifications";
 
 const form = {
   email: "",
@@ -11,19 +14,63 @@ const form = {
 
 const Login = () => {
   const [data, setData] = useState(form);
+  const [formError, setFormError] = useState(form);
+
+  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name,
+      value = e.target.value;
     setData({
       ...data,
-      [e.target.name]: e.target.value,
+      [name]: value,
+    });
+    setFormError({
+      ...formError,
+      [name]: loginValidation(name, value),
     });
   };
 
   const handleSubmit = async () => {
     try {
       const res = await loginUser(data);
+      showNotification({
+        title: "Login Successful",
+        message: "Redirecting to home page...",
+        withCloseButton: true,
+        icon: (
+          <IconCheck
+            style={{
+              width: "90%",
+              height: "90%",
+            }}
+          />
+        ),
+        color: "teal",
+        withBorder: true,
+        className: "!border-green-500",
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 4000);
       console.log(res);
     } catch (error) {
+      showNotification({
+        title: "Login Failed",
+        message: (error as any)?.response?.data?.message || "An error occurred",
+        withCloseButton: true,
+        icon: (
+          <IconX
+            style={{
+              width: "90%",
+              height: "90%",
+            }}
+          />
+        ),
+        color: "red",
+        withBorder: true,
+        className: "!border-red-500",
+      });
       console.log(error);
     }
   };
@@ -46,6 +93,7 @@ const Login = () => {
         value={data.email}
         onChange={handleChange}
         name="email"
+        error={formError.email}
       />
       <PasswordInput
         withAsterisk
@@ -63,9 +111,20 @@ const Login = () => {
         value={data.password}
         onChange={handleChange}
         name="password"
+        error={formError.password}
       />
 
-      <Button autoContrast variant="filled" onClick={handleSubmit}>
+      <Button
+        autoContrast
+        variant="filled"
+        onClick={handleSubmit}
+        disabled={
+          !!formError.email ||
+          (data.email === "" ? true : false) ||
+          !!formError.password ||
+          (data.password === "" ? true : false)
+        }
+      >
         Login
       </Button>
       <div className="mx-auto">
