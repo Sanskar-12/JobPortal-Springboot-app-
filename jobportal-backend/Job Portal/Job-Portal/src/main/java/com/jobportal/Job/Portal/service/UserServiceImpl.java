@@ -7,7 +7,11 @@ import com.jobportal.Job.Portal.entity.User;
 import com.jobportal.Job.Portal.exception.JobPortalException;
 import com.jobportal.Job.Portal.repository.UserRepository;
 import com.jobportal.Job.Portal.utility.Utilities;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Override
     public UserDTO registerUser(UserDTO userDTO) throws JobPortalException {
@@ -60,7 +67,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseDTO sendOtp(String email) throws JobPortalException {
+    public ResponseDTO sendOtp(String email) throws JobPortalException, MessagingException {
+
+        // Check if Email exist in database
+        User user = userRepo.findByEmail(email).orElseThrow(()->new JobPortalException("USER_NOT_FOUND"));
+
+        MimeMessage mm = mailSender.createMimeMessage();
+
+        MimeMessageHelper message = new MimeMessageHelper(mm, true);
+
+        message.setTo(email);
+        message.setSubject("Your Otp Code");
+
+
+
         return null;
     }
 

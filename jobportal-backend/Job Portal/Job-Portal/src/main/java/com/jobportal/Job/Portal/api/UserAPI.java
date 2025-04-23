@@ -5,6 +5,7 @@ import com.jobportal.Job.Portal.dto.ResponseDTO;
 import com.jobportal.Job.Portal.dto.UserDTO;
 import com.jobportal.Job.Portal.exception.JobPortalException;
 import com.jobportal.Job.Portal.service.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class UserAPI {
     }
 
     @PostMapping("/sendOtp/{email}")
-    public ResponseEntity<ResponseDTO> sendOtp(@PathVariable String email) throws JobPortalException {
+    public ResponseEntity<ResponseDTO> sendOtp(@PathVariable String email) throws JobPortalException, MessagingException {
         ResponseDTO responseDTO = userService.sendOtp(email);
         return new ResponseEntity<>(responseDTO,HttpStatus.OK);
     }
