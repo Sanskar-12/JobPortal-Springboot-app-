@@ -3,8 +3,10 @@ package com.jobportal.Job.Portal.service;
 import com.jobportal.Job.Portal.dto.LoginDTO;
 import com.jobportal.Job.Portal.dto.ResponseDTO;
 import com.jobportal.Job.Portal.dto.UserDTO;
+import com.jobportal.Job.Portal.entity.OTP;
 import com.jobportal.Job.Portal.entity.User;
 import com.jobportal.Job.Portal.exception.JobPortalException;
+import com.jobportal.Job.Portal.repository.OTPRepository;
 import com.jobportal.Job.Portal.repository.UserRepository;
 import com.jobportal.Job.Portal.utility.Utilities;
 import jakarta.mail.MessagingException;
@@ -15,6 +17,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service(value = "userService")
@@ -22,6 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private OTPRepository otpRepo;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -78,10 +84,13 @@ public class UserServiceImpl implements UserService {
 
         message.setTo(email);
         message.setSubject("Your Otp Code");
+        String genOTP = Utilities.generateOTP();
+        OTP otp = new OTP(email, genOTP, LocalDateTime.now());
+        otpRepo.save(otp);
+        message.setText("Your Code is : "+genOTP, false);
+        mailSender.send(mm);
 
-
-
-        return null;
+        return new ResponseDTO("OTP Sent");
     }
 
 }
