@@ -8,6 +8,7 @@ import com.jobportal.Job.Portal.entity.User;
 import com.jobportal.Job.Portal.exception.JobPortalException;
 import com.jobportal.Job.Portal.repository.OTPRepository;
 import com.jobportal.Job.Portal.repository.UserRepository;
+import com.jobportal.Job.Portal.utility.Data;
 import com.jobportal.Job.Portal.utility.Utilities;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -87,7 +88,7 @@ public class UserServiceImpl implements UserService {
         String genOTP = Utilities.generateOTP();
         OTP otp = new OTP(email, genOTP, LocalDateTime.now());
         otpRepo.save(otp);
-        message.setText("Your Code is : "+genOTP, false);
+        message.setText(Data.getHtmlCode(genOTP,user.getName()), true);
         mailSender.send(mm);
 
         return new ResponseDTO("OTP Sent");

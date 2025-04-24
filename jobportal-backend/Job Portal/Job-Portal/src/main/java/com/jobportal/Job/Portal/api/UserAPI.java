@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserAPI {
 
     @Autowired
-    private UserService userService;
+    private UserService  userService;
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@RequestBody @Valid UserDTO userDTO) throws JobPortalException {
