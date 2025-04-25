@@ -94,4 +94,16 @@ public class UserServiceImpl implements UserService {
         return new ResponseDTO("OTP Sent");
     }
 
+    @Override
+    public ResponseDTO verifyOtp(String email, String otp) throws JobPortalException {
+        // Find otp through email
+        OTP otpEntity = otpRepo.findById(email).orElseThrow(()->new JobPortalException("OTP_NOT_FOUND"));
+
+        if(!otpEntity.getOtpCode().equals(otp)) {
+            throw new JobPortalException("INVALID_OTP");
+        }
+
+        return new ResponseDTO("OTP Verified");
+    }
+
 }

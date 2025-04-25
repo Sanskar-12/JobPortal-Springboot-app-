@@ -7,6 +7,8 @@ import com.jobportal.Job.Portal.exception.JobPortalException;
 import com.jobportal.Job.Portal.service.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +37,14 @@ public class UserAPI {
     }
 
     @PostMapping("/sendOtp/{email}")
-    public ResponseEntity<ResponseDTO> sendOtp(@PathVariable String email) throws JobPortalException, MessagingException {
+    public ResponseEntity<ResponseDTO> sendOtp(@PathVariable @Email(message = "{user.email.invalid}") String email) throws JobPortalException, MessagingException {
         ResponseDTO responseDTO = userService.sendOtp(email);
+        return new ResponseEntity<>(responseDTO,HttpStatus.OK);
+    }
+
+    @PostMapping("/verifyOTP/{email}/{otp}")
+    public ResponseEntity<ResponseDTO> verifyOTP(@PathVariable @Email(message = "{user.email.invalid}") String email, @PathVariable @Pattern(regexp = "^[0-9]{6}$]", message = "{otp.invalid}") String otp) throws JobPortalException {
+        ResponseDTO responseDTO = userService.verifyOtp(email,otp);
         return new ResponseEntity<>(responseDTO,HttpStatus.OK);
     }
 }
