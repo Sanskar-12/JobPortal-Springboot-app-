@@ -1,6 +1,7 @@
-import { Button, Modal, TextInput } from "@mantine/core";
+import { Button, Modal, PinInput, TextInput } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 import { useState } from "react";
+import { sendOtp } from "../../Services/UserService";
 
 interface ResetPasswordProps {
   opened: boolean;
@@ -9,12 +10,34 @@ interface ResetPasswordProps {
 
 const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
   const [email, setEmail] = useState("");
+  const [sentOtp, setSentOtp] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSendOtp = () => {};
+  const handleSendOtp = async () => {
+    setLoading(true);
+    try {
+      await sendOtp(email);
+      setEmail("");
+      setSentOtp(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (otp: string) => {
+    console.log(otp);
+  };
+
+  const handleClose = () => {
+    close();
+    setEmail("");
+  };
 
   return (
-    <Modal opened={opened} onClose={close} title="Reset Password">
-      <div>
+    <Modal opened={opened} onClose={handleClose} title="Reset Password">
+      <div className="flex flex-col gap-6">
         <TextInput
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -31,13 +54,24 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
               onClick={handleSendOtp}
               autoContrast
               variant="filled"
-              disabled={email === ""}
+              disabled={email === "" || sentOtp}
+              loading={loading}
             >
               Send Otp
             </Button>
           }
           rightSectionWidth={"xl"}
         />
+        {sentOtp && (
+          <PinInput
+            type={"number"}
+            length={6}
+            className="mx-auto"
+            size="md"
+            gap={"lg"}
+            onComplete={handleVerifyOtp}
+          />
+        )}
       </div>
     </Modal>
   );
