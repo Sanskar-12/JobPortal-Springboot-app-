@@ -42,7 +42,7 @@ public class UserAPI {
         return new ResponseEntity<>(responseDTO,HttpStatus.OK);
     }
 
-    @PostMapping("/verifyOTP/{email}/{otp}")
+    @GetMapping("/verifyOTP/{email}/{otp}")
     public ResponseEntity<ResponseDTO> verifyOTP(@PathVariable @Email(message = "{user.email.invalid}") String email, @PathVariable @Pattern(regexp = "^[0-9]{6}$]", message = "{otp.invalid}") String otp) throws JobPortalException {
         ResponseDTO responseDTO = userService.verifyOtp(email,otp);
         return new ResponseEntity<>(responseDTO,HttpStatus.OK);
