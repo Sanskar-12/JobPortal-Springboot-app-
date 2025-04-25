@@ -15,10 +15,12 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service(value = "userService")
@@ -118,6 +120,21 @@ public class UserServiceImpl implements UserService {
         userRepo.save(user);
 
         return new ResponseDTO("Password Changed Successfully");
+    }
+
+    @Scheduled(fixedRate = 60000)
+    public void removeExpiredOTPs() {
+        // current time - 5 mins
+        LocalDateTime expiry = LocalDateTime.now().minusMinutes(5);
+
+        // It will find me all the expired OTPs
+        List<OTP> expiredOTPs = otpRepo.findByCreationTimeBefore(expiry);
+
+        // It will remove expired otps from the database
+        if(!expiredOTPs.isEmpty()) {
+            otpRepo.deleteAll(expiredOTPs);
+            System.out.println("Removed " +expiredOTPs.size() + " expired OTPs.");
+        }
     }
 
 }
