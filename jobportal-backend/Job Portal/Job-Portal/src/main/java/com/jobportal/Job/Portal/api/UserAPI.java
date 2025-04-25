@@ -36,6 +36,12 @@ public class UserAPI {
         return new ResponseEntity<>(userDTO,HttpStatus.OK);
     }
 
+    @PostMapping("/changePass")
+    public ResponseEntity<ResponseDTO> changePassword(@RequestBody @Valid LoginDTO loginDTO) throws JobPortalException {
+        ResponseDTO responseDTO = userService.changePassword(loginDTO);
+        return new ResponseEntity<>(responseDTO,HttpStatus.OK);
+    }
+
     @PostMapping("/sendOtp/{email}")
     public ResponseEntity<ResponseDTO> sendOtp(@PathVariable @Email(message = "{user.email.invalid}") String email) throws JobPortalException, MessagingException {
         ResponseDTO responseDTO = userService.sendOtp(email);
@@ -43,7 +49,7 @@ public class UserAPI {
     }
 
     @GetMapping("/verifyOTP/{email}/{otp}")
-    public ResponseEntity<ResponseDTO> verifyOTP(@PathVariable @Email(message = "{user.email.invalid}") String email, @PathVariable @Pattern(regexp = "^[0-9]{6}$]", message = "{otp.invalid}") String otp) throws JobPortalException {
+    public ResponseEntity<ResponseDTO> verifyOTP(@PathVariable @Email(message = "{user.email.invalid}") String email, @PathVariable @Pattern(regexp = "^[0-9]{6}$", message = "{otp.invalid}") String otp) throws JobPortalException {
         ResponseDTO responseDTO = userService.verifyOtp(email,otp);
         return new ResponseEntity<>(responseDTO,HttpStatus.OK);
     }

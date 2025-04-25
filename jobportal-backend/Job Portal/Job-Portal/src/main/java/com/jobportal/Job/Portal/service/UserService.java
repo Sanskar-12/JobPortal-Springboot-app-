@@ -15,4 +15,6 @@ public interface UserService {
     ResponseDTO sendOtp(String email) throws JobPortalException, MessagingException;
 
     ResponseDTO verifyOtp(String email,String otp) throws JobPortalException;
+
+    ResponseDTO changePassword(LoginDTO loginDTO) throws JobPortalException;
 }

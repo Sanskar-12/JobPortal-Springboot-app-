@@ -99,11 +99,25 @@ public class UserServiceImpl implements UserService {
         // Find otp through email
         OTP otpEntity = otpRepo.findById(email).orElseThrow(()->new JobPortalException("OTP_NOT_FOUND"));
 
+        // Checking if the otp matches
         if(!otpEntity.getOtpCode().equals(otp)) {
             throw new JobPortalException("INVALID_OTP");
         }
 
         return new ResponseDTO("OTP Verified");
+    }
+
+    @Override
+    public ResponseDTO changePassword(LoginDTO loginDTO) throws JobPortalException {
+        // find user by email
+        User user = userRepo.findByEmail(loginDTO.getEmail()).orElseThrow(()->new JobPortalException("USER_NOT_FOUND"));
+
+        // set password into hash
+        user.setPassword(passwordEncoder.encode(loginDTO.getPassword()));
+
+        userRepo.save(user);
+
+        return new ResponseDTO("Password Changed Successfully");
     }
 
 }
