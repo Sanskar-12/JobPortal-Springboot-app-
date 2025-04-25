@@ -22,3 +22,33 @@ export const loginUser = async (user: loginUserType) => {
     throw error;
   }
 };
+
+export const sendOtp = async (email: string) => {
+  try {
+    const { data } = await axios.post(`${baseURL}/sendOtp/${email}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const verifyOtp = async (email: string, otp: string) => {
+  try {
+    const { data } = await axios.get(`${baseURL}/verifyOTP/${email}/${otp}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const changePassword = async (user: loginUserType) => {
+  try {
+    const { data } = await axios.post(`${baseURL}/changePass`, user);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
