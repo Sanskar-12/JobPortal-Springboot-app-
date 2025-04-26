@@ -7,8 +7,12 @@ import {
 } from "@mantine/core";
 import { IconAt, IconLock } from "@tabler/icons-react";
 import { ChangeEvent, useState } from "react";
-import { sendOtp, verifyOtp } from "../../Services/UserService";
+import { changePassword, sendOtp, verifyOtp } from "../../Services/UserService";
 import { signUpValidation } from "../../Services/SignUpValidation";
+import {
+  errorNotification,
+  successNotification,
+} from "../../Services/NotificationService";
 
 interface ResetPasswordProps {
   opened: boolean;
@@ -27,9 +31,14 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
     setLoading(true);
     try {
       await sendOtp(email);
+      successNotification(
+        "OTP sent to Email Successfully",
+        "Enter OTP to reset Password."
+      );
       setSentOtp(true);
     } catch (error) {
       console.log(error);
+      errorNotification("OTP sending failed.", error);
     } finally {
       setLoading(false);
     }
@@ -38,9 +47,14 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
   const handleVerifyOtp = async (otp: string) => {
     try {
       await verifyOtp(email, otp);
+      successNotification(
+        "OTP Verified Successfully",
+        "Enter new password to reset."
+      );
       setVerified(true);
     } catch (error) {
       console.log(error);
+      errorNotification("OTP verification failed.", error);
       setVerified(false);
     }
   };
@@ -61,7 +75,19 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
     setPasswordError(signUpValidation("password", e.target.value));
   };
 
-  const handleResetPassword = () => {};
+  const handleResetPassword = async () => {
+    try {
+      await changePassword({ email, password });
+      successNotification(
+        "Password Changed Successfully",
+        "Login with new Password."
+      );
+      close();
+    } catch (error) {
+      console.log(error);
+      errorNotification("Password Change Failed.", error);
+    }
+  };
 
   return (
     <Modal opened={opened} onClose={handleClose} title="Reset Password">

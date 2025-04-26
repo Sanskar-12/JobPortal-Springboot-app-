@@ -24,7 +24,8 @@ const successNotification = (title: string, message: string) => {
 const errorNotification = (title: string, error: any) => {
   showNotification({
     title,
-    message: (error as any)?.response?.data?.message || "An error occurred",
+    message:
+      (error as any)?.response?.data?.errorMessage || "An error occurred",
     withCloseButton: true,
     icon: (
       <IconX

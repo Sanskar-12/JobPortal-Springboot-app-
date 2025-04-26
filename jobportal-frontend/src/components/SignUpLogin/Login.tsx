@@ -1,13 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, PasswordInput, rem, TextInput } from "@mantine/core";
-import { IconAt, IconCheck, IconLock, IconX } from "@tabler/icons-react";
+import { IconAt, IconLock } from "@tabler/icons-react";
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../Services/UserService";
 import { loginValidation } from "../../Services/loginValidation";
-import { showNotification } from "@mantine/notifications";
 import ResetPassword from "./ResetPassword";
 import { useDisclosure } from "@mantine/hooks";
+import {
+  errorNotification,
+  successNotification,
+} from "../../Services/NotificationService";
 
 const form = {
   email: "",
@@ -38,43 +40,13 @@ const Login = () => {
   const handleSubmit = async () => {
     try {
       const res = await loginUser(data);
-      showNotification({
-        title: "Login Successful",
-        message: "Redirecting to home page...",
-        withCloseButton: true,
-        icon: (
-          <IconCheck
-            style={{
-              width: "90%",
-              height: "90%",
-            }}
-          />
-        ),
-        color: "teal",
-        withBorder: true,
-        className: "!border-green-500",
-      });
+      successNotification("Login Successful", "Redirecting to home page...");
       setTimeout(() => {
         navigate("/");
       }, 4000);
       console.log(res);
     } catch (error) {
-      showNotification({
-        title: "Login Failed",
-        message: (error as any)?.response?.data?.message || "An error occurred",
-        withCloseButton: true,
-        icon: (
-          <IconX
-            style={{
-              width: "90%",
-              height: "90%",
-            }}
-          />
-        ),
-        color: "red",
-        withBorder: true,
-        className: "!border-red-500",
-      });
+      errorNotification("Login Failed", error);
       console.log(error);
     }
   };
