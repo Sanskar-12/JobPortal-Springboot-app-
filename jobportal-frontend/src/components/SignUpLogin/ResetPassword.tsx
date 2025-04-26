@@ -59,7 +59,9 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
     }
   };
 
-  const resendOtp = () => {};
+  const resendOtp = async () => {
+    handleSendOtp();
+  };
 
   const changeEmail = () => {
     setSentOtp(false);
@@ -116,7 +118,7 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
           }
           rightSectionWidth={"xl"}
         />
-        {sentOtp && (
+        {sentOtp && !verified && (
           <PinInput
             type={"number"}
             length={6}
@@ -138,7 +140,6 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
               Resend
             </Button>
             <Button
-              loading={loading}
               onClick={changeEmail}
               autoContrast
               variant="filled"
