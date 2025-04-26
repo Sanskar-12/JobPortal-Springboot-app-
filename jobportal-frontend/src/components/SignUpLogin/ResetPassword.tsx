@@ -1,7 +1,7 @@
 import { Button, Modal, PinInput, TextInput } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 import { useState } from "react";
-import { sendOtp } from "../../Services/UserService";
+import { sendOtp, verifyOtp } from "../../Services/UserService";
 
 interface ResetPasswordProps {
   opened: boolean;
@@ -12,12 +12,12 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
   const [email, setEmail] = useState("");
   const [sentOtp, setSentOtp] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [verified, setVerified] = useState(false);
 
   const handleSendOtp = async () => {
     setLoading(true);
     try {
       await sendOtp(email);
-      setEmail("");
       setSentOtp(true);
     } catch (error) {
       console.log(error);
@@ -27,7 +27,19 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
   };
 
   const handleVerifyOtp = async (otp: string) => {
-    console.log(otp);
+    try {
+      await verifyOtp(email, otp);
+      setVerified(true);
+    } catch (error) {
+      console.log(error);
+      setVerified(false);
+    }
+  };
+
+  const resendOtp = () => {};
+
+  const changeEmail = () => {
+    setSentOtp(false);
   };
 
   const handleClose = () => {
@@ -71,6 +83,28 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
             gap={"lg"}
             onComplete={handleVerifyOtp}
           />
+        )}
+        {sentOtp && !verified && (
+          <div className="flex gap-2">
+            <Button
+              loading={loading}
+              onClick={resendOtp}
+              autoContrast
+              variant="light"
+              fullWidth
+            >
+              Resend
+            </Button>
+            <Button
+              loading={loading}
+              onClick={changeEmail}
+              autoContrast
+              variant="filled"
+              fullWidth
+            >
+              Change Email
+            </Button>
+          </div>
         )}
       </div>
     </Modal>
