@@ -1,7 +1,14 @@
-import { Button, Modal, PinInput, TextInput } from "@mantine/core";
-import { IconAt } from "@tabler/icons-react";
-import { useState } from "react";
+import {
+  Button,
+  Modal,
+  PasswordInput,
+  PinInput,
+  TextInput,
+} from "@mantine/core";
+import { IconAt, IconLock } from "@tabler/icons-react";
+import { ChangeEvent, useState } from "react";
 import { sendOtp, verifyOtp } from "../../Services/UserService";
+import { signUpValidation } from "../../Services/SignUpValidation";
 
 interface ResetPasswordProps {
   opened: boolean;
@@ -10,6 +17,8 @@ interface ResetPasswordProps {
 
 const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [sentOtp, setSentOtp] = useState(false);
   const [loading, setLoading] = useState(false);
   const [verified, setVerified] = useState(false);
@@ -46,6 +55,13 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
     close();
     setEmail("");
   };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    setPasswordError(signUpValidation("password", e.target.value));
+  };
+
+  const handleResetPassword = () => {};
 
   return (
     <Modal opened={opened} onClose={handleClose} title="Reset Password">
@@ -105,6 +121,23 @@ const ResetPassword = ({ opened, close }: ResetPasswordProps) => {
               Change Email
             </Button>
           </div>
+        )}
+        {verified && (
+          <PasswordInput
+            value={password}
+            onChange={handlePasswordChange}
+            error={passwordError}
+            name="password"
+            leftSection={<IconLock size={16} />}
+            label="password"
+            withAsterisk
+            placeholder="Password"
+          />
+        )}
+        {verified && (
+          <Button onClick={handleResetPassword} autoContrast variant="filled">
+            Change Password
+          </Button>
         )}
       </div>
     </Modal>
