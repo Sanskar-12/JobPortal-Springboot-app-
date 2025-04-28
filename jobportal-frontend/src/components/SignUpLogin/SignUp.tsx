@@ -27,6 +27,7 @@ const form = {
 const SignUp = () => {
   const [data, setData] = useState(form);
   const [formError, setFormError] = useState(form);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,6 +52,7 @@ const SignUp = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       await registerUser(data);
       setData({
@@ -70,6 +72,8 @@ const SignUp = () => {
     } catch (error) {
       errorNotification("Registration Failed", error);
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -193,6 +197,7 @@ const SignUp = () => {
           (data.password === "" ? true : false) ||
           data.password !== data.confirmPassword
         }
+        loading={loading}
       >
         Sign up
       </Button>

@@ -49,3 +49,11 @@ export type registerUserType = {
   confirmPassword: string;
   accountType: string;
 };
+
+export type IUser = {
+  accountType: string;
+  email: string;
+  id: number;
+  name: string;
+  password: string;
+};

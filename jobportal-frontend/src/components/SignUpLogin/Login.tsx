@@ -21,6 +21,7 @@ const form = {
 const Login = () => {
   const [data, setData] = useState(form);
   const [formError, setFormError] = useState(form);
+  const [loading, setLoading] = useState(false);
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -41,6 +42,7 @@ const Login = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const res = await loginUser(data);
       successNotification("Login Successful", "Redirecting to home page...");
@@ -52,6 +54,8 @@ const Login = () => {
     } catch (error) {
       errorNotification("Login Failed", error);
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -117,6 +121,7 @@ const Login = () => {
             !!formError.password ||
             (data.password === "" ? true : false)
           }
+          loading={loading}
         >
           Login
         </Button>

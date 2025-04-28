@@ -12,14 +12,15 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeUser } from "../../redux/Slice/userSlice";
-import { IRootState } from "../../redux/store";
+import { IRootUserState } from "../../redux/store";
+import { IUser } from "../../types";
 
 const ProfileMenu = () => {
   const [checked, setChecked] = useState(false);
   const [opened, setOpened] = useState(false);
 
   const dispatch = useDispatch();
-  const user = useSelector((state: IRootState) => state.user);
+  const user = useSelector((state: IRootUserState) => state.user) as IUser;
 
   const handleLogout = () => {
     dispatch(removeUser());

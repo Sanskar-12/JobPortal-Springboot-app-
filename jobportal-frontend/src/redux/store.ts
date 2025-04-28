@@ -7,4 +7,4 @@ export const store = configureStore({
   },
 });
 
-export type IRootState = ReturnType<typeof store.getState>;
+export type IRootUserState = ReturnType<typeof store.getState>;
