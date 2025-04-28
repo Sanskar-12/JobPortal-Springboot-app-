@@ -10,6 +10,8 @@ import {
   errorNotification,
   successNotification,
 } from "../../Services/NotificationService";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/Slice/userSlice";
 
 const form = {
   email: "",
@@ -23,6 +25,7 @@ const Login = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name,
@@ -42,6 +45,7 @@ const Login = () => {
       const res = await loginUser(data);
       successNotification("Login Successful", "Redirecting to home page...");
       setTimeout(() => {
+        dispatch(setUser(res));
         navigate("/");
       }, 4000);
       console.log(res);
