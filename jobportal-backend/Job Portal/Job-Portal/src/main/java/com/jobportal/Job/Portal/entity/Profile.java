@@ -2,6 +2,7 @@ package com.jobportal.Job.Portal.entity;
 
 import com.jobportal.Job.Portal.dto.Certifications;
 import com.jobportal.Job.Portal.dto.Experience;
+import com.jobportal.Job.Portal.dto.ProfileDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,7 @@ public class Profile {
     private List<Experience> experience;
     private List<Certifications> certifications;
 
+    public ProfileDTO toDTO() {
+        return new ProfileDTO(this.id,this.email,this.jobTitle,this.company,this.location,this.about,this.skills,this.experience,this.certifications);
+    }
 }
