@@ -1,29 +1,22 @@
 import { ActionIcon, Divider, TagsInput, Textarea } from "@mantine/core";
-import {
-  IconBriefcase,
-  IconDeviceFloppy,
-  IconMapPin,
-  IconPencil,
-  IconPlus,
-} from "@tabler/icons-react";
-import { IUser, profileType } from "../../types";
+import { IconDeviceFloppy, IconPencil, IconPlus } from "@tabler/icons-react";
+import { IUser, profileType, profileUserServiceType } from "../../types";
 import ExperienceCard from "./ExpCard";
 import CertificationsCard from "./CertCard";
 import { useEffect, useState } from "react";
-import fields from "../../Data/Profile";
-import SelectInput from "./SelectInput";
 import ExpInput from "./ExpInput";
 import CertInput from "./CertInput";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IRootUserState } from "../../redux/store";
 import { getUserProfile } from "../../Services/ProfileService";
+import Info from "./Info";
+import { setProfile } from "../../redux/Slice/profileSlice";
 
-interface ProfileProps {
-  profile: profileType;
-}
-
-const Profile = ({ profile }: ProfileProps) => {
+const Profile = () => {
   const user = useSelector((state: IRootUserState) => state.user) as IUser;
+  const profile = useSelector(
+    (state: IRootUserState) => state.profile
+  ) as profileUserServiceType;
 
   const [edit, setEdit] = useState([false, false, false, false, false]);
   const [about, setAbout] = useState(profile.about);
@@ -31,25 +24,26 @@ const Profile = ({ profile }: ProfileProps) => {
   const [addExp, setAddExp] = useState(false);
   const [addCert, setAddCert] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleEdit = (index: number) => {
     const newData = [...edit];
     newData[index] = !newData[index];
     setEdit(newData);
   };
 
-  const select = fields;
-
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const data = await getUserProfile(user.profileId);
+        dispatch(setProfile(data));
         console.log(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchUserProfile();
-  }, [user.profileId]);
+  }, [user.profileId, dispatch]);
 
   return (
     <div className="w-4/5 mx-auto">
@@ -62,41 +56,7 @@ const Profile = ({ profile }: ProfileProps) => {
         />
       </div>
       <div className="px-3 mt-28">
-        <div className="text-3xl font-semibold flex justify-between">
-          {profile.name}{" "}
-          <ActionIcon
-            variant="subtle"
-            color="bright-sun.4"
-            size={"lg"}
-            onClick={() => handleEdit(0)}
-          >
-            {edit[0] ? (
-              <IconDeviceFloppy className="h-4/5 w-4/5" />
-            ) : (
-              <IconPencil className="h-4/5 w-4/5" />
-            )}
-          </ActionIcon>
-        </div>
-        {edit[0] ? (
-          <>
-            <div className="flex gap-10 [&>*]:w-1/2">
-              <SelectInput option={select[0]} />
-              <SelectInput option={select[1]} />
-            </div>
-            <SelectInput option={select[2]} />
-          </>
-        ) : (
-          <>
-            <div className="text-xl flex gap-1 items-center">
-              {" "}
-              <IconBriefcase className="h-5 w-5" stroke={1.5} />
-              {profile.role} &bull; {profile.company}
-            </div>
-            <div className="text-lg flex gap-1 items-center text-mine-shaft-300">
-              <IconMapPin className="h-5 w-5" stroke={1.5} /> {profile.location}
-            </div>
-          </>
-        )}
+        <Info profile={profile} />
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">
@@ -160,7 +120,7 @@ const Profile = ({ profile }: ProfileProps) => {
           </div>
         ) : (
           <div className="flex flex-wrap gap-2">
-            {profile.skills.map((skill, index) => (
+            {profile?.skills?.map((skill, index) => (
               <div
                 className="bg-bright-sun-300 text-sm font-medium bg-opacity-15 rounded-xl text-bright-sun-400 px-3 py-1"
                 key={index}
@@ -199,7 +159,7 @@ const Profile = ({ profile }: ProfileProps) => {
           </div>
         </div>
         <div className="flex flex-col gap-8">
-          {profile.experience.map((exp, index) => (
+          {profile?.experience?.map((exp, index) => (
             <ExperienceCard exp={exp} edit={edit[3]} key={index} />
           ))}
           {addExp && <ExpInput add={true} setEdit={setAddExp} />}
@@ -233,7 +193,7 @@ const Profile = ({ profile }: ProfileProps) => {
           </div>
         </div>
         <div className="flex flex-col gap-8">
-          {profile.certifications.map((cert, index) => (
+          {profile?.certifications?.map((cert, index) => (
             <CertificationsCard cert={cert} key={index} edit={edit[4]} />
           ))}
           {addCert && <CertInput add={true} setEdit={setAddCert} />}

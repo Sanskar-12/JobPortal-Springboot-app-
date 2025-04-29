@@ -6,7 +6,7 @@ interface CertificationsCardProps {
   cert: {
     name: string;
     issuer: string;
-    issueDate: string;
+    issueDate: Date;
     certificateId: string;
   };
   edit: boolean;
@@ -32,7 +32,12 @@ const CertificationsCard = ({ cert, edit }: CertificationsCardProps) => {
       </div>
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-end">
-          <div className="text-sm text-mine-shaft-300">{cert.issueDate}</div>
+          <div className="text-sm text-mine-shaft-300">
+            {new Date(cert.issueDate).toLocaleDateString("en-US", {
+              month: "short",
+              year: "numeric",
+            })}
+          </div>
           <div className="text-sm text-mine-shaft-300">
             ID: {cert.certificateId}
           </div>

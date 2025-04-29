@@ -7,8 +7,8 @@ interface ExperienceCardProps {
     title: string;
     company: string;
     location: string;
-    startDate: string;
-    endDate: string;
+    startDate: Date;
+    endDate: Date;
     description: string;
   };
   edit?: boolean;
@@ -40,7 +40,15 @@ const ExperienceCard = ({ exp, edit }: ExperienceCardProps) => {
           </div>
         </div>
         <div className="text-sm text-mine-shaft-300">
-          {exp.startDate} - {exp.endDate}
+          {new Date(exp.startDate).toLocaleDateString("en-US", {
+            month: "short",
+            year: "numeric",
+          })}{" "}
+          -{" "}
+          {new Date(exp.endDate).toLocaleDateString("en-US", {
+            month: "short",
+            year: "numeric",
+          })}
         </div>
       </div>
 
