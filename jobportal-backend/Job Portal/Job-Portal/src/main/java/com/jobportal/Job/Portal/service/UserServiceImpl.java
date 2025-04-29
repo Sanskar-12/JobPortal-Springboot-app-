@@ -38,6 +38,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
+    private ProfileService profileService;
+
     @Override
     public UserDTO registerUser(UserDTO userDTO) throws JobPortalException {
 
@@ -46,6 +49,9 @@ public class UserServiceImpl implements UserService {
         if(optional.isPresent()) {
             throw new JobPortalException("USER_FOUND");
         }
+
+        // Create User profile
+        userDTO.setProfileId(profileService.createProfile(userDTO.getEmail()));
 
         // Converting the id in mongodb to sequence number
         userDTO.setId(Utilities.getNextSequence("users"));

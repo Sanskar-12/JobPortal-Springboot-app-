@@ -24,11 +24,12 @@ public class User {
     private String email;
     private String password;
     private AccountType accountType;
+    private Long profileId;
 
     // method to convert Entity to UserDTO
     public UserDTO toDTO() {
         return new UserDTO(
-                this.id,this.name,this.email,this.password,this.accountType
+                this.id,this.name,this.email,this.password,this.accountType,this.profileId
         );
     }
 }
