@@ -56,6 +56,7 @@ export type IUser = {
   id: number;
   name: string;
   password: string;
+  profileId: number;
 };
 
 export type profileUserServiceType = {

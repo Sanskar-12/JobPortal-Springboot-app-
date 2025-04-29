@@ -6,20 +6,25 @@ import {
   IconPencil,
   IconPlus,
 } from "@tabler/icons-react";
-import { profileType } from "../../types";
+import { IUser, profileType } from "../../types";
 import ExperienceCard from "./ExpCard";
 import CertificationsCard from "./CertCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import fields from "../../Data/Profile";
 import SelectInput from "./SelectInput";
 import ExpInput from "./ExpInput";
 import CertInput from "./CertInput";
+import { useSelector } from "react-redux";
+import { IRootUserState } from "../../redux/store";
+import { getUserProfile } from "../../Services/ProfileService";
 
 interface ProfileProps {
   profile: profileType;
 }
 
 const Profile = ({ profile }: ProfileProps) => {
+  const user = useSelector((state: IRootUserState) => state.user) as IUser;
+
   const [edit, setEdit] = useState([false, false, false, false, false]);
   const [about, setAbout] = useState(profile.about);
   const [skills, setSkills] = useState<string[]>(profile.skills);
@@ -33,6 +38,18 @@ const Profile = ({ profile }: ProfileProps) => {
   };
 
   const select = fields;
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const data = await getUserProfile(user.profileId);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUserProfile();
+  }, [user.profileId]);
 
   return (
     <div className="w-4/5 mx-auto">
