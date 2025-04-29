@@ -57,3 +57,27 @@ export type IUser = {
   name: string;
   password: string;
 };
+
+export type profileUserServiceType = {
+  id: number;
+  email: string;
+  jobTitle: string;
+  company: string;
+  location: string;
+  about: string;
+  skills: string[];
+  experience: {
+    title: string;
+    company: string;
+    location: string;
+    startDate: Date;
+    endDate: Date;
+    description: string;
+  }[];
+  certifications: {
+    name: string;
+    issuer: string;
+    issueDate: Date;
+    certificateId: string;
+  }[];
+};
