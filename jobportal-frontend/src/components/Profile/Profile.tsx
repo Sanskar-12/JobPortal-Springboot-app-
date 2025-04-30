@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, TagsInput, Textarea } from "@mantine/core";
+import { ActionIcon, Divider, TagsInput } from "@mantine/core";
 import { IconDeviceFloppy, IconPencil, IconPlus } from "@tabler/icons-react";
 import { IUser, profileUserServiceType } from "../../types";
 import ExperienceCard from "./ExpCard";
@@ -11,6 +11,7 @@ import { IRootUserState } from "../../redux/store";
 import { getUserProfile } from "../../Services/ProfileService";
 import Info from "./Info";
 import { setProfile } from "../../redux/Slice/profileSlice";
+import About from "./About";
 
 const Profile = () => {
   const user = useSelector((state: IRootUserState) => state.user) as IUser;
@@ -19,7 +20,6 @@ const Profile = () => {
   ) as profileUserServiceType;
 
   const [edit, setEdit] = useState([false, false, false, false, false]);
-  const [about, setAbout] = useState(profile.about);
   const [skills, setSkills] = useState<string[]>(profile.skills);
   const [addExp, setAddExp] = useState(false);
   const [addCert, setAddCert] = useState(false);
@@ -59,36 +59,7 @@ const Profile = () => {
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">
-        <div className="text-2xl font-semibold mb-3 flex justify-between">
-          About
-          <ActionIcon
-            variant="subtle"
-            color="bright-sun.4"
-            size={"lg"}
-            onClick={() => handleEdit(1)}
-          >
-            {edit[1] ? (
-              <IconDeviceFloppy className="h-4/5 w-4/5" />
-            ) : (
-              <IconPencil className="h-4/5 w-4/5" />
-            )}
-          </ActionIcon>
-        </div>
-        {edit[1] ? (
-          <div>
-            <Textarea
-              value={about}
-              onChange={(event) => setAbout(event.currentTarget.value)}
-              placeholder="Enter about yourself..."
-              autosize
-              minRows={3}
-            />
-          </div>
-        ) : (
-          <div className="text-sm text-mine-shaft-300 text-justify">
-            {profile.about}
-          </div>
-        )}
+        <About profile={profile} />
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">
