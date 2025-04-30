@@ -1,6 +1,7 @@
 import { ActionIcon, Button } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
+import { convertIntoDate } from "../../utils";
 
 interface CertificationsCardProps {
   cert: {
@@ -33,10 +34,7 @@ const CertificationsCard = ({ cert, edit }: CertificationsCardProps) => {
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-end">
           <div className="text-sm text-mine-shaft-300">
-            {new Date(cert.issueDate).toLocaleDateString("en-US", {
-              month: "short",
-              year: "numeric",
-            })}
+            {convertIntoDate(cert.issueDate)}
           </div>
           <div className="text-sm text-mine-shaft-300">
             ID: {cert.certificateId}

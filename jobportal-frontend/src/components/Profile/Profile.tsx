@@ -1,6 +1,6 @@
 import { ActionIcon, Divider, TagsInput, Textarea } from "@mantine/core";
 import { IconDeviceFloppy, IconPencil, IconPlus } from "@tabler/icons-react";
-import { IUser, profileType, profileUserServiceType } from "../../types";
+import { IUser, profileUserServiceType } from "../../types";
 import ExperienceCard from "./ExpCard";
 import CertificationsCard from "./CertCard";
 import { useEffect, useState } from "react";

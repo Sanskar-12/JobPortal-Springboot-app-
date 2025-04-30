@@ -1,6 +1,7 @@
 import { Button } from "@mantine/core";
 import { useState } from "react";
 import ExpInput from "./ExpInput";
+import { convertIntoDate } from "../../utils";
 
 interface ExperienceCardProps {
   exp: {
@@ -40,15 +41,7 @@ const ExperienceCard = ({ exp, edit }: ExperienceCardProps) => {
           </div>
         </div>
         <div className="text-sm text-mine-shaft-300">
-          {new Date(exp.startDate).toLocaleDateString("en-US", {
-            month: "short",
-            year: "numeric",
-          })}{" "}
-          -{" "}
-          {new Date(exp.endDate).toLocaleDateString("en-US", {
-            month: "short",
-            year: "numeric",
-          })}
+          {convertIntoDate(exp.startDate)}-{convertIntoDate(exp.endDate)}
         </div>
       </div>
 

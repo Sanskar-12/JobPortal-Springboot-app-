@@ -49,17 +49,17 @@ const Info = ({ profile }: InfoProps) => {
       {edit ? (
         <>
           <div className="flex gap-10 [&>*]:w-1/2">
-            <SelectInput option={select[0]} />
-            <SelectInput option={select[1]} />
+            <SelectInput form={form} name={"jobTitle"} option={select[0]} />
+            <SelectInput form={form} name={"company"} option={select[1]} />
           </div>
-          <SelectInput option={select[2]} />
+          <SelectInput form={form} name={"location"} option={select[2]} />
         </>
       ) : (
         <>
           <div className="text-xl flex gap-1 items-center">
             {" "}
             <IconBriefcase className="h-5 w-5" stroke={1.5} />
-            {profile.role} &bull; {profile.company}
+            {profile.jobTitle} &bull; {profile.company}
           </div>
           <div className="text-lg flex gap-1 items-center text-mine-shaft-300">
             <IconMapPin className="h-5 w-5" stroke={1.5} /> {profile.location}

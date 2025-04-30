@@ -1,3 +1,5 @@
+import { UseFormReturnType } from "@mantine/form";
+
 export type profileType = {
   name: string;
   role: string;
@@ -61,6 +63,7 @@ export type IUser = {
 
 export type profileUserServiceType = {
   id: number;
+  name: string;
   email: string;
   jobTitle: string;
   company: string;
@@ -82,3 +85,9 @@ export type profileUserServiceType = {
     certificateId: string;
   }[];
 };
+
+export type InfoFormType = UseFormReturnType<{
+  jobTitle: string;
+  company: string;
+  location: string;
+}>;

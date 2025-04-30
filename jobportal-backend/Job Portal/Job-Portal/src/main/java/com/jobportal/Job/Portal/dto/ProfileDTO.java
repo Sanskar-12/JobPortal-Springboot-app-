@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProfileDTO {
     private Long id;
+    private String name;
     private String email;
     private String jobTitle;
     private String company;
@@ -22,6 +23,6 @@ public class ProfileDTO {
     private List<Certifications> certifications;
 
     public Profile toEntity() {
-        return new Profile(this.id,this.email,this.jobTitle,this.company,this.location,this.about,this.skills,this.experience,this.certifications);
+        return new Profile(this.id,this.name,this.email,this.jobTitle,this.company,this.location,this.about,this.skills,this.experience,this.certifications);
     }
 }
