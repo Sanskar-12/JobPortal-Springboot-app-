@@ -8,20 +8,43 @@ import {
 import { useState } from "react";
 import SelectInput from "./SelectInput";
 import fields from "../../Data/Profile";
-import { profileUserServiceType } from "../../types";
+import { IUser, profileUserServiceType } from "../../types";
 import { useForm } from "@mantine/form";
+import { useDispatch, useSelector } from "react-redux";
+import { changeProfile } from "../../redux/Slice/profileSlice";
+import { successNotification } from "../../Services/NotificationService";
+import { IRootUserState } from "../../redux/store";
 
 interface InfoProps {
   profile: profileUserServiceType;
 }
 
 const Info = ({ profile }: InfoProps) => {
+  const user = useSelector((state: IRootUserState) => state.user) as IUser;
+
   const select = fields;
 
   const [edit, setEdit] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleEdit = () => {
-    setEdit((prev) => !prev);
+    if (!edit) {
+      setEdit(true);
+      form.setValues({
+        jobTitle: profile.jobTitle,
+        company: profile.company,
+        location: profile.location,
+      });
+    } else {
+      setEdit(false);
+      const updatedProfile = {
+        ...profile,
+        ...form.getValues(),
+      };
+      dispatch(changeProfile(updatedProfile));
+      successNotification("Success", "Profile Updated Successfully");
+    }
   };
 
   const form = useForm({
@@ -32,7 +55,7 @@ const Info = ({ profile }: InfoProps) => {
   return (
     <>
       <div className="text-3xl font-semibold flex justify-between">
-        {profile.name}{" "}
+        {user.name}{" "}
         <ActionIcon
           variant="subtle"
           color="bright-sun.4"

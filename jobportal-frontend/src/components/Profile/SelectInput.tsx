@@ -17,7 +17,7 @@ interface SelectInputProps {
   name: string;
 }
 
-const SelectInput = ({ option }: SelectInputProps) => {
+const SelectInput = ({ option, form, name }: SelectInputProps) => {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
@@ -41,9 +41,9 @@ const SelectInput = ({ option }: SelectInputProps) => {
 
   useEffect(() => {
     setData(option.options);
-    setValue(option.value);
-    setSearch(option.value);
-  }, [option]);
+    setValue(form.getInputProps(name).value);
+    setSearch(form.getInputProps(name).value);
+  }, [option, form, name]);
 
   return (
     <Combobox
@@ -53,9 +53,11 @@ const SelectInput = ({ option }: SelectInputProps) => {
         if (val === "$create") {
           setData((current) => [...current, search]);
           setValue(search);
+          form.setFieldValue(name, search);
         } else {
           setValue(val);
           setSearch(val);
+          form.setFieldValue(name, val);
         }
 
         combobox.closeDropdown();
@@ -63,16 +65,17 @@ const SelectInput = ({ option }: SelectInputProps) => {
     >
       <Combobox.Target>
         <InputBase
+          {...form.getInputProps(name)}
           withAsterisk
           leftSection={<option.leftSection stroke={1.5} />}
           label={option.label}
           rightSection={<Combobox.Chevron />}
-          value={search}
           onChange={(event) => {
             combobox.openDropdown();
             combobox.updateSelectedOptionIndex();
             setSearch(event.currentTarget.value);
           }}
+          value={search}
           onClick={() => combobox.openDropdown()}
           onFocus={() => combobox.openDropdown()}
           onBlur={() => {

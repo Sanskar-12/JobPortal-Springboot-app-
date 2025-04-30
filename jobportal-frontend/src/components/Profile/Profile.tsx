@@ -37,7 +37,6 @@ const Profile = () => {
       try {
         const data = await getUserProfile(user.profileId);
         dispatch(setProfile(data));
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
