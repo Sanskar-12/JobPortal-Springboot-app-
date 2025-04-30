@@ -1,9 +1,10 @@
 import { ActionIcon } from "@mantine/core";
 import {
   IconBriefcase,
-  IconDeviceFloppy,
+  IconCheck,
   IconMapPin,
   IconPencil,
+  IconX,
 } from "@tabler/icons-react";
 import { useState } from "react";
 import SelectInput from "./SelectInput";
@@ -38,13 +39,17 @@ const Info = ({ profile }: InfoProps) => {
       });
     } else {
       setEdit(false);
-      const updatedProfile = {
-        ...profile,
-        ...form.getValues(),
-      };
-      dispatch(changeProfile(updatedProfile));
-      successNotification("Success", "Profile Updated Successfully");
     }
+  };
+
+  const handleSave = () => {
+    setEdit(false);
+    const updatedProfile = {
+      ...profile,
+      ...form.getValues(),
+    };
+    dispatch(changeProfile(updatedProfile));
+    successNotification("Success", "Profile Updated Successfully");
   };
 
   const form = useForm({
@@ -56,18 +61,30 @@ const Info = ({ profile }: InfoProps) => {
     <>
       <div className="text-3xl font-semibold flex justify-between">
         {user.name}{" "}
-        <ActionIcon
-          variant="subtle"
-          color="bright-sun.4"
-          size={"lg"}
-          onClick={() => handleEdit()}
-        >
-          {edit ? (
-            <IconDeviceFloppy className="h-4/5 w-4/5" />
-          ) : (
-            <IconPencil className="h-4/5 w-4/5" />
+        <div>
+          {edit && (
+            <ActionIcon
+              variant="subtle"
+              color="green.8"
+              size={"lg"}
+              onClick={() => handleSave()}
+            >
+              <IconCheck className="h-4/5 w-4/5" />
+            </ActionIcon>
           )}
-        </ActionIcon>
+          <ActionIcon
+            variant="subtle"
+            color={edit ? "red.8" : "bright-sun.4"}
+            size={"lg"}
+            onClick={() => handleEdit()}
+          >
+            {edit ? (
+              <IconX className="h-4/5 w-4/5" />
+            ) : (
+              <IconPencil className="h-4/5 w-4/5" />
+            )}
+          </ActionIcon>
+        </div>
       </div>
       {edit ? (
         <>
