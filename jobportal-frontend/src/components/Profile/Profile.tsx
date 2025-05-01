@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, TagsInput } from "@mantine/core";
+import { ActionIcon, Divider } from "@mantine/core";
 import { IconDeviceFloppy, IconPencil, IconPlus } from "@tabler/icons-react";
 import { IUser, profileUserServiceType } from "../../types";
 import ExperienceCard from "./ExpCard";
@@ -12,6 +12,7 @@ import { getUserProfile } from "../../Services/ProfileService";
 import Info from "./Info";
 import { setProfile } from "../../redux/Slice/profileSlice";
 import About from "./About";
+import Skills from "./Skills";
 
 const Profile = () => {
   const user = useSelector((state: IRootUserState) => state.user) as IUser;
@@ -20,7 +21,6 @@ const Profile = () => {
   ) as profileUserServiceType;
 
   const [edit, setEdit] = useState([false, false, false, false, false]);
-  const [skills, setSkills] = useState<string[]>(profile.skills);
   const [addExp, setAddExp] = useState(false);
   const [addCert, setAddCert] = useState(false);
 
@@ -63,43 +63,7 @@ const Profile = () => {
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">
-        <div className="text-2xl font-semibold mb-3 flex justify-between">
-          Skills{" "}
-          <ActionIcon
-            variant="subtle"
-            color="bright-sun.4"
-            size={"lg"}
-            onClick={() => handleEdit(2)}
-          >
-            {edit[2] ? (
-              <IconDeviceFloppy className="h-4/5 w-4/5" />
-            ) : (
-              <IconPencil className="h-4/5 w-4/5" />
-            )}
-          </ActionIcon>
-        </div>
-        {edit[2] ? (
-          <div>
-            <TagsInput
-              data={[]}
-              value={skills}
-              onChange={setSkills}
-              placeholder="Enter Skills"
-              splitChars={[",", " ", "|"]}
-            />
-          </div>
-        ) : (
-          <div className="flex flex-wrap gap-2">
-            {profile?.skills?.map((skill, index) => (
-              <div
-                className="bg-bright-sun-300 text-sm font-medium bg-opacity-15 rounded-xl text-bright-sun-400 px-3 py-1"
-                key={index}
-              >
-                {skill}
-              </div>
-            ))}
-          </div>
-        )}
+        <Skills profile={profile} />
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">
