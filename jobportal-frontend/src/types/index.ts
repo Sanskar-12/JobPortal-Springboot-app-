@@ -91,3 +91,13 @@ export type InfoFormType = UseFormReturnType<{
   company: string;
   location: string;
 }>;
+
+export type ExpFormType = UseFormReturnType<{
+  title: string;
+  company: string;
+  location: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  working: boolean;
+}>;

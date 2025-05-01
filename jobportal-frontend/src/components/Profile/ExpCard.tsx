@@ -11,11 +11,14 @@ interface ExperienceCardProps {
     startDate: Date;
     endDate: Date;
     description: string;
+    working: boolean;
   };
   edit?: boolean;
 }
 
 const ExperienceCard = ({ exp, edit }: ExperienceCardProps) => {
+  console.log(exp);
+
   const [editInput, setEditInput] = useState(false);
 
   const handleEditInput = () => {
@@ -24,7 +27,7 @@ const ExperienceCard = ({ exp, edit }: ExperienceCardProps) => {
 
   return editInput ? (
     <>
-      <ExpInput setEdit={setEditInput} />
+      <ExpInput setEdit={setEditInput} exp={exp} />
     </>
   ) : (
     <div className="flex flex-col gap-2">

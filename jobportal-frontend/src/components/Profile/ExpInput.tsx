@@ -1,23 +1,60 @@
 import { Button, Checkbox, Textarea } from "@mantine/core";
 import fields from "../../Data/Profile";
 import SelectInput from "./SelectInput";
-import { useState } from "react";
+import { useEffect } from "react";
 import { MonthPickerInput } from "@mantine/dates";
+import { isNotEmpty, useForm } from "@mantine/form";
 
 interface ExpInputProps {
   add?: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  exp: {
+    title: string;
+    company: string;
+    location: string;
+    startDate: Date;
+    endDate: Date;
+    description: string;
+    working: boolean;
+  };
 }
 
-const ExpInput = ({ add, setEdit }: ExpInputProps) => {
+const ExpInput = ({ add, setEdit, exp }: ExpInputProps) => {
   const select = fields;
 
-  const [desc, setDesc] = useState(
-    "As a Software Engineer at Google, I am responsible for designing, developing, and maintaining scalable software solutions that enhance user experience and improve operational efficiency. My role involves collaborating with cross-functional teams to define project requirements, develop technical specifications, and implement robust applications using cutting-edge technologies. I actively participate in code reviews, ensuring adherence to best practices and coding standards, and contribute to the continuous improvement of the development process."
-  );
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
-  const [checked, setChecked] = useState(false);
+  const form = useForm({
+    mode: "controlled",
+    validateInputOnChange: true,
+    initialValues: {
+      title: "",
+      company: "",
+      location: "",
+      description: "",
+      startDate: new Date(),
+      endDate: new Date(),
+      working: false,
+    },
+    validate: {
+      title: isNotEmpty("Title is required"),
+      company: isNotEmpty("Company is required"),
+      location: isNotEmpty("Location is required"),
+      description: isNotEmpty("Description is required"),
+    },
+  });
+
+  useEffect(() => {
+    if (!add) {
+      form.setValues({
+        title: exp.title,
+        company: exp.company,
+        location: exp.location,
+        description: exp.description,
+        startDate: new Date(exp.startDate),
+        endDate: new Date(exp.endDate),
+        working: exp.working,
+      });
+    }
+  }, []);
 
   return (
     <div className="flex flex-col gap-3">
@@ -25,43 +62,39 @@ const ExpInput = ({ add, setEdit }: ExpInputProps) => {
         {add ? "Add Experience" : "Edit Experience"}
       </div>
       <div className="flex gap-10 [&>*]:w-1/2">
-        <SelectInput option={select[0]} />
-        <SelectInput option={select[1]} />
+        <SelectInput option={select[0]} form={form} name="title" />
+        <SelectInput option={select[1]} form={form} name="company" />
       </div>
-      <SelectInput option={select[2]} />
+      <SelectInput option={select[2]} form={form} name="location" />
       <Textarea
-        label="Summary"
-        value={desc}
-        onChange={(event) => setDesc(event.currentTarget.value)}
-        placeholder="Enter Summary..."
+        {...form.getInputProps("description")}
+        label="Description"
+        placeholder="Enter Description..."
         autosize
         minRows={3}
         withAsterisk
       />
       <div className="flex gap-10 [&>*]:w-1/2">
         <MonthPickerInput
+          {...form.getInputProps("startDate")}
           label="Start Date"
           placeholder="Pick date"
-          value={startDate}
-          onChange={setStartDate}
-          maxDate={endDate || undefined}
+          maxDate={form.getValues().endDate || undefined}
           withAsterisk
         />
         <MonthPickerInput
+          {...form.getInputProps("endDate")}
           label="End Date"
           placeholder="Pick date"
-          value={endDate}
-          onChange={setEndDate}
-          minDate={startDate || undefined}
+          minDate={form.getValues().startDate || undefined}
           withAsterisk
-          disabled={checked}
+          disabled={form.getValues().working}
         />
       </div>
       <Checkbox
+        {...form.getInputProps("working")}
         autoContrast
         label="Currently working here"
-        checked={checked}
-        onChange={(event) => setChecked(event.currentTarget.checked)}
       />
       <div className="flex gap-8">
         <Button

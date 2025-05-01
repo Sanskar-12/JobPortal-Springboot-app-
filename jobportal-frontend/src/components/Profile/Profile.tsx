@@ -1,10 +1,8 @@
 import { ActionIcon, Divider } from "@mantine/core";
 import { IconDeviceFloppy, IconPencil, IconPlus } from "@tabler/icons-react";
 import { IUser, profileUserServiceType } from "../../types";
-import ExperienceCard from "./ExpCard";
 import CertificationsCard from "./CertCard";
 import { useEffect, useState } from "react";
-import ExpInput from "./ExpInput";
 import CertInput from "./CertInput";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootUserState } from "../../redux/store";
@@ -13,6 +11,7 @@ import Info from "./Info";
 import { setProfile } from "../../redux/Slice/profileSlice";
 import About from "./About";
 import Skills from "./Skills";
+import Experience from "./Experience";
 
 const Profile = () => {
   const user = useSelector((state: IRootUserState) => state.user) as IUser;
@@ -21,7 +20,6 @@ const Profile = () => {
   ) as profileUserServiceType;
 
   const [edit, setEdit] = useState([false, false, false, false, false]);
-  const [addExp, setAddExp] = useState(false);
   const [addCert, setAddCert] = useState(false);
 
   const dispatch = useDispatch();
@@ -67,37 +65,7 @@ const Profile = () => {
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">
-        <div className="text-2xl font-semibold mb-5 flex justify-between">
-          Experience{" "}
-          <div className="flex gap-2">
-            <ActionIcon
-              variant="subtle"
-              color="bright-sun.4"
-              size={"lg"}
-              onClick={() => setAddExp(true)}
-            >
-              <IconPlus className="h-4/5 w-4/5" />
-            </ActionIcon>
-            <ActionIcon
-              variant="subtle"
-              color="bright-sun.4"
-              size={"lg"}
-              onClick={() => handleEdit(3)}
-            >
-              {edit[3] ? (
-                <IconDeviceFloppy className="h-4/5 w-4/5" />
-              ) : (
-                <IconPencil className="h-4/5 w-4/5" />
-              )}
-            </ActionIcon>
-          </div>
-        </div>
-        <div className="flex flex-col gap-8">
-          {profile?.experience?.map((exp, index) => (
-            <ExperienceCard exp={exp} edit={edit[3]} key={index} />
-          ))}
-          {addExp && <ExpInput add={true} setEdit={setAddExp} />}
-        </div>
+        <Experience profile={profile} />
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">

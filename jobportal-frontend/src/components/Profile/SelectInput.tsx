@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Combobox, InputBase, ScrollArea, useCombobox } from "@mantine/core";
 import { Icon, IconProps } from "@tabler/icons-react";
-import { InfoFormType } from "../../types";
+import { ExpFormType, InfoFormType } from "../../types";
 
 interface SelectInputProps {
   option: {
@@ -13,7 +13,7 @@ interface SelectInputProps {
     >;
     value: string;
   };
-  form: InfoFormType;
+  form: InfoFormType | ExpFormType;
   name: string;
 }
 
