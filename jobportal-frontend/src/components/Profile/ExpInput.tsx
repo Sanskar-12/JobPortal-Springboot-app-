@@ -4,11 +4,16 @@ import SelectInput from "./SelectInput";
 import { useEffect } from "react";
 import { MonthPickerInput } from "@mantine/dates";
 import { isNotEmpty, useForm } from "@mantine/form";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootUserState } from "../../redux/store";
+import { profileUserServiceType } from "../../types";
+import { changeProfile } from "../../redux/Slice/profileSlice";
+import { successNotification } from "../../Services/NotificationService";
 
 interface ExpInputProps {
   add?: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  exp: {
+  exp?: {
     title: string;
     company: string;
     location: string;
@@ -17,10 +22,15 @@ interface ExpInputProps {
     description: string;
     working: boolean;
   };
+  index?: number;
 }
 
-const ExpInput = ({ add, setEdit, exp }: ExpInputProps) => {
+const ExpInput = ({ add, setEdit, exp, index }: ExpInputProps) => {
   const select = fields;
+  const dispatch = useDispatch();
+  const profile = useSelector(
+    (state: IRootUserState) => state.profile
+  ) as profileUserServiceType;
 
   const form = useForm({
     mode: "controlled",
@@ -42,16 +52,49 @@ const ExpInput = ({ add, setEdit, exp }: ExpInputProps) => {
     },
   });
 
+  console.log(form.getValues());
+  const normalizeDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    return new Date(year, month, 1, 12);
+  };
+
+  const handleSave = () => {
+    form.validate();
+    if (!form.isValid()) return;
+
+    const exp = [...profile.experience];
+    const values = form.getValues();
+
+    values.startDate = normalizeDate(values.startDate);
+    values.endDate = normalizeDate(values.endDate);
+
+    if (add) {
+      exp.push(values);
+    } else {
+      exp[index as number] = values;
+    }
+
+    const updatedProfile = {
+      ...profile,
+      experience: exp,
+    };
+
+    setEdit(false);
+    dispatch(changeProfile(updatedProfile));
+    successNotification("Success", "Profile Updated Successfully");
+  };
+
   useEffect(() => {
     if (!add) {
       form.setValues({
-        title: exp.title,
-        company: exp.company,
-        location: exp.location,
-        description: exp.description,
-        startDate: new Date(exp.startDate),
-        endDate: new Date(exp.endDate),
-        working: exp.working,
+        title: exp?.title,
+        company: exp?.company,
+        location: exp?.location,
+        description: exp?.description,
+        startDate: new Date(exp?.startDate as Date),
+        endDate: new Date(exp?.endDate as Date),
+        working: exp?.working,
       });
     }
   }, []);
@@ -92,16 +135,13 @@ const ExpInput = ({ add, setEdit, exp }: ExpInputProps) => {
         />
       </div>
       <Checkbox
-        {...form.getInputProps("working")}
+        checked={form.getValues().working}
         autoContrast
         label="Currently working here"
+        onChange={(e) => form.setFieldValue("working", e.currentTarget.checked)}
       />
       <div className="flex gap-8">
-        <Button
-          color="bright-sun.4"
-          variant="outline"
-          onClick={() => setEdit(false)}
-        >
+        <Button color="bright-sun.4" variant="outline" onClick={handleSave}>
           Save
         </Button>
         <Button color="red.4" onClick={() => setEdit(false)} variant="light">

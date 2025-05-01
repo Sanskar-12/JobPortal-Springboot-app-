@@ -1,5 +1,5 @@
 import { ActionIcon } from "@mantine/core";
-import { IconDeviceFloppy, IconPencil, IconPlus } from "@tabler/icons-react";
+import { IconPencil, IconPlus, IconX } from "@tabler/icons-react";
 import ExperienceCard from "./ExpCard";
 import ExpInput from "./ExpInput";
 import { profileUserServiceType } from "../../types";
@@ -37,7 +37,7 @@ const Experience = ({ profile }: ExpProps) => {
             onClick={() => handleEdit()}
           >
             {edit ? (
-              <IconDeviceFloppy className="h-4/5 w-4/5" />
+              <IconX className="h-4/5 w-4/5" />
             ) : (
               <IconPencil className="h-4/5 w-4/5" />
             )}
@@ -46,7 +46,7 @@ const Experience = ({ profile }: ExpProps) => {
       </div>
       <div className="flex flex-col gap-8">
         {profile?.experience?.map((exp, index) => (
-          <ExperienceCard exp={exp} edit={edit} key={index} />
+          <ExperienceCard index={index} exp={exp} edit={edit} key={index} />
         ))}
         {addExp && <ExpInput add={true} setEdit={setAddExp} />}
       </div>

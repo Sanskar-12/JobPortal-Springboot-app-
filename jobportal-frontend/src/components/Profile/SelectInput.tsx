@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { Combobox, InputBase, ScrollArea, useCombobox } from "@mantine/core";
 import { Icon, IconProps } from "@tabler/icons-react";
-import { ExpFormType, InfoFormType } from "../../types";
+import { useForm } from "@mantine/form";
 
 interface SelectInputProps {
   option: {
@@ -13,7 +14,7 @@ interface SelectInputProps {
     >;
     value: string;
   };
-  form: InfoFormType | ExpFormType;
+  form: ReturnType<typeof useForm<any>>;
   name: string;
 }
 

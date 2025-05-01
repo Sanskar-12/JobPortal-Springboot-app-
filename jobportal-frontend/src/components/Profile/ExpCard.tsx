@@ -14,9 +14,10 @@ interface ExperienceCardProps {
     working: boolean;
   };
   edit?: boolean;
+  index?: number;
 }
 
-const ExperienceCard = ({ exp, edit }: ExperienceCardProps) => {
+const ExperienceCard = ({ exp, edit, index }: ExperienceCardProps) => {
   console.log(exp);
 
   const [editInput, setEditInput] = useState(false);
@@ -27,7 +28,7 @@ const ExperienceCard = ({ exp, edit }: ExperienceCardProps) => {
 
   return editInput ? (
     <>
-      <ExpInput setEdit={setEditInput} exp={exp} />
+      <ExpInput setEdit={setEditInput} exp={exp} index={index} />
     </>
   ) : (
     <div className="flex flex-col gap-2">
@@ -44,7 +45,8 @@ const ExperienceCard = ({ exp, edit }: ExperienceCardProps) => {
           </div>
         </div>
         <div className="text-sm text-mine-shaft-300">
-          {convertIntoDate(exp.startDate)}-{convertIntoDate(exp.endDate)}
+          {convertIntoDate(exp.startDate)}-
+          {exp.working ? "Present" : convertIntoDate(exp.endDate)}
         </div>
       </div>
 

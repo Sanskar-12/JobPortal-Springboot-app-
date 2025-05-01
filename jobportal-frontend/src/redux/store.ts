@@ -7,6 +7,10 @@ export const store = configureStore({
     user: userReducer,
     profile: profileReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type IRootUserState = ReturnType<typeof store.getState>;
