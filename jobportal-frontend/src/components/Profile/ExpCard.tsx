@@ -39,7 +39,6 @@ const ExperienceCard = ({ exp, edit, index }: ExperienceCardProps) => {
     const experience = [...profile.experience];
     const updatedExp = experience.filter((_, i) => i !== index);
     const updatedProfile = { ...profile, experience: updatedExp };
-    // setEditInput(!editInput);
     dispatch(changeProfile(updatedProfile));
     successNotification("Success", "Profile Updated Successfully");
   };

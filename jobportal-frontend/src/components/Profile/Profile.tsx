@@ -1,9 +1,6 @@
-import { ActionIcon, Divider } from "@mantine/core";
-import { IconDeviceFloppy, IconPencil, IconPlus } from "@tabler/icons-react";
+import { Divider } from "@mantine/core";
 import { IUser, profileUserServiceType } from "../../types";
-import CertificationsCard from "./CertCard";
-import { useEffect, useState } from "react";
-import CertInput from "./CertInput";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootUserState } from "../../redux/store";
 import { getUserProfile } from "../../Services/ProfileService";
@@ -12,6 +9,7 @@ import { setProfile } from "../../redux/Slice/profileSlice";
 import About from "./About";
 import Skills from "./Skills";
 import Experience from "./Experience";
+import Certifications from "./Certifications";
 
 const Profile = () => {
   const user = useSelector((state: IRootUserState) => state.user) as IUser;
@@ -19,16 +17,15 @@ const Profile = () => {
     (state: IRootUserState) => state.profile
   ) as profileUserServiceType;
 
-  const [edit, setEdit] = useState([false, false, false, false, false]);
-  const [addCert, setAddCert] = useState(false);
+  // const [edit, setEdit] = useState([false, false, false, false, false]);
 
   const dispatch = useDispatch();
 
-  const handleEdit = (index: number) => {
-    const newData = [...edit];
-    newData[index] = !newData[index];
-    setEdit(newData);
-  };
+  // const handleEdit = (index: number) => {
+  //   const newData = [...edit];
+  //   newData[index] = !newData[index];
+  //   setEdit(newData);
+  // };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -69,37 +66,7 @@ const Profile = () => {
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">
-        <div className="text-2xl font-semibold mb-5 flex justify-between">
-          Certifications{" "}
-          <div className="flex gap-2">
-            <ActionIcon
-              variant="subtle"
-              color="bright-sun.4"
-              size={"lg"}
-              onClick={() => setAddCert(true)}
-            >
-              <IconPlus className="h-4/5 w-4/5" />
-            </ActionIcon>
-            <ActionIcon
-              variant="subtle"
-              color="bright-sun.4"
-              size={"lg"}
-              onClick={() => handleEdit(4)}
-            >
-              {edit[4] ? (
-                <IconDeviceFloppy className="h-4/5 w-4/5" />
-              ) : (
-                <IconPencil className="h-4/5 w-4/5" />
-              )}
-            </ActionIcon>
-          </div>
-        </div>
-        <div className="flex flex-col gap-8">
-          {profile?.certifications?.map((cert, index) => (
-            <CertificationsCard cert={cert} key={index} edit={edit[4]} />
-          ))}
-          {addCert && <CertInput add={true} setEdit={setAddCert} />}
-        </div>
+        <Certifications />
       </div>
     </div>
   );
