@@ -52,7 +52,6 @@ const ExpInput = ({ add, setEdit, exp, index }: ExpInputProps) => {
     },
   });
 
-  console.log(form.getValues());
   const normalizeDate = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();

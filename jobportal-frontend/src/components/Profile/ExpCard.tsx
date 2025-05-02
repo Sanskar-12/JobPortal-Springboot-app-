@@ -2,6 +2,11 @@ import { Button } from "@mantine/core";
 import { useState } from "react";
 import ExpInput from "./ExpInput";
 import { convertIntoDate } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootUserState } from "../../redux/store";
+import { profileUserServiceType } from "../../types";
+import { changeProfile } from "../../redux/Slice/profileSlice";
+import { successNotification } from "../../Services/NotificationService";
 
 interface ExperienceCardProps {
   exp: {
@@ -18,12 +23,25 @@ interface ExperienceCardProps {
 }
 
 const ExperienceCard = ({ exp, edit, index }: ExperienceCardProps) => {
-  console.log(exp);
+  const dispatch = useDispatch();
 
   const [editInput, setEditInput] = useState(false);
 
+  const profile = useSelector(
+    (state: IRootUserState) => state.profile
+  ) as profileUserServiceType;
+
   const handleEditInput = () => {
     setEditInput(!editInput);
+  };
+
+  const handleRemoveExp = (index: number) => {
+    const experience = [...profile.experience];
+    const updatedExp = experience.filter((_, i) => i !== index);
+    const updatedProfile = { ...profile, experience: updatedExp };
+    // setEditInput(!editInput);
+    dispatch(changeProfile(updatedProfile));
+    successNotification("Success", "Profile Updated Successfully");
   };
 
   return editInput ? (
@@ -63,7 +81,11 @@ const ExperienceCard = ({ exp, edit, index }: ExperienceCardProps) => {
           >
             Edit
           </Button>
-          <Button color="red.4" variant="light">
+          <Button
+            color="red.4"
+            variant="light"
+            onClick={() => handleRemoveExp(index as number)}
+          >
             Delete
           </Button>
         </div>

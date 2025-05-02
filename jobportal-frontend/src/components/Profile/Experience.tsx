@@ -32,7 +32,7 @@ const Experience = ({ profile }: ExpProps) => {
           </ActionIcon>
           <ActionIcon
             variant="subtle"
-            color="bright-sun.4"
+            color={edit ? "red.8" : "bright-sun.4"}
             size={"lg"}
             onClick={() => handleEdit()}
           >

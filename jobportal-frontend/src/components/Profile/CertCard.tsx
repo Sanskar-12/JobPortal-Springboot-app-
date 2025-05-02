@@ -1,6 +1,5 @@
-import { ActionIcon, Button } from "@mantine/core";
+import { ActionIcon } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
-import { useState } from "react";
 import { convertIntoDate } from "../../utils";
 
 interface CertificationsCardProps {
@@ -14,12 +13,6 @@ interface CertificationsCardProps {
 }
 
 const CertificationsCard = ({ cert, edit }: CertificationsCardProps) => {
-  const [editInput, setEditInput] = useState(false);
-
-  const handleEditInput = () => {
-    setEditInput(!editInput);
-  };
-
   return (
     <div className="flex justify-between">
       <div className="flex gap-2 items-center">
@@ -46,7 +39,7 @@ const CertificationsCard = ({ cert, edit }: CertificationsCardProps) => {
           </ActionIcon>
         )}
       </div>
-      {edit && (
+      {/* {edit && (
         <div className="flex gap-5">
           <Button
             color="bright-sun.4"
@@ -59,7 +52,7 @@ const CertificationsCard = ({ cert, edit }: CertificationsCardProps) => {
             Delete
           </Button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
