@@ -1,6 +1,11 @@
 import { ActionIcon } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import { convertIntoDate } from "../../utils";
+import { profileUserServiceType } from "../../types";
+import { IRootUserState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { changeProfile } from "../../redux/Slice/profileSlice";
+import { successNotification } from "../../Services/NotificationService";
 
 interface CertificationsCardProps {
   cert: {
@@ -10,9 +15,23 @@ interface CertificationsCardProps {
     certificateId: string;
   };
   edit: boolean;
+  index: number;
 }
 
-const CertificationsCard = ({ cert, edit }: CertificationsCardProps) => {
+const CertificationsCard = ({ cert, edit, index }: CertificationsCardProps) => {
+  const dispatch = useDispatch();
+  const profile = useSelector(
+    (state: IRootUserState) => state.profile
+  ) as profileUserServiceType;
+
+  const handleRemoveCertification = (index: number) => {
+    const certification = [...profile.certifications];
+    const updatedCert = certification.filter((_, i) => i !== index);
+    const updatedProfile = { ...profile, certifications: updatedCert };
+    dispatch(changeProfile(updatedProfile));
+    successNotification("Success", "Profile Updated Successfully");
+  };
+
   return (
     <div className="flex justify-between">
       <div className="flex gap-2 items-center">
@@ -35,24 +54,14 @@ const CertificationsCard = ({ cert, edit }: CertificationsCardProps) => {
         </div>
         {edit && (
           <ActionIcon color="red.4" variant="subtle">
-            <IconTrash className="h-4/5 w-4/5" stroke={1.5} />
+            <IconTrash
+              className="h-4/5 w-4/5"
+              stroke={1.5}
+              onClick={() => handleRemoveCertification(index as number)}
+            />
           </ActionIcon>
         )}
       </div>
-      {/* {edit && (
-        <div className="flex gap-5">
-          <Button
-            color="bright-sun.4"
-            variant="outline"
-            onClick={() => handleEditInput()}
-          >
-            Edit
-          </Button>
-          <Button color="red.4" variant="light">
-            Delete
-          </Button>
-        </div>
-      )} */}
     </div>
   );
 };

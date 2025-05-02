@@ -18,8 +18,8 @@ const fields = [
     leftSection: IconBriefcase,
   },
   {
-    label: "Company",
-    placeholder: "Enter Company Name",
+    label: "Issuer",
+    placeholder: "Enter Issuer Name",
     options: [
       "Google",
       "Microsoft",

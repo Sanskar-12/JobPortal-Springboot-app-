@@ -48,7 +48,12 @@ const Certifications = () => {
       </div>
       <div className="flex flex-col gap-8">
         {profile?.certifications?.map((cert, index) => (
-          <CertificationsCard cert={cert} key={index} edit={edit} />
+          <CertificationsCard
+            cert={cert}
+            key={index}
+            edit={edit}
+            index={index}
+          />
         ))}
         {addCert && <CertInput add={true} setEdit={setAddCert} />}
       </div>
