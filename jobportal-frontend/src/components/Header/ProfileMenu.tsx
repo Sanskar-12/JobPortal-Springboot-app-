@@ -13,9 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeUser } from "../../redux/Slice/userSlice";
 import { IRootUserState } from "../../redux/store";
-import { IUser } from "../../types";
+import { IUser, profileUserServiceType } from "../../types";
 
-const ProfileMenu = () => {
+interface ProfileMenuProps {
+  profile: profileUserServiceType;
+}
+
+const ProfileMenu = ({ profile }: ProfileMenuProps) => {
   const [checked, setChecked] = useState(false);
   const [opened, setOpened] = useState(false);
 
@@ -31,7 +35,14 @@ const ProfileMenu = () => {
       <Menu.Target>
         <div className="flex items-center gap-3 cursor-pointer">
           <div>{user.name}</div>
-          <Avatar src="/avatar.png" alt="it's me" />
+          <Avatar
+            src={
+              profile.picture
+                ? `data:image/jpeg;base64,${profile.picture}`
+                : "/avatar.png"
+            }
+            alt="it's me"
+          />
         </div>
       </Menu.Target>
 
