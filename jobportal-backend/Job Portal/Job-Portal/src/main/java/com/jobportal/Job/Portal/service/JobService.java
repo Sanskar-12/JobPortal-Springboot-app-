@@ -9,4 +9,6 @@ public interface JobService {
     JobDTO postJob(JobDTO jobDTO) throws JobPortalException;
 
     List<JobDTO> getAllJobs();
+
+    JobDTO getJob(Long id) throws JobPortalException;
 }

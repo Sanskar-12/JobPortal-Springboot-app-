@@ -32,4 +32,10 @@ public class jobAPI {
         List<JobDTO> jobs = jobService.getAllJobs();
         return new ResponseEntity<>(jobs,HttpStatus.OK);
     }
+
+    @GetMapping("/get/job/{id}")
+    public ResponseEntity<JobDTO> getJob(@PathVariable Long id) throws JobPortalException {
+        JobDTO job = jobService.getJob(id);
+        return new ResponseEntity<>(job,HttpStatus.OK);
+    }
 }
