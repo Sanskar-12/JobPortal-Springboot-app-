@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Validated
 @CrossOrigin
@@ -23,5 +25,11 @@ public class jobAPI {
     public ResponseEntity<JobDTO> postJob(@RequestBody JobDTO jobDTO) throws JobPortalException {
         JobDTO job = jobService.postJob(jobDTO);
         return new ResponseEntity<>(job, HttpStatus.OK);
+    }
+
+    @GetMapping("/getall/jobs")
+    public ResponseEntity<List<JobDTO>> getAllJobs() throws JobPortalException {
+        List<JobDTO> jobs = jobService.getAllJobs();
+        return new ResponseEntity<>(jobs,HttpStatus.OK);
     }
 }

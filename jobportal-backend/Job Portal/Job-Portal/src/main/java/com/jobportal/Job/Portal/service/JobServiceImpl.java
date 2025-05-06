@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service(value = "jobService")
 public class JobServiceImpl implements JobService{
@@ -22,5 +23,10 @@ public class JobServiceImpl implements JobService{
         jobRepository.save(jobDTO.toEntity());
 
         return jobDTO;
+    }
+
+    @Override
+    public List<JobDTO> getAllJobs() {
+        return jobRepository.findAll().stream().map((item)->item.toDTO()).toList();
     }
 }
