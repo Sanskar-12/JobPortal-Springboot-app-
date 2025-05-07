@@ -3,9 +3,16 @@ import { fields } from "../../Data/PostJob";
 import SelectInput from "./SelectInput";
 import RichTextEditorComp from "./RichTextEditorComp";
 import { isNotEmpty, useForm } from "@mantine/form";
+import { postJob } from "../../Services/JobService";
+import {
+  errorNotification,
+  successNotification,
+} from "../../Services/NotificationService";
+import { useNavigate } from "react-router-dom";
 
 const PostJob = () => {
   const select = fields;
+  const navigate = useNavigate();
 
   const form = useForm({
     mode: "controlled",
@@ -34,7 +41,18 @@ const PostJob = () => {
     },
   });
 
-  console.log(form.getValues());
+  const handleSaveForm = async () => {
+    form.validate();
+    if (!form.isValid()) return;
+    try {
+      await postJob(form.getValues());
+      successNotification("Success", "Job Posted Successfully.");
+      navigate("/posted-job");
+    } catch (error) {
+      console.log(error);
+      errorNotification("Job Posting Failed", error);
+    }
+  };
 
   return (
     <div className="w-4/5 mx-auto">
@@ -86,7 +104,7 @@ const PostJob = () => {
           <RichTextEditorComp form={form} />
         </div>
         <div className="flex gap-4">
-          <Button color="bright-sun.4" variant="light">
+          <Button color="bright-sun.4" variant="light" onClick={handleSaveForm}>
             Publish Job
           </Button>
           <Button color="bright-sun.4" variant="outline">

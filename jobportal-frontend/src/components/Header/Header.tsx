@@ -28,7 +28,7 @@ const Header = () => {
       }
     };
     fetchUserProfile();
-  }, [user.profileId, dispatch]);
+  }, [dispatch]);
 
   return location.pathname !== "/sign-up" && location.pathname !== "/login" ? (
     <div className="w-full bg-mine-shaft-950 p-6 text-white h-20 flex justify-between items-center font-['poppins']">

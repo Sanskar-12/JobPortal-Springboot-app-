@@ -10,7 +10,7 @@ import {
 } from "@tabler/icons-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../../redux/Slice/userSlice";
 import { IRootUserState } from "../../redux/store";
 import { IUser, profileUserServiceType } from "../../types";
@@ -22,12 +22,14 @@ interface ProfileMenuProps {
 const ProfileMenu = ({ profile }: ProfileMenuProps) => {
   const [checked, setChecked] = useState(false);
   const [opened, setOpened] = useState(false);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const user = useSelector((state: IRootUserState) => state.user) as IUser;
 
   const handleLogout = () => {
     dispatch(removeUser());
+    navigate("/login");
   };
 
   return (
