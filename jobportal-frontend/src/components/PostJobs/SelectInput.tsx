@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { Combobox, InputBase, ScrollArea, useCombobox } from "@mantine/core";
+import { useForm } from "@mantine/form";
 
 interface SelectInputProps {
   option: {
@@ -7,9 +9,11 @@ interface SelectInputProps {
     options: string[];
     placeholder: string;
   };
+  form: ReturnType<typeof useForm<any>>;
+  name: string;
 }
 
-const SelectInput = ({ option }: SelectInputProps) => {
+const SelectInput = ({ option, form, name }: SelectInputProps) => {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
@@ -33,7 +37,9 @@ const SelectInput = ({ option }: SelectInputProps) => {
 
   useEffect(() => {
     setData(option.options);
-  }, [option]);
+    setValue(form.getInputProps(name).value);
+    setSearch(form.getInputProps(name).value);
+  }, [option, form, name]);
 
   return (
     <Combobox
@@ -43,19 +49,20 @@ const SelectInput = ({ option }: SelectInputProps) => {
         if (val === "$create") {
           setData((current) => [...current, search]);
           setValue(search);
+          form.setFieldValue(name, search);
         } else {
           setValue(val);
           setSearch(val);
+          form.setFieldValue(name, val);
         }
-
         combobox.closeDropdown();
       }}
     >
       <Combobox.Target>
         <InputBase
           withAsterisk
-          className="[&_input]:font-medium"
           label={option.label}
+          {...form.getInputProps(name)}
           rightSection={<Combobox.Chevron />}
           value={search}
           onChange={(event) => {

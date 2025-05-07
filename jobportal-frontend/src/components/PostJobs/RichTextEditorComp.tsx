@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import Highlight from "@tiptap/extension-highlight";
@@ -6,11 +7,13 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
-import { content } from "../../Data/PostJob";
+import { useForm } from "@mantine/form";
 
-const data = content;
+interface RichTextEditorCompProps {
+  form: ReturnType<typeof useForm<any>>;
+}
 
-const RichTextEditorComp = () => {
+const RichTextEditorComp = ({ form }: RichTextEditorCompProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -21,7 +24,10 @@ const RichTextEditorComp = () => {
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
-    content: data,
+    content: form.getValues().description,
+    onUpdate({ editor }) {
+      form.setFieldValue("description", editor.getHTML());
+    },
   });
 
   return (
