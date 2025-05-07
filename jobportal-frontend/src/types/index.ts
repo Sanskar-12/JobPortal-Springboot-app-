@@ -85,3 +85,15 @@ export type profileUserServiceType = {
     certificateId: string;
   }[];
 };
+
+export type postJobType = {
+  jobTitle: string;
+  company: string;
+  about: string;
+  experience: string;
+  jobType: string;
+  location: string;
+  packageOffered: string;
+  description: string;
+  skillsRequired: string[];
+};
