@@ -1,29 +1,35 @@
 import { Divider, Text } from "@mantine/core";
 import { IconBookmark, IconClockHour3 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import { timeAgo } from "../../utils";
 
 interface JobCard {
   jobTitle: string;
   company: string;
-  applicants: number;
+  applicants: {
+    applicantId: string;
+    timestamp: string;
+    applicationStatus: string;
+  }[];
   experience: string;
   jobType: string;
   location: string;
   packageLPA: string;
-  postedDaysAgo: number;
+  postedDaysAgo: Date;
   description: string;
+  about: string;
 }
 
 const JobCard = ({
   jobTitle,
   applicants,
   company,
-  description,
   experience,
   jobType,
   location,
   packageLPA,
   postedDaysAgo,
+  about,
 }: JobCard) => {
   return (
     <Link
@@ -38,7 +44,7 @@ const JobCard = ({
           <div>
             <div className="font-semibold">{jobTitle}</div>
             <div className="text-xs text-mine-shaft-300">
-              {company} &#x2022; {applicants} Applicants
+              {company} &#x2022; {applicants ? applicants.length : 0} Applicants
             </div>
           </div>
         </div>
@@ -53,7 +59,7 @@ const JobCard = ({
         lineClamp={3}
         className="!text-xs text-justify !text-mine-shaft-300"
       >
-        {description}
+        {about}
       </Text>
       <Divider size={"xs"} color="mine-shaft.7" />
       <div className="flex justify-between">
@@ -62,7 +68,7 @@ const JobCard = ({
         </div>
         <div className="flex gap-1 text-xs text-mine-shaft-400 items-center">
           <IconClockHour3 className="h-5 w-5" stroke={1.5} />
-          Posted {postedDaysAgo} days ago
+          Posted {timeAgo(postedDaysAgo)}
         </div>
       </div>
     </Link>
