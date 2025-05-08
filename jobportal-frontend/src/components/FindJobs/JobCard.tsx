@@ -18,9 +18,11 @@ interface JobCard {
   postedDaysAgo: Date;
   description: string;
   about: string;
+  id: number;
 }
 
 const JobCard = ({
+  id,
   jobTitle,
   applicants,
   company,
@@ -33,7 +35,7 @@ const JobCard = ({
 }: JobCard) => {
   return (
     <Link
-      to={"/jobs"}
+      to={`/job/${id}`}
       className="bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200"
     >
       <div className="flex justify-between">

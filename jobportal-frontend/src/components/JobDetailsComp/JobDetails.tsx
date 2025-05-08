@@ -3,12 +3,28 @@ import { IconBookmark } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { card, desc, skills } from "../../Data/JobDescData";
 import DomPurify from "dompurify";
+import { timeAgo } from "../../utils";
 
 interface JobDetailsProps {
-  edit: boolean;
+  edit?: boolean;
+  job: {
+    id: number;
+    jobTitle: string;
+    company: string;
+    applicants: [
+      { applicantId: string; timestamp: string; applicationStatus: string }
+    ];
+    experience: string;
+    jobType: string;
+    location: string;
+    packageOffered: string;
+    postTime: Date;
+    description: string;
+    about: string;
+  };
 }
 
-const JobDetails = ({ edit }: JobDetailsProps) => {
+const JobDetails = ({ edit, job }: JobDetailsProps) => {
   const data = DomPurify.sanitize(desc);
 
   return (
@@ -16,12 +32,18 @@ const JobDetails = ({ edit }: JobDetailsProps) => {
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
           <div className="p-3 bg-mine-shaft-800 rounded-lg">
-            <img className="h-14" src={`/Icons/Google.png`} alt="Logo" />
+            <img
+              className="h-14"
+              src={`/Icons/${job?.company}.png`}
+              alt="Logo"
+            />
           </div>
           <div className="flex flex-col gap-1">
-            <div className="font-semibold text-2xl">Software Engineer</div>
+            <div className="font-semibold text-2xl">{job?.jobTitle}</div>
             <div className="text-lg text-mine-shaft-300">
-              Google &#x2022; 3 days ago &#x2022; 20 Applicants
+              {job?.company} &#x2022; {timeAgo(job?.postTime)} &#x2022;{" "}
+              {job?.applicants?.length}
+              Applicants
             </div>
           </div>
         </div>

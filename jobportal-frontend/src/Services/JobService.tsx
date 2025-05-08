@@ -23,7 +23,7 @@ export const getAllJobs = async () => {
   }
 };
 
-export const getJob = async (id: number) => {
+export const getJob = async (id: string) => {
   try {
     const { data } = await axios.get(`${baseURL}/get/job/${id}`);
     return data;

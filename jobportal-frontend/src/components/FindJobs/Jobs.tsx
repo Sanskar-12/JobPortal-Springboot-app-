@@ -7,6 +7,7 @@ import { getAllJobs } from "../../Services/JobService";
 const Jobs = () => {
   const [jobList, setJobList] = useState([
     {
+      id: 0,
       jobTitle: "",
       company: "",
       applicants: [{ applicantId: "", timestamp: "", applicationStatus: "" }],
@@ -44,6 +45,7 @@ const Jobs = () => {
         {jobList.map((job, index) => (
           <JobCard
             key={index}
+            id={job.id}
             jobTitle={job.jobTitle}
             company={job.company}
             applicants={job.applicants}
