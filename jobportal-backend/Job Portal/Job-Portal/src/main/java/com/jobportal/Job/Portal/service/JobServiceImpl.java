@@ -1,6 +1,8 @@
 package com.jobportal.Job.Portal.service;
 
+import com.jobportal.Job.Portal.dto.ApplicantDTO;
 import com.jobportal.Job.Portal.dto.JobDTO;
+import com.jobportal.Job.Portal.dto.ResponseDTO;
 import com.jobportal.Job.Portal.exception.JobPortalException;
 import com.jobportal.Job.Portal.repository.JobRepository;
 import com.jobportal.Job.Portal.utility.Utilities;
@@ -34,4 +36,16 @@ public class JobServiceImpl implements JobService{
     public JobDTO getJob(Long id) throws JobPortalException {
         return jobRepository.findById(id).orElseThrow(()->new JobPortalException("JOB_NOT_FOUND")).toDTO();
     }
+
+    @Override
+    public ResponseDTO applyJob(ApplicantDTO applicantDTO, Long id) {
+        return null;
+    }
+
+    @Override
+    public ResponseDTO applyJob() throws JobPortalException {
+        return null;
+    }
+
+
 }
