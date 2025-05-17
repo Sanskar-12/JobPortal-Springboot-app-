@@ -1,6 +1,7 @@
 import {
   Button,
   FileInput,
+  LoadingOverlay,
   NumberInput,
   Textarea,
   TextInput,
@@ -20,21 +21,16 @@ const ApplicationForm = () => {
     });
   };
 
-  const handleSubmit = () => {
-    setSubmit(!submit);
-    // let x = 5;
-
-    // setInterval(() => {
-    //   x--;
-    //   setSec(x);
-    //   if (x === 0) {
-    //     navigate("/find-jobs");
-    //   }
-    // }, 1000);
-  };
+  const handleSubmit = () => {};
 
   return (
     <>
+      <LoadingOverlay
+        visible={submit}
+        zIndex={40}
+        overlayProps={{ radius: "sm", blur: 2 }}
+        loaderProps={{ color: "bright-sun.4", type: "bars" }}
+      />
       <div className="text-xl font-semibold mb-5">Submit Your Application</div>
       <div className="flex flex-col gap-5">
         <div className="flex gap-10 [&>*]:w-1/2">

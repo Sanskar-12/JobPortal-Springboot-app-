@@ -1,4 +1,4 @@
-import { Divider, LoadingOverlay } from "@mantine/core";
+import { Divider } from "@mantine/core";
 import { timeAgo } from "../../utils";
 import ApplicationForm from "./ApplicationForm";
 
@@ -26,12 +26,6 @@ const ApplyJob = ({ job }: ApplyJobProps) => {
   return (
     <>
       <div className="w-2/3 mx-auto">
-        <LoadingOverlay
-          // visible={submit}
-          zIndex={40}
-          overlayProps={{ radius: "sm", blur: 2 }}
-          loaderProps={{ color: "bright-sun.4", type: "bars" }}
-        />
         <div className="flex justify-between">
           <div className="flex gap-2 items-center">
             <div className="p-3 bg-mine-shaft-800 rounded-lg">
