@@ -6,6 +6,7 @@ import {
   Textarea,
   TextInput,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { IconPaperclip } from "@tabler/icons-react";
 import { useState } from "react";
 
@@ -22,6 +23,18 @@ const ApplicationForm = () => {
   };
 
   const handleSubmit = () => {};
+
+  const form = useForm({
+    mode: "uncontrolled",
+    initialValues: {
+      email: "",
+      termsOfService: false,
+    },
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+    },
+  });
 
   return (
     <>
