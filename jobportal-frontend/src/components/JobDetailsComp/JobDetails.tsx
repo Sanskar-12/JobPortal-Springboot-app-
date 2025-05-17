@@ -28,8 +28,6 @@ interface JobDetailsProps {
 }
 
 const JobDetails = ({ edit, job }: JobDetailsProps) => {
-  console.log(job);
-
   const data = DomPurify.sanitize(job?.description);
 
   return (
