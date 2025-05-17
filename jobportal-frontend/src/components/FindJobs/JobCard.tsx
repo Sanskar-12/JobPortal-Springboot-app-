@@ -66,7 +66,7 @@ const JobCard = ({
       <Divider size={"xs"} color="mine-shaft.7" />
       <div className="flex justify-between">
         <div className="font-semibold text-mine-shaft-200">
-          &#8377; {packageLPA}
+          &#8377; {packageLPA} {"LPA"}
         </div>
         <div className="flex gap-1 text-xs text-mine-shaft-400 items-center">
           <IconClockHour3 className="h-5 w-5" stroke={1.5} />

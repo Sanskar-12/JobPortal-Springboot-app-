@@ -26,7 +26,6 @@ const Jobs = () => {
       try {
         const res = await getAllJobs();
         setJobList(res);
-        console.log(res);
       } catch (error) {
         console.log(error);
         errorNotification("Server Error", "Could Not Find Jobs.");

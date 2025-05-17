@@ -10,7 +10,19 @@ import { getJob } from "../Services/JobService";
 const JobDetailPage = () => {
   const { id } = useParams();
 
-  const [job, setJob] = useState();
+  const [job, setJob] = useState({
+    id: 0,
+    jobTitle: "",
+    company: "",
+    applicants: [{ applicantId: "", timestamp: "", applicationStatus: "" }],
+    experience: "",
+    jobType: "",
+    location: "",
+    packageOffered: "",
+    postTime: new Date(),
+    description: "",
+    about: "",
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);

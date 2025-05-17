@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActionIcon, Button, Divider } from "@mantine/core";
 import { IconBookmark } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import { card, desc, skills } from "../../Data/JobDescData";
+import { card, skills } from "../../Data/JobDescData";
 import DomPurify from "dompurify";
 import { timeAgo } from "../../utils";
 
@@ -11,9 +12,11 @@ interface JobDetailsProps {
     id: number;
     jobTitle: string;
     company: string;
-    applicants: [
-      { applicantId: string; timestamp: string; applicationStatus: string }
-    ];
+    applicants: {
+      applicantId: string;
+      timestamp: string;
+      applicationStatus: string;
+    }[];
     experience: string;
     jobType: string;
     location: string;
@@ -25,7 +28,9 @@ interface JobDetailsProps {
 }
 
 const JobDetails = ({ edit, job }: JobDetailsProps) => {
-  const data = DomPurify.sanitize(desc);
+  console.log(job);
+
+  const data = DomPurify.sanitize(job?.description);
 
   return (
     <div className="w-2/3">
@@ -48,7 +53,7 @@ const JobDetails = ({ edit, job }: JobDetailsProps) => {
           </div>
         </div>
         <div className="flex flex-col gap-2 items-center">
-          <Link to={"/apply-job"}>
+          <Link to={`/apply-job/${job?.id}`}>
             <Button size="sm" color="bright-sun.4" variant="light">
               {edit ? "Edit" : "Apply"}
             </Button>
@@ -76,7 +81,10 @@ const JobDetails = ({ edit, job }: JobDetailsProps) => {
               <item.icon className="h-4/5 w-4/5" stroke={1.5} />
             </ActionIcon>
             <div className="text-sm text-mine-shaft-300">{item.name}</div>
-            <div className="font-semibold">{item.value}</div>
+            <div className="font-semibold">
+              {job ? (job as Record<string, any>)[item.id] : "NA"}
+              {item.id === "packageOffered" && <>LPA</>}
+            </div>
           </div>
         ))}
       </div>
@@ -110,26 +118,24 @@ const JobDetails = ({ edit, job }: JobDetailsProps) => {
         <div className="flex justify-between mb-3">
           <div className="flex gap-2 items-center">
             <div className="p-3 bg-mine-shaft-800 rounded-xl">
-              <img className="h-8" src={`/Icons/Google.png`} alt="Logo" />
+              <img
+                className="h-8"
+                src={`/Icons/${job?.company}.png`}
+                alt="Logo"
+              />
             </div>
             <div className="flex flex-col">
-              <div className="font-medium text-lg">Google</div>
+              <div className="font-medium text-lg">{job?.company}</div>
               <div className="text-lg text-mine-shaft-300">10K+ Employees</div>
             </div>
           </div>
-          <Link to={"/company"}>
+          <Link to={`/company/${job?.company}`}>
             <Button size="sm" color="bright-sun.4" variant="light">
               Company Page
             </Button>
           </Link>
         </div>
-        <div className="text-mine-shaft-300 text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus,
-          nesciunt distinctio mollitia optio enim exercitationem eveniet sunt
-          maiores illo est repellat totam eum facilis officia pariatur! Iure sit
-          dicta veritatis minus laborum molestiae a et, ipsum illum perferendis
-          est dolore.
-        </div>
+        <div className="text-mine-shaft-300 text-justify">{job?.about}</div>
       </div>
     </div>
   );

@@ -97,3 +97,19 @@ export type postJobType = {
   description: string;
   skillsRequired: string[];
 };
+
+export type JobDetails = {
+  id: number;
+  jobTitle: string;
+  company: string;
+  applicants: [
+    { applicantId: string; timestamp: string; applicationStatus: string }
+  ];
+  experience: string;
+  jobType: string;
+  location: string;
+  packageOffered: string;
+  postTime: Date;
+  description: string;
+  about: string;
+};
