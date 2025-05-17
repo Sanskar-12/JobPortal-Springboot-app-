@@ -6,7 +6,7 @@ import {
   Textarea,
   TextInput,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { IconPaperclip } from "@tabler/icons-react";
 import { useState } from "react";
 
@@ -15,24 +15,36 @@ const ApplicationForm = () => {
   const [submit, setSubmit] = useState(false);
 
   const handlePreview = () => {
+    form.validate();
+    if (!form.isValid()) return;
     setPreview(!preview);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+    console.log(form.getValues());
   };
 
   const handleSubmit = () => {};
 
   const form = useForm({
-    mode: "uncontrolled",
+    mode: "controlled",
+    validateInputOnChange: true,
     initialValues: {
+      name: "",
       email: "",
-      termsOfService: false,
+      phone: "",
+      website: "",
+      resume: null,
+      coverLetter: "",
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      name: isNotEmpty("Name cannot be empty"),
+      email: isNotEmpty("Email cannot be empty"),
+      phone: isNotEmpty("Phone cannot be empty"),
+      website: isNotEmpty("Website cannot be empty"),
+      resume: isNotEmpty("Resume cannot be empty"),
     },
   });
 
@@ -54,6 +66,7 @@ const ApplicationForm = () => {
             variant={preview ? "unstyled" : "default"}
             readOnly={preview}
             className={`${preview && "text-mine-shaft-300 font-semibold"}`}
+            {...form.getInputProps("name")}
           />
           <TextInput
             label="Email"
@@ -62,6 +75,7 @@ const ApplicationForm = () => {
             variant={preview ? "unstyled" : "default"}
             readOnly={preview}
             className={`${preview && "text-mine-shaft-300 font-semibold"}`}
+            {...form.getInputProps("email")}
           />
         </div>
         <div className="flex gap-10 [&>*]:w-1/2">
@@ -76,6 +90,7 @@ const ApplicationForm = () => {
             variant={preview ? "unstyled" : "default"}
             readOnly={preview}
             className={`${preview && "text-mine-shaft-300 font-semibold"}`}
+            {...form.getInputProps("phone")}
           />
           <TextInput
             label="Personal Websote"
@@ -84,27 +99,29 @@ const ApplicationForm = () => {
             variant={preview ? "unstyled" : "default"}
             readOnly={preview}
             className={`${preview && "text-mine-shaft-300 font-semibold"}`}
+            {...form.getInputProps("website")}
           />
         </div>
         <FileInput
           leftSection={<IconPaperclip stroke={1.5} />}
-          label="Attach your CV"
-          placeholder="Your CV"
+          label="Attach your Resume"
+          placeholder="Your Resume"
           leftSectionPointerEvents="none"
           withAsterisk
           variant={preview ? "unstyled" : "default"}
           readOnly={preview}
           className={`${preview && "text-mine-shaft-300 font-semibold"}`}
+          {...form.getInputProps("resume")}
         />
         <Textarea
           placeholder="Type something about yourself..."
           label="Cover Letter"
           autosize
           minRows={4}
-          withAsterisk
           variant={preview ? "unstyled" : "default"}
           readOnly={preview}
           className={`${preview && "text-mine-shaft-300 font-semibold"}`}
+          {...form.getInputProps("coverLetter")}
         />
         {!preview && (
           <Button color="bright-sun.4" variant="light" onClick={handlePreview}>
