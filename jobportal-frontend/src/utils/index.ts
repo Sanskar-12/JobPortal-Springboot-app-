@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const convertIntoDate = (date: Date) => {
   return new Date(date).toLocaleDateString("en-US", {
     month: "short",
@@ -28,4 +29,13 @@ export const timeAgo = (date: Date | string): string => {
   }
 
   return "just now";
+};
+
+export const getBase64 = (file: any) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 };

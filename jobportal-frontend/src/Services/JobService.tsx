@@ -1,5 +1,5 @@
 import axios from "axios";
-import { postJobType } from "../types";
+import { applyJobType, postJobType } from "../types";
 
 const baseURL = "http://localhost:8080/jobs";
 
@@ -26,6 +26,19 @@ export const getAllJobs = async () => {
 export const getJob = async (id: string) => {
   try {
     const { data } = await axios.get(`${baseURL}/get/job/${id}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const applyJob = async (applicationData: applyJobType, id: number) => {
+  try {
+    const { data } = await axios.post(
+      `${baseURL}/apply/${id}`,
+      applicationData
+    );
     return data;
   } catch (error) {
     console.log(error);

@@ -113,3 +113,12 @@ export type JobDetails = {
   description: string;
   about: string;
 };
+
+export type applyJobType = {
+  name: string;
+  email: string;
+  phone: number;
+  website: string;
+  resume: string;
+  coverLetter: string;
+};
