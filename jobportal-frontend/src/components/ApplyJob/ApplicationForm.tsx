@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
   FileInput,
@@ -9,8 +10,23 @@ import {
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconPaperclip } from "@tabler/icons-react";
 import { useState } from "react";
+import { getBase64 } from "../../utils";
+import { applyJob } from "../../Services/JobService";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  errorNotification,
+  successNotification,
+} from "../../Services/NotificationService";
+import { useSelector } from "react-redux";
+import { IRootUserState } from "../../redux/store";
+import { IUser } from "../../types";
 
 const ApplicationForm = () => {
+  const { id } = useParams();
+
+  const user = useSelector((state: IRootUserState) => state.user) as IUser;
+  const navigate = useNavigate();
+
   const [preview, setPreview] = useState(false);
   const [submit, setSubmit] = useState(false);
 
@@ -22,10 +38,27 @@ const ApplicationForm = () => {
       top: 0,
       behavior: "smooth",
     });
-    console.log(form.getValues());
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    setSubmit(true);
+    const resume: any = await getBase64(form.getValues().resume);
+    const data = {
+      ...form.getValues(),
+      applicantId: user.id,
+      resume: resume.split(",")[1],
+    };
+    try {
+      await applyJob(data, id as string);
+      successNotification("Success", "Application Submitted Successfully");
+      navigate("/job-history");
+      setSubmit(false);
+    } catch (error: any) {
+      console.log(error);
+      errorNotification("Error", error?.response?.data.errorMessage);
+      setSubmit(false);
+    }
+  };
 
   const form = useForm({
     mode: "controlled",

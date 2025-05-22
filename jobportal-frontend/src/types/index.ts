@@ -117,7 +117,7 @@ export type JobDetails = {
 export type applyJobType = {
   name: string;
   email: string;
-  phone: number;
+  phone: string;
   website: string;
   resume: string;
   coverLetter: string;

@@ -33,7 +33,7 @@ export const getJob = async (id: string) => {
   }
 };
 
-export const applyJob = async (applicationData: applyJobType, id: number) => {
+export const applyJob = async (applicationData: applyJobType, id: string) => {
   try {
     const { data } = await axios.post(
       `${baseURL}/apply/${id}`,
