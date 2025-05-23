@@ -1,6 +1,6 @@
 import { Divider, Text } from "@mantine/core";
 import { IconBookmark, IconClockHour3 } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { timeAgo } from "../../utils";
 
 interface JobCard {
@@ -33,9 +33,11 @@ const JobCard = ({
   postedDaysAgo,
   about,
 }: JobCard) => {
+  const navigate = useNavigate();
+
   return (
-    <Link
-      to={`/job/${id}`}
+    <div
+      onClick={() => navigate(`/job/${id}`)}
       className="bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200"
     >
       <div className="flex justify-between">
@@ -46,7 +48,10 @@ const JobCard = ({
           <div>
             <div className="font-semibold">{jobTitle}</div>
             <div className="text-xs text-mine-shaft-300">
-              {company} &#x2022; {applicants ? applicants.length : 0} Applicants
+              <Link to={"/company"} className="hover:text-mine-shaft-200">
+                {company}
+              </Link>{" "}
+              &#x2022; {applicants ? applicants.length : 0} Applicants
             </div>
           </div>
         </div>
@@ -73,7 +78,7 @@ const JobCard = ({
           Posted {timeAgo(postedDaysAgo)}
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
