@@ -1,6 +1,6 @@
-import { Divider, Text } from "@mantine/core";
+import { Button, Divider, Text } from "@mantine/core";
 import { IconBookmark, IconClockHour3 } from "@tabler/icons-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { timeAgo } from "../../utils";
 
 interface JobCard {
@@ -33,13 +33,8 @@ const JobCard = ({
   postedDaysAgo,
   about,
 }: JobCard) => {
-  const navigate = useNavigate();
-
   return (
-    <div
-      onClick={() => navigate(`/job/${id}`)}
-      className="bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200"
-    >
+    <div className="bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200">
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
           <div className="p-2 bg-mine-shaft-800 rounded-md">
@@ -55,7 +50,7 @@ const JobCard = ({
             </div>
           </div>
         </div>
-        <IconBookmark className="text-mine-shaft-300 cursor-pointer" />
+        <IconBookmark className="text-mine-shaft-300 cursor-pointer hover:text-bright-sun-400" />
       </div>
       <div className="flex gap-2 [&>div]:py-1 [&>div]:px-2 [&>div]:bg-mine-shaft-800 [&>div]:text-bright-sun-400 [&>div]:rounded-lg text-xs">
         <div>{experience}</div>
@@ -78,6 +73,11 @@ const JobCard = ({
           Posted {timeAgo(postedDaysAgo)}
         </div>
       </div>
+      <Link to={`/job/${id}`}>
+        <Button fullWidth color="bright-sun.4" variant="outline">
+          View Job
+        </Button>
+      </Link>
     </div>
   );
 };

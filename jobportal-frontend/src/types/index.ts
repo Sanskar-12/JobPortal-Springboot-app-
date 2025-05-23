@@ -69,6 +69,7 @@ export type profileUserServiceType = {
   about: string;
   skills: string[];
   picture: string;
+  savedJobs: number[];
   experience: {
     title: string;
     company: string;
