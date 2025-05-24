@@ -1,7 +1,15 @@
 import { Button, Divider, Text } from "@mantine/core";
-import { IconBookmark, IconClockHour3 } from "@tabler/icons-react";
+import {
+  IconBookmark,
+  IconBookmarkFilled,
+  IconClockHour3,
+} from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { timeAgo } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootUserState } from "../../redux/store";
+import { profileUserServiceType } from "../../types";
+import { changeProfile } from "../../redux/Slice/profileSlice";
 
 interface JobCard {
   jobTitle: string;
@@ -33,6 +41,26 @@ const JobCard = ({
   postedDaysAgo,
   about,
 }: JobCard) => {
+  const dispatch = useDispatch();
+
+  const profile = useSelector(
+    (state: IRootUserState) => state.profile
+  ) as profileUserServiceType;
+
+  const handleSavedJobs = () => {
+    let savedJobs = profile.savedJobs ?? [];
+
+    if (savedJobs?.includes(id)) {
+      savedJobs = savedJobs.filter((jobId) => jobId !== id);
+    } else {
+      savedJobs = [...savedJobs, id];
+    }
+
+    const updatedProfile = { ...profile, savedJobs };
+
+    dispatch(changeProfile(updatedProfile));
+  };
+
   return (
     <div className="bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200">
       <div className="flex justify-between">
@@ -50,7 +78,17 @@ const JobCard = ({
             </div>
           </div>
         </div>
-        <IconBookmark className="text-mine-shaft-300 cursor-pointer hover:text-bright-sun-400" />
+        {profile?.savedJobs?.includes(id) ? (
+          <IconBookmarkFilled
+            className="text-bright-sun-400 cursor-pointer"
+            onClick={handleSavedJobs}
+          />
+        ) : (
+          <IconBookmark
+            className="text-mine-shaft-300 cursor-pointer hover:text-bright-sun-400"
+            onClick={handleSavedJobs}
+          />
+        )}
       </div>
       <div className="flex gap-2 [&>div]:py-1 [&>div]:px-2 [&>div]:bg-mine-shaft-800 [&>div]:text-bright-sun-400 [&>div]:rounded-lg text-xs">
         <div>{experience}</div>
@@ -59,7 +97,7 @@ const JobCard = ({
       </div>
       <Text
         lineClamp={3}
-        className="!text-xs text-justify !text-mine-shaft-300"
+        className="!text-xs text-justifyhay !text-mine-shaft-300"
       >
         {about}
       </Text>
