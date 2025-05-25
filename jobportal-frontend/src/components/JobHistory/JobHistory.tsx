@@ -17,6 +17,8 @@ const JobHistory = () => {
     (state: IRootUserState) => state.profile
   ) as profileUserServiceType;
 
+  console.log(profile);
+
   const handleChange = (value: string | null) => {
     setActiveTab(value);
 
@@ -93,7 +95,7 @@ const JobHistory = () => {
                   packageLPA={job.packageOffered}
                   postedDaysAgo={job.postTime}
                   about={job.about}
-                  applied={true}
+                  {...{ [activeTab?.toLowerCase() as string]: true }}
                 />
               ))}
             </div>
