@@ -86,8 +86,7 @@ const JobDetails = ({ edit, job }: JobDetailsProps) => {
             <div className="font-semibold text-2xl">{job?.jobTitle}</div>
             <div className="text-lg text-mine-shaft-300">
               {job?.company} &#x2022; {timeAgo(job?.postTime)} &#x2022;{" "}
-              {job?.applicants?.length}
-              Applicants
+              {job?.applicants?.length} Applicants
             </div>
           </div>
         </div>

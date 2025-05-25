@@ -1,15 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Tabs } from "@mantine/core";
 import JobHistoryCard from "./JobHistoryCard";
 import { useEffect, useState } from "react";
 import { getAllJobs } from "../../Services/JobService";
-import { JobDetails } from "../../types";
+import { JobDetails, profileUserServiceType } from "../../types";
+import { useSelector } from "react-redux";
+import { IRootUserState } from "../../redux/store";
+import { errorNotification } from "../../Services/NotificationService";
 
 const JobHistory = () => {
   const [activeTab, setActiveTab] = useState<string | null>("APPLIED");
   const [jobList, setJobList] = useState<JobDetails[]>([]);
+  const [showList, setShowList] = useState<JobDetails[]>([]);
+
+  const profile = useSelector(
+    (state: IRootUserState) => state.profile
+  ) as profileUserServiceType;
 
   const handleChange = (value: string | null) => {
     setActiveTab(value);
+
+    if (value === "SAVED") {
+      setShowList(
+        jobList.filter((job) => profile?.savedJobs?.includes(job?.id))
+      );
+    } else {
+      setShowList(
+        jobList.filter(
+          (job) =>
+            job?.applicants?.filter(
+              (applicant) =>
+                Number(applicant?.applicantId) === Number(profile?.id) &&
+                applicant.applicationStatus === value
+            ).length > 0
+        )
+      );
+    }
   };
 
   useEffect(() => {
@@ -17,13 +43,23 @@ const JobHistory = () => {
       try {
         const res = await getAllJobs();
         setJobList(res);
-        console.log(res);
+        setShowList(
+          res.filter(
+            (job: any) =>
+              job?.applicants?.filter(
+                (applicant: any) =>
+                  Number(applicant?.applicantId) === Number(profile?.id) &&
+                  applicant.applicationStatus === "APPLIED"
+              ).length > 0
+          )
+        );
       } catch (error) {
         console.log(error);
+        errorNotification("Error", "Failed to Get Jobs");
       }
     };
     fetchAllJobs();
-  }, []);
+  }, [profile?.id]);
 
   return (
     <div>
@@ -44,7 +80,7 @@ const JobHistory = () => {
 
           <Tabs.Panel value={activeTab as string}>
             <div className="mt-10 grid grid-cols-4 gap-5">
-              {jobList.map((job, index) => (
+              {showList.map((job, index) => (
                 <JobHistoryCard
                   key={index}
                   id={job.id}
