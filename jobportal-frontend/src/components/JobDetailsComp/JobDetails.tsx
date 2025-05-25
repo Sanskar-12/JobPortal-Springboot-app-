@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActionIcon, Button, Divider } from "@mantine/core";
-import { IconBookmark } from "@tabler/icons-react";
+import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { card, skills } from "../../Data/JobDescData";
 import DomPurify from "dompurify";
 import { timeAgo } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootUserState } from "../../redux/store";
+import { IUser, profileUserServiceType } from "../../types";
+import { changeProfile } from "../../redux/Slice/profileSlice";
+import { useEffect, useState } from "react";
 
 interface JobDetailsProps {
   edit?: boolean;
@@ -28,7 +33,43 @@ interface JobDetailsProps {
 }
 
 const JobDetails = ({ edit, job }: JobDetailsProps) => {
+  const dispatch = useDispatch();
+
+  const profile = useSelector(
+    (state: IRootUserState) => state.profile
+  ) as profileUserServiceType;
+
+  const user = useSelector((state: IRootUserState) => state.user) as IUser;
+
+  const [applied, setApplied] = useState(false);
+
+  const handleSavedJobs = () => {
+    let savedJobs = profile.savedJobs ?? [];
+
+    if (savedJobs?.includes(job?.id)) {
+      savedJobs = savedJobs.filter((jobId) => jobId !== job?.id);
+    } else {
+      savedJobs = [...savedJobs, job?.id];
+    }
+
+    const updatedProfile = { ...profile, savedJobs };
+
+    dispatch(changeProfile(updatedProfile));
+  };
+
   const data = DomPurify.sanitize(job?.description);
+
+  useEffect(() => {
+    if (
+      job?.applicants?.filter(
+        (applicant) => Number(applicant?.applicantId) === Number(user?.id)
+      ).length > 0
+    ) {
+      setApplied(true);
+    } else {
+      setApplied(false);
+    }
+  }, [job?.applicants, user?.id]);
 
   return (
     <div className="w-2/3">
@@ -51,17 +92,32 @@ const JobDetails = ({ edit, job }: JobDetailsProps) => {
           </div>
         </div>
         <div className="flex flex-col gap-2 items-center">
-          <Link to={`/apply-job/${job?.id}`}>
-            <Button size="sm" color="bright-sun.4" variant="light">
-              {edit ? "Edit" : "Apply"}
+          {(edit || !applied) && (
+            <Link to={`/apply-job/${job?.id}`}>
+              <Button size="sm" color="bright-sun.4" variant="light">
+                {edit ? "Edit" : "Apply"}
+              </Button>
+            </Link>
+          )}
+          {applied && (
+            <Button color="green.8" size="sm" variant="light">
+              Applied
             </Button>
-          </Link>
+          )}
           {edit ? (
             <Button color="red.5" size="sm" variant="outline">
               Delete
             </Button>
+          ) : profile?.savedJobs?.includes(job?.id) ? (
+            <IconBookmarkFilled
+              className="text-bright-sun-400 cursor-pointer"
+              onClick={handleSavedJobs}
+            />
           ) : (
-            <IconBookmark className="text-bright-sun-400 cursor-pointer" />
+            <IconBookmark
+              className="text-mine-shaft-300 cursor-pointer hover:text-bright-sun-400"
+              onClick={handleSavedJobs}
+            />
           )}
         </div>
       </div>

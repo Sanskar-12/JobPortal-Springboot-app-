@@ -6,17 +6,25 @@ import {
   IconClockHour3,
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import { timeAgo } from "../../utils";
 
 interface JobHistoryCardProps {
+  id: number;
   jobTitle: string;
   company: string;
-  applicants: number;
+  applicants: [
+    {
+      applicantId: string;
+      timestamp: string;
+      applicationStatus: string;
+    }
+  ];
   experience: string;
   jobType: string;
   location: string;
   packageLPA: string;
-  postedDaysAgo: number;
-  description: string;
+  postedDaysAgo: Date;
+  about: string;
   applied?: boolean;
   saved?: boolean;
   offered?: boolean;
@@ -24,10 +32,11 @@ interface JobHistoryCardProps {
 }
 
 const JobHistoryCard = ({
+  id,
   jobTitle,
   applicants,
   company,
-  description,
+  about,
   experience,
   jobType,
   location,
@@ -39,10 +48,7 @@ const JobHistoryCard = ({
   interviewing,
 }: JobHistoryCardProps) => {
   return (
-    <Link
-      to={"/jobs"}
-      className="bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200"
-    >
+    <div className="bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200">
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
           <div className="p-2 bg-mine-shaft-800 rounded-md">
@@ -51,7 +57,8 @@ const JobHistoryCard = ({
           <div>
             <div className="font-semibold">{jobTitle}</div>
             <div className="text-xs text-mine-shaft-300">
-              {company} &#x2022; {applicants} Applicants
+              {company} &#x2022; {applicants ? applicants?.length : 0}{" "}
+              Applicants
             </div>
           </div>
         </div>
@@ -70,7 +77,7 @@ const JobHistoryCard = ({
         lineClamp={3}
         className="!text-xs text-justify !text-mine-shaft-300"
       >
-        {description}
+        {about}
       </Text>
       <Divider size={"xs"} color="mine-shaft.7" />
       <div className="flex justify-between">
@@ -84,7 +91,7 @@ const JobHistoryCard = ({
             : offered
             ? "Interviewed"
             : "Posted"}{" "}
-          {postedDaysAgo} days ago
+          {timeAgo(postedDaysAgo)}
         </div>
       </div>
       {(offered || interviewing) && (
@@ -110,7 +117,12 @@ const JobHistoryCard = ({
           <span className="text-mine-shaft-400">10:00 AM</span>
         </div>
       )}
-    </Link>
+      <Link to={`/job/${id}`}>
+        <Button fullWidth color="bright-sun.4" variant="outline">
+          View Job
+        </Button>
+      </Link>
+    </div>
   );
 };
 
