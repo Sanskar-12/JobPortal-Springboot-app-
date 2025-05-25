@@ -1,9 +1,6 @@
 package com.jobportal.Job.Portal.service;
 
-import com.jobportal.Job.Portal.dto.ApplicantDTO;
-import com.jobportal.Job.Portal.dto.ApplicationStatus;
-import com.jobportal.Job.Portal.dto.JobDTO;
-import com.jobportal.Job.Portal.dto.ResponseDTO;
+import com.jobportal.Job.Portal.dto.*;
 import com.jobportal.Job.Portal.entity.Applicant;
 import com.jobportal.Job.Portal.entity.Job;
 import com.jobportal.Job.Portal.exception.JobPortalException;
@@ -69,6 +66,11 @@ public class JobServiceImpl implements JobService{
     @Override
     public List<JobDTO> getJobsPostedBy(Long id) throws JobPortalException {
         return jobRepository.findByPostedBy(id).stream().map((x)->x.toDTO()).toList();
+    }
+
+    @Override
+    public ResponseDTO changeAppStatus(ApplicationDTO applicationDTO) throws JobPortalException {
+        return null;
     }
 
 

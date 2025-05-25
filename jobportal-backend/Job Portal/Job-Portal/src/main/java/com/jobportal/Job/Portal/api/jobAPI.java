@@ -1,9 +1,6 @@
 package com.jobportal.Job.Portal.api;
 
-import com.jobportal.Job.Portal.dto.ApplicantDTO;
-import com.jobportal.Job.Portal.dto.JobDTO;
-import com.jobportal.Job.Portal.dto.ProfileDTO;
-import com.jobportal.Job.Portal.dto.ResponseDTO;
+import com.jobportal.Job.Portal.dto.*;
 import com.jobportal.Job.Portal.entity.Job;
 import com.jobportal.Job.Portal.exception.JobPortalException;
 import com.jobportal.Job.Portal.service.JobService;
@@ -48,9 +45,15 @@ public class jobAPI {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @PostMapping("/postedBy/{id}")
+    @GetMapping("/postedBy/{id}")
     public ResponseEntity<List<JobDTO>> getJobPostedBy(@PathVariable Long id) throws JobPortalException {
         List<JobDTO> res = jobService.getJobsPostedBy(id);
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
+
+    @PostMapping("/changeAppStatus")
+    public ResponseEntity<ResponseDTO> changeAppStatus(@RequestBody ApplicationDTO applicationDTO) throws JobPortalException {
+        ResponseDTO res = jobService.changeAppStatus(applicationDTO);
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
 }
