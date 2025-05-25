@@ -66,5 +66,10 @@ public class JobServiceImpl implements JobService{
         return new ResponseDTO("Job Applied Successfully");
     }
 
+    @Override
+    public List<JobDTO> getJobsPostedBy(Long id) throws JobPortalException {
+        return jobRepository.findByPostedBy(id).stream().map((x)->x.toDTO()).toList();
+    }
+
 
 }

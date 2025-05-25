@@ -18,4 +18,5 @@ public interface JobService {
     ResponseDTO applyJob(ApplicantDTO applicantDTO, Long id) throws JobPortalException;
 
 
+    List<JobDTO> getJobsPostedBy(Long id) throws JobPortalException;
 }

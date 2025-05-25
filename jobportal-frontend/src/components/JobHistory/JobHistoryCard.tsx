@@ -7,6 +7,10 @@ import {
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { timeAgo } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootUserState } from "../../redux/store";
+import { profileUserServiceType } from "../../types";
+import { changeProfile } from "../../redux/Slice/profileSlice";
 
 interface JobHistoryCardProps {
   id: number;
@@ -43,10 +47,29 @@ const JobHistoryCard = ({
   packageLPA,
   postedDaysAgo,
   applied,
-  saved,
   offered,
   interviewing,
 }: JobHistoryCardProps) => {
+  const dispatch = useDispatch();
+
+  const profile = useSelector(
+    (state: IRootUserState) => state.profile
+  ) as profileUserServiceType;
+
+  const handleSavedJobs = () => {
+    let savedJobs = profile.savedJobs ?? [];
+
+    if (savedJobs?.includes(id)) {
+      savedJobs = savedJobs.filter((jobId) => jobId !== id);
+    } else {
+      savedJobs = [...savedJobs, id];
+    }
+
+    const updatedProfile = { ...profile, savedJobs };
+
+    dispatch(changeProfile(updatedProfile));
+  };
+
   return (
     <div className="bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200">
       <div className="flex justify-between">
@@ -62,10 +85,16 @@ const JobHistoryCard = ({
             </div>
           </div>
         </div>
-        {saved ? (
-          <IconBookmarkFilled className="text-bright-sun-400 cursor-pointer" />
+        {profile?.savedJobs?.includes(id) ? (
+          <IconBookmarkFilled
+            className="text-bright-sun-400 cursor-pointer"
+            onClick={handleSavedJobs}
+          />
         ) : (
-          <IconBookmark className="text-mine-shaft-300 cursor-pointer" />
+          <IconBookmark
+            className="text-mine-shaft-300 cursor-pointer hover:text-bright-sun-400"
+            onClick={handleSavedJobs}
+          />
         )}
       </div>
       <div className="flex gap-2 [&>div]:py-1 [&>div]:px-2 [&>div]:bg-mine-shaft-800 [&>div]:text-bright-sun-400 [&>div]:rounded-lg text-xs">

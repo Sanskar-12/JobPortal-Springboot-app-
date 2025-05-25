@@ -17,8 +17,6 @@ const JobHistory = () => {
     (state: IRootUserState) => state.profile
   ) as profileUserServiceType;
 
-  console.log(profile);
-
   const handleChange = (value: string | null) => {
     setActiveTab(value);
 
