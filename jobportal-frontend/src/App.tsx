@@ -93,7 +93,7 @@ function App() {
             <Route path="/company/:company" element={<CompanyPage />} />
             <Route path="/apply-job/:id" element={<ApplyJobPage />} />
             <Route path="/job-history" element={<JobHistoryPage />} />
-            <Route path="/posted-job" element={<PostedJobPage />} />
+            <Route path="/posted-job/:id" element={<PostedJobPage />} />
             <Route path="/talent-profile" element={<TalentProfile />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>

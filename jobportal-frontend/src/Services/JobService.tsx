@@ -45,3 +45,26 @@ export const applyJob = async (applicationData: applyJobType, id: string) => {
     throw error;
   }
 };
+
+export const getJobsPostedBy = async (id: string) => {
+  try {
+    const { data } = await axios.get(`${baseURL}/postedBy/${id}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const changeAppStatus = async (application) => {
+  try {
+    const { data } = await axios.post(
+      `${baseURL}/changeAppStatus`,
+      application
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

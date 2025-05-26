@@ -97,6 +97,8 @@ export type postJobType = {
   packageOffered: string;
   description: string;
   skillsRequired: string[];
+  postedBy: number;
+  jobStatus: string;
 };
 
 export type JobDetails = {

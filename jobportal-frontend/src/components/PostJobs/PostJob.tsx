@@ -9,10 +9,16 @@ import {
   successNotification,
 } from "../../Services/NotificationService";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { IRootUserState } from "../../redux/store";
+import { profileUserServiceType } from "../../types";
 
 const PostJob = () => {
   const select = fields;
   const navigate = useNavigate();
+  const profile = useSelector(
+    (state: IRootUserState) => state.profile
+  ) as profileUserServiceType;
 
   const form = useForm({
     mode: "controlled",
@@ -45,9 +51,28 @@ const PostJob = () => {
     form.validate();
     if (!form.isValid()) return;
     try {
-      await postJob(form.getValues());
+      const res = await postJob({
+        ...form.getValues(),
+        postedBy: profile.id,
+        jobStatus: "ACTIVE",
+      });
       successNotification("Success", "Job Posted Successfully.");
-      navigate("/posted-job");
+      navigate(`/posted-job/${res.id}`);
+    } catch (error) {
+      console.log(error);
+      errorNotification("Job Posting Failed", error);
+    }
+  };
+
+  const handleDraft = async () => {
+    try {
+      const res = await postJob({
+        ...form.getValues(),
+        postedBy: profile.id,
+        jobStatus: "DRAFT",
+      });
+      successNotification("Success", "Job Drafted Successfully.");
+      navigate(`/posted-job/${res.id}`);
     } catch (error) {
       console.log(error);
       errorNotification("Job Posting Failed", error);
@@ -107,7 +132,7 @@ const PostJob = () => {
           <Button color="bright-sun.4" variant="light" onClick={handleSaveForm}>
             Publish Job
           </Button>
-          <Button color="bright-sun.4" variant="outline">
+          <Button color="bright-sun.4" variant="outline" onClick={handleDraft}>
             Save as Draft
           </Button>
         </div>
