@@ -70,7 +70,25 @@ public class JobServiceImpl implements JobService{
 
     @Override
     public ResponseDTO changeAppStatus(ApplicationDTO applicationDTO) throws JobPortalException {
-        return null;
+        Job job = jobRepository.findById(applicationDTO.getId()).orElseThrow(()->new JobPortalException("JOB_NOT_FOUND"));
+
+        List<Applicant> applicants = job.getApplicants().stream().map((x)->{
+            if(x.getApplicantId()==applicationDTO.getApplicantId()) {
+                x.setApplicationStatus(applicationDTO.getApplicationStatus());
+
+                if(applicationDTO.getApplicationStatus().equals(ApplicationStatus.INTERVIEWING)) {
+                    x.setInterviewTime(applicationDTO.getInterviewTime());
+                }
+
+            }
+            return x;
+        }).toList();
+
+        job.setApplicants(applicants);
+
+        jobRepository.save(job);
+
+        return new ResponseDTO("Application Status Changed Successfully");
     }
 
 
