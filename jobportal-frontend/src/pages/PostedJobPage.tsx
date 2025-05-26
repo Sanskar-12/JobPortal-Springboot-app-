@@ -1,7 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useParams } from "react-router-dom";
 import PostedJob from "../components/PostedJob/PostedJob";
 import PostedJobDescription from "../components/PostedJob/PostedJobDescription";
+import { useEffect, useState } from "react";
+import { getJobsPostedBy } from "../Services/JobService";
+import { useSelector } from "react-redux";
+import { IRootUserState } from "../redux/store";
+import { IUser } from "../types";
+import { errorNotification } from "../Services/NotificationService";
 
 const PostedJobPage = () => {
+  const { id } = useParams();
+  const user = useSelector((state: IRootUserState) => state.user) as IUser;
+  const [jobList, setJobList] = useState([]);
+  const [job, setJob] = useState({});
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const fetchData = async () => {
+      try {
+        const res = await getJobsPostedBy(user?.id.toString());
+        setJobList(res);
+        setJob(res.find((job: any) => job.id === id));
+      } catch (error) {
+        console.log(error);
+        errorNotification("Error", "Error Fetching Jobs.");
+      }
+    };
+    fetchData();
+  }, [user?.id, id]);
+
   return (
     <div className="min-h-[90vh] bg-mine-shaft-950 font-['poppins'] p-4">
       <div className="flex gap-5">
