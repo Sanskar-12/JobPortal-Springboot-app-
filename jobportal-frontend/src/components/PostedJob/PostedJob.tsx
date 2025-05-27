@@ -1,8 +1,14 @@
 import { Tabs } from "@mantine/core";
 import { activeJobs } from "../../Data/PostedJob";
 import PostedJobCard from "./PostedJobCard";
+import { JobDetails } from "../../types";
 
-const PostedJob = () => {
+interface PostedJobProps {
+  job: JobDetails;
+  jobList: JobDetails[];
+}
+
+const PostedJob = ({ job, jobList }: PostedJobProps) => {
   return (
     <div className="w-1/6 mt-5">
       <div className="text-2xl font-semibold mb-5">Jobs</div>

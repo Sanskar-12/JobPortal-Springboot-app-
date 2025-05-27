@@ -6,14 +6,27 @@ import { useEffect, useState } from "react";
 import { getJobsPostedBy } from "../Services/JobService";
 import { useSelector } from "react-redux";
 import { IRootUserState } from "../redux/store";
-import { IUser } from "../types";
+import { IUser, JobDetails } from "../types";
 import { errorNotification } from "../Services/NotificationService";
 
 const PostedJobPage = () => {
   const { id } = useParams();
   const user = useSelector((state: IRootUserState) => state.user) as IUser;
-  const [jobList, setJobList] = useState([]);
-  const [job, setJob] = useState({});
+  const [jobList, setJobList] = useState<JobDetails[]>([]);
+  const [job, setJob] = useState<JobDetails>({
+    id: 0,
+    jobTitle: "",
+    company: "",
+    jobStatus: "",
+    applicants: [{ applicantId: "", timestamp: "", applicationStatus: "" }],
+    experience: "",
+    jobType: "",
+    location: "",
+    packageOffered: "",
+    postTime: new Date(),
+    description: "",
+    about: "",
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,8 +46,8 @@ const PostedJobPage = () => {
   return (
     <div className="min-h-[90vh] bg-mine-shaft-950 font-['poppins'] p-4">
       <div className="flex gap-5">
-        <PostedJob />
-        <PostedJobDescription />
+        <PostedJob job={job} jobList={jobList} />
+        <PostedJobDescription job={job} />
       </div>
     </div>
   );

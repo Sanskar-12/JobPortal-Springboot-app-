@@ -109,6 +109,7 @@ export type JobDetails = {
     { applicantId: string; timestamp: string; applicationStatus: string }
   ];
   experience: string;
+  jobStatus: string;
   jobType: string;
   location: string;
   packageOffered: string;
