@@ -42,6 +42,7 @@ const PostedJob = ({ job, jobList }: PostedJobProps) => {
             {filteredJobsBasedOnStatus.map((job, index) => (
               <PostedJobCard
                 key={index}
+                jobId={job?.id}
                 jobTitle={job.jobTitle}
                 location={job.location}
                 posted={job.postTime}
