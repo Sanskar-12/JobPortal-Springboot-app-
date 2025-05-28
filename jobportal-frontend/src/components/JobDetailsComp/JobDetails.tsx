@@ -98,7 +98,7 @@ const JobDetails = ({ edit, job }: JobDetailsProps) => {
               </Button>
             </Link>
           )}
-          {applied && (
+          {!edit && applied && (
             <Button color="green.8" size="sm" variant="light">
               Applied
             </Button>
