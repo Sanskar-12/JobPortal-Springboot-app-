@@ -3,9 +3,11 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconCalendarMonth, IconHeart, IconMapPin } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { DateInput, TimeInput } from "@mantine/dates";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { getUserProfile } from "../../Services/ProfileService";
 
 interface TalentCardProps {
+  applicantId: string;
   name: string;
   role: string;
   company: string;
@@ -20,6 +22,7 @@ interface TalentCardProps {
 }
 
 const TalentCard = ({
+  applicantId,
   name,
   role,
   about,
@@ -34,7 +37,22 @@ const TalentCard = ({
 }: TalentCardProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [value, setValue] = useState<Date | null>(null);
+  const [profile, setProfile] = useState({});
   const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getUserProfile(Number(applicantId));
+        setProfile(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [applicantId]);
+
+  console.log(profile);
 
   return (
     <div
@@ -45,12 +63,12 @@ const TalentCard = ({
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
           <div className="p-2 bg-mine-shaft-800 rounded-full">
-            <Avatar size={"lg"} src={`/${image}.png`} alt="Logo" />
+            <Avatar size={"lg"} src={`/${profile?.picture}.png`} alt="Logo" />
           </div>
           <div>
-            <div className="font-semibold text-lg">{name}</div>
+            <div className="font-semibold text-lg">{profile?.name}</div>
             <div className="text-sm text-mine-shaft-300">
-              {role} &bull; {company}
+              {profile?.role} &bull; {company}
             </div>
           </div>
         </div>

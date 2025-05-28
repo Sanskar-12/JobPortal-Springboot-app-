@@ -33,44 +33,50 @@ const PostedJobDescription = ({ job }: PostedJobDescriptionProps) => {
           </Tabs.Panel>
           <Tabs.Panel value="applicants">
             <div className="mt-10 grid grid-cols-4 gap-5 justify-around">
-              {talents.map(
-                (talent, index) =>
-                  index < 6 && (
-                    <TalentCard
-                      about={talent.about}
-                      company={talent.company}
-                      expectedCtc={talent.expectedCtc}
-                      image={talent.image}
-                      location={talent.location}
-                      name={talent.name}
-                      role={talent.role}
-                      topSkills={talent.topSkills}
-                      posted={true}
-                      key={index}
-                    />
-                  )
-              )}
+              {job?.applicants
+                .filter((job) => job?.applicationStatus === "APPLIED")
+                .map(
+                  (talent, index) =>
+                    index < 6 && (
+                      <TalentCard
+                        applicantId={talent.applicantId}
+                        about={talent.about}
+                        company={talent.company}
+                        expectedCtc={talent.expectedCtc}
+                        image={talent.image}
+                        location={talent.location}
+                        name={talent.name}
+                        role={talent.role}
+                        topSkills={talent.topSkills}
+                        posted={true}
+                        key={index}
+                      />
+                    )
+                )}
             </div>
           </Tabs.Panel>
           <Tabs.Panel value="invited">
             <div className="mt-10 grid grid-cols-4 gap-5 justify-around">
-              {talents.map(
-                (talent, index) =>
-                  index < 6 && (
-                    <TalentCard
-                      about={talent.about}
-                      company={talent.company}
-                      expectedCtc={talent.expectedCtc}
-                      image={talent.image}
-                      location={talent.location}
-                      name={talent.name}
-                      role={talent.role}
-                      topSkills={talent.topSkills}
-                      invited={true}
-                      key={index}
-                    />
-                  )
-              )}
+              {job?.applicants
+                .filter((job) => job?.applicationStatus === "INTERVIEWING")
+                .map(
+                  (talent, index) =>
+                    index < 6 && (
+                      <TalentCard
+                        applicantId={talent.applicantId}
+                        about={talent.about}
+                        company={talent.company}
+                        expectedCtc={talent.expectedCtc}
+                        image={talent.image}
+                        location={talent.location}
+                        name={talent.name}
+                        role={talent.role}
+                        topSkills={talent.topSkills}
+                        invited={true}
+                        key={index}
+                      />
+                    )
+                )}
             </div>
           </Tabs.Panel>
         </Tabs>
