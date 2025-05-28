@@ -1,7 +1,8 @@
 import { Tabs } from "@mantine/core";
-import { activeJobs } from "../../Data/PostedJob";
+import { activeJobs, drafts } from "../../Data/PostedJob";
 import PostedJobCard from "./PostedJobCard";
 import { JobDetails } from "../../types";
+import { useEffect, useState } from "react";
 
 interface PostedJobProps {
   job: JobDetails;
@@ -9,29 +10,47 @@ interface PostedJobProps {
 }
 
 const PostedJob = ({ job, jobList }: PostedJobProps) => {
+  console.log(job);
+  const [activeTab, setActiveTab] = useState<string | null>("ACTIVE");
+
+  useEffect(() => {
+    setActiveTab(job?.jobStatus || "ACTIVE");
+  }, [job?.jobStatus]);
+
   return (
     <div className="w-1/6 mt-5">
       <div className="text-2xl font-semibold mb-5">Jobs</div>
       <div>
-        <Tabs autoContrast variant="pills" defaultValue={"active"}>
+        <Tabs
+          autoContrast
+          variant="pills"
+          value={activeTab}
+          onChange={setActiveTab}
+        >
           <Tabs.List className="[&_button[aria-selected='false']]:bg-mine-shaft-900 font-medium">
-            <Tabs.Tab value="active">Active [4]</Tabs.Tab>
-            <Tabs.Tab value="draft">Draft [1]</Tabs.Tab>
+            <Tabs.Tab value="ACTIVE">Active [4]</Tabs.Tab>
+            <Tabs.Tab value="DRAFT">Draft [1]</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="active">
-            <div className="flex flex-col gap-5 mt-5">
-              {activeJobs.map((jobs, index) => (
-                <PostedJobCard
-                  jobTitle={jobs.jobTitle}
-                  location={jobs.location}
-                  posted={jobs.posted}
-                  key={index}
-                />
-              ))}
-            </div>
-          </Tabs.Panel>
-          <Tabs.Panel value="draft">Draft</Tabs.Panel>
+          <div className="flex flex-col gap-5 mt-5">
+            {activeTab === "ACTIVE"
+              ? activeJobs.map((job, index) => (
+                  <PostedJobCard
+                    key={index}
+                    jobTitle={job.jobTitle}
+                    location={job.location}
+                    posted={job.posted}
+                  />
+                ))
+              : drafts.map((job, index) => (
+                  <PostedJobCard
+                    key={index}
+                    jobTitle={job.jobTitle}
+                    location={job.location}
+                    posted={job.posted}
+                  />
+                ))}
+          </div>
         </Tabs>
       </div>
     </div>

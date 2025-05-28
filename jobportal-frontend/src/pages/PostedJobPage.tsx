@@ -11,6 +11,8 @@ import { errorNotification } from "../Services/NotificationService";
 
 const PostedJobPage = () => {
   const { id } = useParams();
+
+  console.log(id);
   const user = useSelector((state: IRootUserState) => state.user) as IUser;
   const [jobList, setJobList] = useState<JobDetails[]>([]);
   const [job, setJob] = useState<JobDetails>({
@@ -34,7 +36,11 @@ const PostedJobPage = () => {
       try {
         const res = await getJobsPostedBy(user?.id.toString());
         setJobList(res);
-        setJob(res.find((job: any) => job.id === id));
+        setJob(
+          res.find((job: any) => {
+            return job && job?.id.toString() === id;
+          })
+        );
       } catch (error) {
         console.log(error);
         errorNotification("Error", "Error Fetching Jobs.");
