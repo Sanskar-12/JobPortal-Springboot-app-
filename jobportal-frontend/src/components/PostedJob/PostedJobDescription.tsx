@@ -8,6 +8,7 @@ interface PostedJobDescriptionProps {
 }
 
 const PostedJobDescription = ({ job }: PostedJobDescriptionProps) => {
+  console.log(job);
   return (
     <div className="mt-5 w-3/4 px-5">
       <div className="text-2xl font-semibold flex items-center">
@@ -33,7 +34,7 @@ const PostedJobDescription = ({ job }: PostedJobDescriptionProps) => {
           <Tabs.Panel value="applicants">
             <div className="mt-10 grid grid-cols-4 gap-5 justify-around">
               {job?.applicants
-                .filter((job) => job?.applicationStatus === "APPLIED")
+                ?.filter((job) => job?.applicationStatus === "APPLIED")
                 .map(
                   (talent, index) =>
                     index < 6 && (

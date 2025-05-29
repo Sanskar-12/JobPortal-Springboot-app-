@@ -56,7 +56,12 @@ export const getJobsPostedBy = async (id: string) => {
   }
 };
 
-export const changeAppStatus = async (application) => {
+export const changeAppStatus = async (application: {
+  id: string;
+  applicantId: string;
+  interviewTime: Date;
+  applicationStatus: string;
+}) => {
   try {
     const { data } = await axios.post(
       `${baseURL}/changeAppStatus`,

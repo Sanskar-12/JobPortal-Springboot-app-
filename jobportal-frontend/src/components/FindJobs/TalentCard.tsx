@@ -1,11 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, Button, Divider, Modal, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCalendarMonth, IconHeart, IconMapPin } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { DateInput, TimeInput } from "@mantine/dates";
 import { useEffect, useRef, useState } from "react";
 import { getUserProfile } from "../../Services/ProfileService";
 import { profileUserServiceType } from "../../types";
+import { changeAppStatus } from "../../Services/JobService";
+import {
+  errorNotification,
+  successNotification,
+} from "../../Services/NotificationService";
 
 interface TalentCardProps {
   applicantId: string;
@@ -36,8 +42,11 @@ const TalentCard = ({
   posted,
   invited,
 }: TalentCardProps) => {
+  const { id } = useParams();
+
   const [opened, { open, close }] = useDisclosure(false);
-  const [value, setValue] = useState<Date | null>(null);
+  const [date, setDate] = useState<Date | null>(null);
+  const [time, setTime] = useState("");
   const [profile, setProfile] = useState<profileUserServiceType>({
     id: 0,
     name: "",
@@ -71,6 +80,30 @@ const TalentCard = ({
   });
 
   const ref = useRef<HTMLInputElement>(null);
+
+  const handleOffer = async (status: string) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    date?.setHours(hours, minutes);
+    console.log(date);
+    const interview: any = {
+      id,
+      applicantId: profile?.id,
+      interviewTime: date,
+      applicationStatus: status,
+    };
+
+    try {
+      await changeAppStatus(interview);
+      successNotification(
+        "Interview Scheduled",
+        "Interview Scheduled Successfully"
+      );
+      window.location.reload();
+    } catch (error: any) {
+      console.log(error);
+      errorNotification("Error", error?.response.data.errorMessage);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -189,17 +222,24 @@ const TalentCard = ({
         <div className="flex flex-col gap-4">
           <DateInput
             minDate={new Date()}
-            value={value}
-            onChange={setValue}
+            value={date}
+            onChange={setDate}
             label="Date"
             placeholder="Enter Date"
           />
           <TimeInput
+            value={time}
+            onChange={(e) => setTime(e.currentTarget.value)}
             label="Time"
             ref={ref}
             onClick={() => ref.current?.showPicker()}
           />
-          <Button color="bright-sun.4" variant="light" fullWidth>
+          <Button
+            color="bright-sun.4"
+            variant="light"
+            fullWidth
+            onClick={() => handleOffer("INTERVIEWING")}
+          >
             Schedule
           </Button>
         </div>
