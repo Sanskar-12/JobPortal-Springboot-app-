@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { DateInput, TimeInput } from "@mantine/dates";
 import { useEffect, useRef, useState } from "react";
 import { getUserProfile } from "../../Services/ProfileService";
+import { profileUserServiceType } from "../../types";
 
 interface TalentCardProps {
   applicantId: string;
@@ -37,7 +38,38 @@ const TalentCard = ({
 }: TalentCardProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [value, setValue] = useState<Date | null>(null);
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState<profileUserServiceType>({
+    id: 0,
+    name: "",
+    email: "",
+    jobTitle: "",
+    company: "",
+    location: "",
+    about: "",
+    skills: [],
+    picture: "",
+    savedJobs: [],
+    experience: [
+      {
+        title: "",
+        company: "",
+        location: "",
+        startDate: new Date(),
+        endDate: new Date(),
+        description: "",
+        working: false,
+      },
+    ],
+    certifications: [
+      {
+        name: "",
+        issuer: "",
+        issueDate: new Date(),
+        certificateId: "",
+      },
+    ],
+  });
+
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -68,22 +100,22 @@ const TalentCard = ({
           <div>
             <div className="font-semibold text-lg">{profile?.name}</div>
             <div className="text-sm text-mine-shaft-300">
-              {profile?.role} &bull; {company}
+              {profile?.jobTitle} &bull; {profile?.company}
             </div>
           </div>
         </div>
         <IconHeart className="text-mine-shaft-300 cursor-pointer" />
       </div>
       <div className="flex gap-2 [&>div]:py-1 [&>div]:px-2 [&>div]:bg-mine-shaft-800 [&>div]:text-bright-sun-400 [&>div]:rounded-lg text-xs">
-        {topSkills.map((skills, index) => (
-          <div key={index}>{skills}</div>
-        ))}
+        {profile?.skills?.map(
+          (skills, index) => index < 3 && <div key={index}>{skills}</div>
+        )}
       </div>
       <Text
         lineClamp={3}
         className="!text-xs text-justify !text-mine-shaft-300"
       >
-        {about}
+        {profile?.about}
       </Text>
       <Divider size={"xs"} color="mine-shaft.7" />
       {invited ? (
@@ -92,9 +124,9 @@ const TalentCard = ({
         </div>
       ) : (
         <div className="flex justify-between">
-          <div className="font-semibold text-mine-shaft-200">{expectedCtc}</div>
+          <div className="font-semibold text-mine-shaft-200">23 LPA</div>
           <div className="flex gap-1 text-xs text-mine-shaft-400 items-center">
-            <IconMapPin className="h-5 w-5" stroke={1.5} /> {location}
+            <IconMapPin className="h-5 w-5" stroke={1.5} /> {profile?.location}
           </div>
         </div>
       )}
