@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PostedJob from "../components/PostedJob/PostedJob";
 import PostedJobDescription from "../components/PostedJob/PostedJobDescription";
 import { useEffect, useState } from "react";
@@ -11,8 +11,8 @@ import { errorNotification } from "../Services/NotificationService";
 
 const PostedJobPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
-  console.log(id);
   const user = useSelector((state: IRootUserState) => state.user) as IUser;
   const [jobList, setJobList] = useState<JobDetails[]>([]);
   const [job, setJob] = useState<JobDetails>({
@@ -36,6 +36,9 @@ const PostedJobPage = () => {
       try {
         const res = await getJobsPostedBy(user?.id.toString());
         setJobList(res);
+        if (res && res[0]?.id && Number(id) === 0) {
+          navigate(`/posted-job/${res[0]?.id}`);
+        }
         setJob(
           res.find((job: any) => {
             return job && job?.id.toString() === id;

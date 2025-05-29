@@ -1,6 +1,5 @@
 import { Badge, Tabs } from "@mantine/core";
 import JobDetails from "../JobDetailsComp/JobDetails";
-import { talents } from "../../Data/TalentData";
 import TalentCard from "../FindJobs/TalentCard";
 import { JobDetails as JobType } from "../../types";
 
