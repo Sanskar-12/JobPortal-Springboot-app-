@@ -56,6 +56,9 @@ const PostedJobDescription = ({ job }: PostedJobDescriptionProps) => {
                       <TalentCard
                         applicantId={talent.applicantId}
                         interviewTime={talent.interviewTime}
+                        website={talent?.website}
+                        resume={talent?.resume}
+                        coverLetter={talent?.coverLetter}
                         invited={true}
                         key={index}
                       />

@@ -12,7 +12,7 @@ import {
   errorNotification,
   successNotification,
 } from "../../Services/NotificationService";
-import { formatDate } from "../../utils";
+import { formatDate, openResumeInNewTab } from "../../utils";
 
 interface TalentCardProps {
   applicantId: string;
@@ -20,6 +20,9 @@ interface TalentCardProps {
   invited?: boolean;
   width?: string;
   interviewTime?: Date;
+  website?: string;
+  resume?: string;
+  coverLetter?: string;
 }
 
 const TalentCard = ({
@@ -28,10 +31,14 @@ const TalentCard = ({
   posted,
   invited,
   interviewTime,
+  website,
+  resume,
+  coverLetter,
 }: TalentCardProps) => {
   const { id } = useParams();
 
   const [opened, { open, close }] = useDisclosure(false);
+  const [app, { open: openApp, close: closeApp }] = useDisclosure(false);
   const [date, setDate] = useState<Date | null>(null);
   const [time, setTime] = useState("");
   const [profile, setProfile] = useState<profileUserServiceType>({
@@ -200,6 +207,17 @@ const TalentCard = ({
           </>
         )}
       </div>
+      {(invited || posted) && (
+        <Button
+          color="bright-sun.4"
+          variant="filled"
+          fullWidth
+          autoContrast
+          onClick={openApp}
+        >
+          View Application
+        </Button>
+      )}
       <Modal
         opened={opened}
         onClose={close}
@@ -229,6 +247,49 @@ const TalentCard = ({
           >
             Schedule
           </Button>
+        </div>
+      </Modal>
+      <Modal
+        opened={app}
+        onClose={closeApp}
+        title="Application Details"
+        centered
+      >
+        <div className="flex flex-col gap-4">
+          <div>
+            Email: &emsp;
+            <a
+              href={`mailto:${profile?.email}`}
+              className="text-bright-sun-400 hover:underline cursor-pointer text-center"
+            >
+              {profile?.email}
+            </a>
+          </div>
+          <div>
+            Website: &emsp;
+            <a
+              target="_blank"
+              href={website}
+              className="text-bright-sun-400 hover:underline cursor-pointer text-center"
+            >
+              {website}
+            </a>
+          </div>
+          <div>
+            Resume: &emsp;
+            <span
+              onClick={() => openResumeInNewTab(resume as string)}
+              className="text-bright-sun-400 hover:underline cursor-pointer text-center"
+            >
+              View Resume
+            </span>
+          </div>
+          <div>
+            Cover Letter: &emsp;
+            <span className="text-bright-sun-400 hover:underline cursor-pointer text-center">
+              {coverLetter}
+            </span>
+          </div>
         </div>
       </Modal>
     </div>

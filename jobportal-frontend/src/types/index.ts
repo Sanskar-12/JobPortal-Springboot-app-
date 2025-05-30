@@ -111,6 +111,9 @@ export type JobDetails = {
       timestamp: string;
       applicationStatus: string;
       interviewTime: Date;
+      website: string;
+      resume: string;
+      coverLetter: string;
     }
   ];
   experience: string;
