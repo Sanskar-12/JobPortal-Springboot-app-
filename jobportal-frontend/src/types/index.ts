@@ -106,7 +106,12 @@ export type JobDetails = {
   jobTitle: string;
   company: string;
   applicants: [
-    { applicantId: string; timestamp: string; applicationStatus: string }
+    {
+      applicantId: string;
+      timestamp: string;
+      applicationStatus: string;
+      interviewTime: Date;
+    }
   ];
   experience: string;
   jobStatus: string;

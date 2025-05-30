@@ -12,35 +12,22 @@ import {
   errorNotification,
   successNotification,
 } from "../../Services/NotificationService";
+import { formatDate } from "../../utils";
 
 interface TalentCardProps {
   applicantId: string;
-  name: string;
-  role: string;
-  company: string;
-  topSkills: string[];
-  about: string;
-  expectedCtc: string;
-  location: string;
-  image: string;
   posted?: boolean;
   invited?: boolean;
   width?: string;
+  interviewTime?: Date;
 }
 
 const TalentCard = ({
   applicantId,
-  name,
-  role,
-  about,
-  company,
-  expectedCtc,
-  image,
-  location,
-  topSkills,
   width,
   posted,
   invited,
+  interviewTime,
 }: TalentCardProps) => {
   const { id } = useParams();
 
@@ -84,7 +71,6 @@ const TalentCard = ({
   const handleOffer = async (status: string) => {
     const [hours, minutes] = time.split(":").map(Number);
     date?.setHours(hours, minutes);
-    console.log(date);
     const interview: any = {
       id,
       applicantId: profile?.id,
@@ -159,7 +145,8 @@ const TalentCard = ({
       <Divider size={"xs"} color="mine-shaft.7" />
       {invited ? (
         <div className="flex gap-1 text-mine-shaft-200 text-sm items-center">
-          <IconCalendarMonth stroke={1.5} /> Interview: August 27, 2024 10:00 AM
+          <IconCalendarMonth stroke={1.5} /> Interview:
+          {formatDate(interviewTime as Date)}
         </div>
       ) : (
         <div className="flex justify-between">

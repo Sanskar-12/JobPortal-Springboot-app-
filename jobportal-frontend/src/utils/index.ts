@@ -39,3 +39,18 @@ export const getBase64 = (file: any) => {
     reader.onerror = (error) => reject(error);
   });
 };
+
+export const formatDate = (input: Date) => {
+  const date = new Date(input);
+
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  };
+
+  return date.toLocaleString("en-US", options);
+};

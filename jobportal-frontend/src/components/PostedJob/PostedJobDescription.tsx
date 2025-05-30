@@ -8,7 +8,6 @@ interface PostedJobDescriptionProps {
 }
 
 const PostedJobDescription = ({ job }: PostedJobDescriptionProps) => {
-  console.log(job);
   return (
     <div className="mt-5 w-3/4 px-5">
       <div className="text-2xl font-semibold flex items-center">
@@ -40,14 +39,6 @@ const PostedJobDescription = ({ job }: PostedJobDescriptionProps) => {
                     index < 6 && (
                       <TalentCard
                         applicantId={talent.applicantId}
-                        about={talent.about}
-                        company={talent.company}
-                        expectedCtc={talent.expectedCtc}
-                        image={talent.image}
-                        location={talent.location}
-                        name={talent.name}
-                        role={talent.role}
-                        topSkills={talent.topSkills}
                         posted={true}
                         key={index}
                       />
@@ -64,14 +55,7 @@ const PostedJobDescription = ({ job }: PostedJobDescriptionProps) => {
                     index < 6 && (
                       <TalentCard
                         applicantId={talent.applicantId}
-                        about={talent.about}
-                        company={talent.company}
-                        expectedCtc={talent.expectedCtc}
-                        image={talent.image}
-                        location={talent.location}
-                        name={talent.name}
-                        role={talent.role}
-                        topSkills={talent.topSkills}
+                        interviewTime={talent.interviewTime}
                         invited={true}
                         key={index}
                       />
