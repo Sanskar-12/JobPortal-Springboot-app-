@@ -76,21 +76,30 @@ const TalentCard = ({
   const ref = useRef<HTMLInputElement>(null);
 
   const handleOffer = async (status: string) => {
-    const [hours, minutes] = time.split(":").map(Number);
-    date?.setHours(hours, minutes);
-    const interview: any = {
+    let interview: any = {
       id,
       applicantId: profile?.id,
-      interviewTime: date,
       applicationStatus: status,
     };
 
+    if (status === "INTERVIEWING") {
+      const [hours, minutes] = time.split(":").map(Number);
+      date?.setHours(hours, minutes);
+      interview = { ...interview, interviewTime: date };
+    }
+
     try {
       await changeAppStatus(interview);
-      successNotification(
-        "Interview Scheduled",
-        "Interview Scheduled Successfully"
-      );
+      if (status === "INTERVIEWING") {
+        successNotification(
+          "Interview Scheduled",
+          "Interview Scheduled Successfully"
+        );
+      } else if (status === "OFFERED") {
+        successNotification("Offered", "Offer had been Sent Successfully");
+      } else {
+        successNotification("Rejected", "Applicant had been Rejected");
+      }
       window.location.reload();
     } catch (error: any) {
       console.log(error);
@@ -195,12 +204,22 @@ const TalentCard = ({
         {invited && (
           <>
             <div>
-              <Button color="bright-sun.4" variant="outline" fullWidth>
+              <Button
+                color="bright-sun.4"
+                variant="outline"
+                fullWidth
+                onClick={() => handleOffer("OFFERED")}
+              >
                 Accept
               </Button>
             </div>
             <div>
-              <Button color="bright-sun.4" variant="light" fullWidth>
+              <Button
+                color="bright-sun.4"
+                variant="light"
+                fullWidth
+                onClick={() => handleOffer("REJECTED")}
+              >
                 Reject
               </Button>
             </div>
