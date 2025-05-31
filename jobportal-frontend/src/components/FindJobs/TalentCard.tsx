@@ -18,6 +18,8 @@ interface TalentCardProps {
   applicantId: string;
   posted?: boolean;
   invited?: boolean;
+  offered?: boolean;
+  rejected?: boolean;
   width?: string;
   interviewTime?: Date;
   website?: string;
@@ -34,6 +36,8 @@ const TalentCard = ({
   website,
   resume,
   coverLetter,
+  offered,
+  rejected,
 }: TalentCardProps) => {
   const { id } = useParams();
 
