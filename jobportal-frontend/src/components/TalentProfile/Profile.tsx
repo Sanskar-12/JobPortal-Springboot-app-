@@ -2,10 +2,10 @@ import { Button, Divider } from "@mantine/core";
 import { IconBriefcase, IconMapPin } from "@tabler/icons-react";
 import ExperienceCard from "./ExperienceCard";
 import CertificationsCard from "./CertificationsCard";
-import { profileType } from "../../types";
+import { profileUserServiceType } from "../../types";
 
 interface ProfileProps {
-  profile: profileType;
+  profile: profileUserServiceType;
 }
 
 const Profile = ({ profile }: ProfileProps) => {
@@ -21,7 +21,7 @@ const Profile = ({ profile }: ProfileProps) => {
       </div>
       <div className="px-3 mt-20">
         <div className="text-3xl font-semibold flex justify-between">
-          {profile.name}{" "}
+          {profile?.name}{" "}
           <Button color="bright-sun.4" variant="light">
             Message
           </Button>
@@ -29,24 +29,24 @@ const Profile = ({ profile }: ProfileProps) => {
         <div className="text-xl flex gap-1 items-center">
           {" "}
           <IconBriefcase className="h-5 w-5" stroke={1.5} />
-          {profile.role} &bull; {profile.company}
+          {profile?.jobTitle} &bull; {profile?.company}
         </div>
         <div className="text-lg flex gap-1 items-center text-mine-shaft-300">
-          <IconMapPin className="h-5 w-5" stroke={1.5} /> {profile.location}
+          <IconMapPin className="h-5 w-5" stroke={1.5} /> {profile?.location}
         </div>
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">
         <div className="text-2xl font-semibold mb-3">About</div>
         <div className="text-sm text-mine-shaft-300 text-justify">
-          {profile.about}
+          {profile?.about}
         </div>
       </div>
       <Divider mx={"xs"} my={"xl"} />
       <div className="px-3">
         <div className="text-2xl font-semibold mb-3">Skills</div>
         <div className="flex flex-wrap gap-2">
-          {profile.skills.map((skill, index) => (
+          {profile?.skills?.map((skill, index) => (
             <div
               className="bg-bright-sun-300 text-sm font-medium bg-opacity-15 rounded-xl text-bright-sun-400 px-3 py-1"
               key={index}

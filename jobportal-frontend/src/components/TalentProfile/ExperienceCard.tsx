@@ -3,8 +3,8 @@ interface ExperienceCardProps {
     title: string;
     company: string;
     location: string;
-    startDate: string;
-    endDate: string;
+    startDate: Date;
+    endDate: Date;
     description: string;
   };
 }

@@ -94,7 +94,7 @@ function App() {
             <Route path="/apply-job/:id" element={<ApplyJobPage />} />
             <Route path="/job-history" element={<JobHistoryPage />} />
             <Route path="/posted-job/:id" element={<PostedJobPage />} />
-            <Route path="/talent-profile" element={<TalentProfile />} />
+            <Route path="/talent-profile/:id" element={<TalentProfile />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>
           <Footer />
