@@ -44,17 +44,11 @@ const TalentProfile = () => {
     ],
   });
 
-  console.log(profile);
   useEffect(() => {
     const fetchData = async () => {
-      const userId = Number(id);
-      if (!id || isNaN(userId)) {
-        console.warn("Invalid or undefined user ID:", id);
-        return;
-      }
+      window.scrollTo(0, 0);
       try {
         const res = await getUserProfile(Number(id));
-        console.log(res);
         setProfile(res);
       } catch (error) {
         console.log(error);

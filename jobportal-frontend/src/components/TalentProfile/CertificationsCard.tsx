@@ -1,8 +1,10 @@
+import { formatMonthYear } from "../../utils";
+
 interface CertificationsCardProps {
   cert: {
     name: string;
     issuer: string;
-    issueDate: string;
+    issueDate: Date;
     certificateId: string;
   };
 }
@@ -20,7 +22,9 @@ const CertificationsCard = ({ cert }: CertificationsCardProps) => {
         </div>
       </div>
       <div className="flex flex-col items-end">
-        <div className="text-sm text-mine-shaft-300">{cert.issueDate}</div>
+        <div className="text-sm text-mine-shaft-300">
+          {formatMonthYear(cert.issueDate)}
+        </div>
         <div className="text-sm text-mine-shaft-300">
           ID: {cert.certificateId}
         </div>

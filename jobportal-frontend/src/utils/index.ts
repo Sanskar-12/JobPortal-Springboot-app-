@@ -66,3 +66,8 @@ export const openResumeInNewTab = (base64: string) => {
   const blobUrl = URL.createObjectURL(blob);
   window.open(blobUrl, "_blank");
 };
+
+export const formatMonthYear = (dateString: Date) => {
+  const date = new Date(dateString);
+  return date.toLocaleString("default", { month: "long", year: "numeric" });
+};

@@ -1,3 +1,5 @@
+import { formatMonthYear } from "../../utils";
+
 interface ExperienceCardProps {
   exp: {
     title: string;
@@ -25,7 +27,7 @@ const ExperienceCard = ({ exp }: ExperienceCardProps) => {
           </div>
         </div>
         <div className="text-sm text-mine-shaft-300">
-          {exp.startDate} - {exp.endDate}
+          {formatMonthYear(exp.startDate)} - {formatMonthYear(exp.endDate)}
         </div>
       </div>
       <div className="text-sm text-mine-shaft-300 text-justify">
