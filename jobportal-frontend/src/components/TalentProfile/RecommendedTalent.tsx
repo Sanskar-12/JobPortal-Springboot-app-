@@ -13,7 +13,11 @@ const RecommendedTalent = ({ talentProfiles }: RecommendedTalentProps) => {
         {talentProfiles?.map(
           (talent, index) =>
             index < 4 && (
-              <TalentCard key={index} profile={talent} width={"full"} />
+              <TalentCard
+                key={index}
+                applicantId={talent?.id?.toString()}
+                width={"full"}
+              />
             )
         )}
       </div>

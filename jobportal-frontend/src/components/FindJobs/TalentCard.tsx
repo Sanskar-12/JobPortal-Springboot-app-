@@ -15,7 +15,7 @@ import {
 import { formatDate, openResumeInNewTab } from "../../utils";
 
 interface TalentCardProps {
-  applicantId?: string;
+  applicantId: string;
   posted?: boolean;
   invited?: boolean;
   offered?: boolean;
@@ -25,7 +25,6 @@ interface TalentCardProps {
   website?: string;
   resume?: string;
   coverLetter?: string;
-  profile?: profileUserServiceType;
 }
 
 const TalentCard = ({
@@ -39,7 +38,6 @@ const TalentCard = ({
   coverLetter,
   offered,
   rejected,
-  profile: talentProfile,
 }: TalentCardProps) => {
   const { id } = useParams();
 
@@ -117,11 +115,8 @@ const TalentCard = ({
     const fetchData = async () => {
       try {
         const res = await getUserProfile(Number(applicantId));
-        if (talentProfile) {
-          setProfile(talentProfile);
-        } else {
-          setProfile(res);
-        }
+
+        setProfile(res);
       } catch (error) {
         console.log(error);
       }
