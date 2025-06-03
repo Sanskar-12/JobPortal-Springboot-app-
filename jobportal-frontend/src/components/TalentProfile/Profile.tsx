@@ -14,7 +14,11 @@ const Profile = ({ profile }: ProfileProps) => {
       <div className="relative">
         <img src="/Profile/banner.jpg" alt="Banner" className="rounded-t-2xl" />
         <img
-          src="/avatar.png"
+          src={
+            profile?.picture
+              ? `data:image/jpeg;base64,${profile?.picture}`
+              : "/avatar.png"
+          }
           alt="Avatar"
           className="w-48 h-48 rounded-full -bottom-1/3 absolute left-3 border-mine-shaft-950 border-8"
         />

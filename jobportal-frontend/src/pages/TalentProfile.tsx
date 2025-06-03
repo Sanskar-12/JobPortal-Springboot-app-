@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useNavigate, useParams } from "react-router-dom";
 import Profile from "../components/TalentProfile/Profile";
 import RecommendedTalent from "../components/TalentProfile/RecommendedTalent";
 import { useEffect, useState } from "react";
-import { getUserProfile } from "../Services/ProfileService";
+import { getAllProfile, getUserProfile } from "../Services/ProfileService";
 import { errorNotification } from "../Services/NotificationService";
 import { profileUserServiceType } from "../types";
 
@@ -44,11 +45,18 @@ const TalentProfile = () => {
     ],
   });
 
+  const [talentProfiles, setTalentProfiles] = useState<
+    profileUserServiceType[]
+  >([]);
+
   useEffect(() => {
     const fetchData = async () => {
       window.scrollTo(0, 0);
       try {
         const res = await getUserProfile(Number(id));
+        let profiles = await getAllProfile();
+        profiles = profiles.filter((res: any) => res?.id?.toString() !== id);
+        setTalentProfiles(profiles);
         setProfile(res);
       } catch (error) {
         console.log(error);
@@ -72,7 +80,7 @@ const TalentProfile = () => {
       </div>
       <div className="flex gap-5">
         <Profile profile={profile} />
-        <RecommendedTalent />
+        <RecommendedTalent talentProfiles={talentProfiles} />
       </div>
     </div>
   );

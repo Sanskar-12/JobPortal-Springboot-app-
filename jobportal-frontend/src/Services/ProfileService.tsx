@@ -13,6 +13,16 @@ export const getUserProfile = async (id: number) => {
   }
 };
 
+export const getAllProfile = async () => {
+  try {
+    const { data } = await axios.get(`${baseURL}/getAllProfile`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const updateUserProfile = async (profile: profileUserServiceType) => {
   try {
     const { data } = await axios.put(`${baseURL}/updateprofile`, profile);

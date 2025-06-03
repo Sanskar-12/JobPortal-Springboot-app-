@@ -1,7 +1,12 @@
 import { talents } from "../../Data/TalentData";
+import { profileUserServiceType } from "../../types";
 import TalentCard from "../FindJobs/TalentCard";
 
-const RecommendedTalent = () => {
+interface RecommendedTalentProps {
+  talentProfiles: profileUserServiceType[];
+}
+
+const RecommendedTalent = ({ talentProfiles }: RecommendedTalentProps) => {
   return (
     <div className="w-1/3">
       <div className="text-xl font-semibold mb-5">Recommended Talent</div>
