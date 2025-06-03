@@ -21,7 +21,7 @@ const Header = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const data = await getUserProfile(user.profileId);
+        const data = await getUserProfile(user?.profileId);
         dispatch(setProfile(data));
       } catch (error) {
         console.log(error);

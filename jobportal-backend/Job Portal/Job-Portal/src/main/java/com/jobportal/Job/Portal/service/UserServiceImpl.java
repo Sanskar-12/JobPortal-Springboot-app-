@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // Create User profile
-        userDTO.setProfileId(profileService.createProfile(userDTO.getEmail()));
+        userDTO.setProfileId(profileService.createProfile(userDTO.getEmail(),userDTO.getName()));
 
         // Converting the id in mongodb to sequence number
         userDTO.setId(Utilities.getNextSequence("users"));

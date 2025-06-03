@@ -15,7 +15,7 @@ import {
 import { formatDate, openResumeInNewTab } from "../../utils";
 
 interface TalentCardProps {
-  applicantId: string;
+  applicantId?: string;
   posted?: boolean;
   invited?: boolean;
   offered?: boolean;
@@ -25,6 +25,7 @@ interface TalentCardProps {
   website?: string;
   resume?: string;
   coverLetter?: string;
+  profile?: profileUserServiceType;
 }
 
 const TalentCard = ({
@@ -38,6 +39,7 @@ const TalentCard = ({
   coverLetter,
   offered,
   rejected,
+  profile: talentProfile,
 }: TalentCardProps) => {
   const { id } = useParams();
 
@@ -115,7 +117,11 @@ const TalentCard = ({
     const fetchData = async () => {
       try {
         const res = await getUserProfile(Number(applicantId));
-        setProfile(res);
+        if (talentProfile) {
+          setProfile(talentProfile);
+        } else {
+          setProfile(res);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -123,6 +129,7 @@ const TalentCard = ({
     fetchData();
   }, [applicantId]);
 
+  console.log(profile);
   return (
     <div
       className={`bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200 ${

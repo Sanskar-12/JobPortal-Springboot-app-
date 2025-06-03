@@ -19,6 +19,7 @@ interface SelectInputProps {
 }
 
 const SelectInput = ({ option, form, name }: SelectInputProps) => {
+  console.log(option, form, name);
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
@@ -30,8 +31,8 @@ const SelectInput = ({ option, form, name }: SelectInputProps) => {
   const exactOptionMatch = data.some((item) => item === search);
   const filteredOptions = exactOptionMatch
     ? data
-    : data.filter((item) =>
-        item.toLowerCase().includes(search.toLowerCase().trim())
+    : data?.filter((item) =>
+        item?.toLowerCase().includes(search?.toLowerCase()?.trim())
       );
 
   const options = filteredOptions.map((item) => (

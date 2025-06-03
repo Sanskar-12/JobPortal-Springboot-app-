@@ -18,10 +18,11 @@ public class ProfileServiceImpl implements ProfileService{
     private ProfileRepository profileRepository;
 
     @Override
-    public Long createProfile(String email) throws JobPortalException {
+    public Long createProfile(String email,String name) throws JobPortalException {
         Profile profile = new Profile();
         profile.setId(Utilities.getNextSequence("profiles"));
         profile.setEmail(email);
+        profile.setName(name);
         profile.setSkills(new ArrayList<>());
         profile.setExperience(new ArrayList<>());
         profile.setCertifications(new ArrayList<>());

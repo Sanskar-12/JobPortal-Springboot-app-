@@ -20,7 +20,17 @@ const PostedJobPage = () => {
     jobTitle: "",
     company: "",
     jobStatus: "",
-    applicants: [{ applicantId: "", timestamp: "", applicationStatus: "" }],
+    applicants: [
+      {
+        applicantId: "",
+        timestamp: "",
+        applicationStatus: "",
+        interviewTime: new Date(),
+        coverLetter: "",
+        resume: "",
+        website: "",
+      },
+    ],
     experience: "",
     jobType: "",
     location: "",
