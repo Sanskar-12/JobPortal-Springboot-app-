@@ -105,7 +105,7 @@ const JobDetails = ({ edit, job }: JobDetailsProps) => {
           )}
           {edit ? (
             <Button color="red.5" size="sm" variant="outline">
-              Delete
+              Close
             </Button>
           ) : profile?.savedJobs?.includes(job?.id) ? (
             <IconBookmarkFilled

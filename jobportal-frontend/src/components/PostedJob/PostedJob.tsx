@@ -15,6 +15,18 @@ const PostedJob = ({ job, jobList }: PostedJobProps) => {
     (job) => job?.jobStatus === activeTab
   );
 
+  const filteredJobsBasedOnActive = jobList.filter(
+    (job) => "ACTIVE" === job?.jobStatus
+  );
+
+  const filteredJobsBasedOnDraft = jobList.filter(
+    (job) => "DRAFT" === job?.jobStatus
+  );
+
+  const filteredJobsBasedOnClosed = jobList.filter(
+    (job) => "CLOSED" === job?.jobStatus
+  );
+
   useEffect(() => {
     setActiveTab(job?.jobStatus || "ACTIVE");
   }, [job?.jobStatus]);
@@ -31,10 +43,13 @@ const PostedJob = ({ job, jobList }: PostedJobProps) => {
         >
           <Tabs.List className="[&_button[aria-selected='false']]:bg-mine-shaft-900 font-medium">
             <Tabs.Tab value="ACTIVE">
-              Active [{filteredJobsBasedOnStatus.length}]
+              Active [{filteredJobsBasedOnActive.length}]
             </Tabs.Tab>
             <Tabs.Tab value="DRAFT">
-              Draft [{filteredJobsBasedOnStatus.length}]
+              Draft [{filteredJobsBasedOnDraft.length}]
+            </Tabs.Tab>
+            <Tabs.Tab value="CLOSED">
+              Closed [{filteredJobsBasedOnClosed.length}]
             </Tabs.Tab>
           </Tabs.List>
 
