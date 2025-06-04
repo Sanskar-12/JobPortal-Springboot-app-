@@ -10,9 +10,15 @@ import { IRootUserState } from "../../redux/store";
 import { IUser, profileUserServiceType } from "../../types";
 import { changeProfile } from "../../redux/Slice/profileSlice";
 import { useEffect, useState } from "react";
+import { postJob } from "../../Services/JobService";
+import {
+  errorNotification,
+  successNotification,
+} from "../../Services/NotificationService";
 
 interface JobDetailsProps {
   edit?: boolean;
+  closed?: boolean;
   job: {
     id: number;
     jobTitle: string;
@@ -32,7 +38,7 @@ interface JobDetailsProps {
   };
 }
 
-const JobDetails = ({ edit, job }: JobDetailsProps) => {
+const JobDetails = ({ edit, job, closed }: JobDetailsProps) => {
   const dispatch = useDispatch();
 
   const profile = useSelector(
@@ -55,6 +61,20 @@ const JobDetails = ({ edit, job }: JobDetailsProps) => {
     const updatedProfile = { ...profile, savedJobs };
 
     dispatch(changeProfile(updatedProfile));
+  };
+
+  const handleClose = async () => {
+    const updatedJobStatus = {
+      ...job,
+      jobStatus: "CLOSED",
+    };
+
+    try {
+      await postJob(updatedJobStatus);
+      successNotification("Success", "Job Closed Successfully");
+    } catch (error: any) {
+      errorNotification("Error", error?.response?.data.errorMessage);
+    }
   };
 
   const data = DomPurify.sanitize(job?.description);
@@ -94,7 +114,7 @@ const JobDetails = ({ edit, job }: JobDetailsProps) => {
           {(edit || !applied) && (
             <Link to={`/apply-job/${job?.id}`}>
               <Button size="sm" color="bright-sun.4" variant="light">
-                {edit ? "Edit" : "Apply"}
+                {closed ? "Reopen" : edit ? "Edit" : "Apply"}
               </Button>
             </Link>
           )}
@@ -103,8 +123,13 @@ const JobDetails = ({ edit, job }: JobDetailsProps) => {
               Applied
             </Button>
           )}
-          {edit ? (
-            <Button color="red.5" size="sm" variant="outline">
+          {edit && !closed ? (
+            <Button
+              color="red.5"
+              size="sm"
+              variant="outline"
+              onClick={handleClose}
+            >
               Close
             </Button>
           ) : profile?.savedJobs?.includes(job?.id) ? (

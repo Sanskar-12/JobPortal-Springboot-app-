@@ -96,9 +96,14 @@ export type postJobType = {
   location: string;
   packageOffered: string;
   description: string;
-  skillsRequired: string[];
-  postedBy: number;
+  skillsRequired?: string[];
+  postedBy?: number;
   jobStatus: string;
+  applicants?: {
+    applicantId: string;
+    timestamp: string;
+    applicationStatus: string;
+  }[];
 };
 
 export type JobDetails = {

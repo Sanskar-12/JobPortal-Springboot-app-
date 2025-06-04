@@ -30,7 +30,11 @@ const PostedJobDescription = ({ job }: PostedJobDescriptionProps) => {
               </Tabs.List>
 
               <Tabs.Panel value="overview" className="[&>div]:w-full">
-                <JobDetails edit={true} job={job} />
+                {job?.jobStatus === "CLOSED" ? (
+                  <JobDetails edit={true} job={job} closed={true} />
+                ) : (
+                  <JobDetails edit={true} job={job} />
+                )}
               </Tabs.Panel>
               <Tabs.Panel value="applicants">
                 <div className="mt-10 grid grid-cols-4 gap-5 justify-around">
