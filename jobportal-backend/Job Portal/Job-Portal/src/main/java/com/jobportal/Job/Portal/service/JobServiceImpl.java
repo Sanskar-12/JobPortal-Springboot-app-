@@ -26,6 +26,7 @@ public class JobServiceImpl implements JobService{
         jobDTO.setId(Utilities.getNextSequence("jobs"));
         jobDTO.setPostTime(LocalDateTime.now());
 
+
         } else {
             Job job = jobRepository.findById(jobDTO.getId()).orElseThrow(()->new JobPortalException("JOB_NOT_FOUND"));
             if(job.getJobStatus().equals(JobStatus.DRAFT) || job.getJobStatus().equals(JobStatus.CLOSED)) {

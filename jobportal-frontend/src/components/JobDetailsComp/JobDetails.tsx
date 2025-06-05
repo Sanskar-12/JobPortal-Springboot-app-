@@ -2,7 +2,7 @@
 import { ActionIcon, Button, Divider } from "@mantine/core";
 import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import { card, skills } from "../../Data/JobDescData";
+import { card } from "../../Data/JobDescData";
 import DomPurify from "dompurify";
 import { timeAgo } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,11 +35,14 @@ interface JobDetailsProps {
     postTime: Date;
     description: string;
     about: string;
+    skillsRequired: [];
   };
 }
 
 const JobDetails = ({ edit, job, closed }: JobDetailsProps) => {
   const dispatch = useDispatch();
+
+  console.log(job);
 
   const profile = useSelector(
     (state: IRootUserState) => state.profile
@@ -170,7 +173,7 @@ const JobDetails = ({ edit, job, closed }: JobDetailsProps) => {
       <div>
         <div className="mb-3 font-semibold">Required Skills</div>
         <div className="flex flex-wrap gap-2">
-          {skills.map((item, index) => (
+          {job?.skillsRequired?.map((item, index) => (
             <ActionIcon
               color="bright-sun.4"
               className="!h-fit !w-fit font-medium !text-sm"

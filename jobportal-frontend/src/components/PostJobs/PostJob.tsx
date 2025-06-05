@@ -56,6 +56,7 @@ const PostJob = () => {
     try {
       const res = await postJob({
         ...form.getValues(),
+        id: Number(id),
         postedBy: profile.id,
         jobStatus: "ACTIVE",
       });
@@ -71,6 +72,7 @@ const PostJob = () => {
     try {
       const res = await postJob({
         ...form.getValues(),
+        id: Number(id),
         postedBy: profile.id,
         jobStatus: "DRAFT",
       });
@@ -87,12 +89,13 @@ const PostJob = () => {
       if (id !== "0") {
         try {
           const res = await getJob(id as string);
-          console.log(res);
           form.setValues(res);
         } catch (error) {
           console.log(error);
           errorNotification("Error", "Cannot fetch Job");
         }
+      } else {
+        form.reset();
       }
     };
     fetchData();

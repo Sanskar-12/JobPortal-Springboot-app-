@@ -88,6 +88,7 @@ export type profileUserServiceType = {
 };
 
 export type postJobType = {
+  id?: number;
   jobTitle: string;
   company: string;
   about: string;
@@ -129,6 +130,7 @@ export type JobDetails = {
   postTime: Date;
   description: string;
   about: string;
+  skillsRequired: [];
 };
 
 export type applyJobType = {
