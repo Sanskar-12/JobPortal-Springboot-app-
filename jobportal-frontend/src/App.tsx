@@ -87,7 +87,7 @@ function App() {
               element={user ? <Navigate to={"/"} /> : <SignUpPage />}
             />
             <Route path="/find-jobs" element={<FindJobs />} />
-            <Route path="/post-jobs" element={<PostJobs />} />
+            <Route path="/post-jobs/:id" element={<PostJobs />} />
             <Route path="/find-talent" element={<FindTalent />} />
             <Route path="/job/:id" element={<JobDetailPage />} />
             <Route path="/company/:company" element={<CompanyPage />} />

@@ -8,6 +8,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import { useForm } from "@mantine/form";
+import { useEffect } from "react";
 
 interface RichTextEditorCompProps {
   form: ReturnType<typeof useForm<any>>;
@@ -29,6 +30,10 @@ const RichTextEditorComp = ({ form }: RichTextEditorCompProps) => {
       form.setFieldValue("description", editor.getHTML());
     },
   });
+
+  useEffect(() => {
+    editor?.commands.setContent(form.getValues().description);
+  }, [form.getValues().description]);
 
   return (
     <RichTextEditor editor={editor}>

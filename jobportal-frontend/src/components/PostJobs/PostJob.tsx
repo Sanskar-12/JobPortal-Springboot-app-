@@ -3,17 +3,20 @@ import { fields } from "../../Data/PostJob";
 import SelectInput from "./SelectInput";
 import RichTextEditorComp from "./RichTextEditorComp";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { postJob } from "../../Services/JobService";
+import { getJob, postJob } from "../../Services/JobService";
 import {
   errorNotification,
   successNotification,
 } from "../../Services/NotificationService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { IRootUserState } from "../../redux/store";
 import { profileUserServiceType } from "../../types";
+import { useEffect } from "react";
 
 const PostJob = () => {
+  const { id } = useParams();
+
   const select = fields;
   const navigate = useNavigate();
   const profile = useSelector(
@@ -78,6 +81,22 @@ const PostJob = () => {
       errorNotification("Job Posting Failed", error);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id !== "0") {
+        try {
+          const res = await getJob(id as string);
+          console.log(res);
+          form.setValues(res);
+        } catch (error) {
+          console.log(error);
+          errorNotification("Error", "Cannot fetch Job");
+        }
+      }
+    };
+    fetchData();
+  }, [id]);
 
   return (
     <div className="w-4/5 mx-auto">

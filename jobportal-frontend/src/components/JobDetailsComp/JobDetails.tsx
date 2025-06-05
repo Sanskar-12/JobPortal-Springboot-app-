@@ -112,7 +112,7 @@ const JobDetails = ({ edit, job, closed }: JobDetailsProps) => {
         </div>
         <div className="flex flex-col gap-2 items-center">
           {(edit || !applied) && (
-            <Link to={`/apply-job/${job?.id}`}>
+            <Link to={edit ? `/post-jobs/${job?.id}` : `/apply-job/${job?.id}`}>
               <Button size="sm" color="bright-sun.4" variant="light">
                 {closed ? "Reopen" : edit ? "Edit" : "Apply"}
               </Button>

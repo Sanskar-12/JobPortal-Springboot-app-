@@ -124,7 +124,6 @@ const TalentCard = ({
     fetchData();
   }, [applicantId]);
 
-  console.log(profile);
   return (
     <div
       className={`bg-mine-shaft-900 p-4 flex flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_yellow] shadow-bright-sun-400 transition-shadow duration-200 ${
