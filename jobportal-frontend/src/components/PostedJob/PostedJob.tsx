@@ -61,6 +61,7 @@ const PostedJob = ({ job, jobList }: PostedJobProps) => {
                 jobTitle={job.jobTitle}
                 location={job.location}
                 posted={job.postTime}
+                jobStatus={job?.jobStatus}
               />
             ))}
           </div>

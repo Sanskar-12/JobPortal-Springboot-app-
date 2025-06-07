@@ -36,8 +36,6 @@ const TalentCard = ({
   website,
   resume,
   coverLetter,
-  offered,
-  rejected,
 }: TalentCardProps) => {
   const { id } = useParams();
 

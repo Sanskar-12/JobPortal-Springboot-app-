@@ -6,6 +6,7 @@ interface PostedJobCardProps {
   jobTitle: string;
   location: string;
   posted: Date;
+  jobStatus: string;
 }
 
 const PostedJobCard = ({
@@ -13,6 +14,7 @@ const PostedJobCard = ({
   jobTitle,
   location,
   posted,
+  jobStatus,
 }: PostedJobCardProps) => {
   const { id } = useParams();
 
@@ -27,7 +29,14 @@ const PostedJobCard = ({
     >
       <div className="text-sm font-semibold">{jobTitle}</div>
       <div className="text-xs font-medium">{location}</div>
-      <div className="text-xs">{timeAgo(posted)}</div>
+      <div className="text-xs">
+        {jobStatus === "DRAFT"
+          ? "Drafted"
+          : jobStatus === "CLOSED"
+          ? "Closed"
+          : "Posted"}{" "}
+        {timeAgo(posted)}
+      </div>
     </Link>
   );
 };
