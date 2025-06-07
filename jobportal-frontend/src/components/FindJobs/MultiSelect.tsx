@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ForwardRefExoticComponent,
   RefAttributes,
@@ -14,6 +15,8 @@ import {
   useCombobox,
 } from "@mantine/core";
 import { Icon, IconProps, IconSelector } from "@tabler/icons-react";
+import { useDispatch } from "react-redux";
+import { updateFilter } from "../../redux/Slice/filterSlice";
 
 interface MultiSelectProps {
   title: string;
@@ -31,6 +34,8 @@ export const MultiSelect = ({ title, Icon, option }: MultiSelectProps) => {
   const [data, setData] = useState<string[]>([]);
   const [value, setValue] = useState<string[]>([]);
 
+  const dispatch = useDispatch();
+
   const exactOptionMatch = data.some((item) => item === search);
 
   const handleValueSelect = (val: string) => {
@@ -39,17 +44,35 @@ export const MultiSelect = ({ title, Icon, option }: MultiSelectProps) => {
     if (val === "$create") {
       setData((current) => [...current, search]);
       setValue((current) => [...current, search]);
+      dispatch(
+        updateFilter({
+          [title]: [...value, search],
+        })
+      );
     } else {
       setValue((current) =>
         current.includes(val)
           ? current.filter((v) => v !== val)
           : [...current, val]
       );
+      dispatch(
+        updateFilter({
+          [title]: value.includes(val)
+            ? value.filter((v) => v !== val)
+            : [...value, val],
+        })
+      );
     }
   };
 
-  const handleValueRemove = (val: string) =>
+  const handleValueRemove = (val: string) => {
     setValue((current) => current.filter((v) => v !== val));
+    dispatch(
+      updateFilter({
+        [title]: value.filter((v) => v !== val),
+      })
+    );
+  };
 
   const values = value.slice(0, 1).map((item) => (
     <Pill key={item} withRemoveButton onRemove={() => handleValueRemove(item)}>
