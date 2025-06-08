@@ -5,9 +5,16 @@ import TalentCard from "../FindJobs/TalentCard";
 import { errorNotification } from "../../Services/NotificationService";
 import { getAllProfile } from "../../Services/ProfileService";
 import { profileUserServiceType } from "../../types";
+import { useSelector } from "react-redux";
 
 const Talents = () => {
   const [talents, setTalents] = useState<profileUserServiceType[]>([]);
+
+  const filter = useSelector((state: any) => state.filter);
+
+  const [filteredTalents, setFilteredTalents] = useState<
+    profileUserServiceType[]
+  >([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +29,46 @@ const Talents = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    let filterTalent = talents;
+    setFilteredTalents(talents);
+    if (filter.name) {
+      filterTalent = filterTalent.filter((talent) =>
+        talent.name.toLowerCase().includes(filter.name.toLowerCase())
+      );
+    }
+    if (filter["Job Title"] && filter["Job Title"].length > 0) {
+      filterTalent = filterTalent.filter((talent) =>
+        filter["Job Title"].some((jobTitle: string) =>
+          talent.jobTitle.toLowerCase().includes(jobTitle.toLowerCase())
+        )
+      );
+    }
+    if (filter["Location"] && filter["Location"].length > 0) {
+      filterTalent = filterTalent.filter((talent) =>
+        filter["Location"].some((location: string) =>
+          talent.location.toLowerCase().includes(location.toLowerCase())
+        )
+      );
+    }
+    if (filter["Skills"] && filter["Skills"].length > 0) {
+      filterTalent = filterTalent.filter((talent) =>
+        filter["Skills"].some((skills: string) =>
+          talent.skills.some((skill) =>
+            skill.toLowerCase().includes(skills.toLowerCase())
+          )
+        )
+      );
+    }
+    if (filter["exp"] && filter["exp"].length > 0) {
+      filterTalent = filterTalent.filter(
+        (talent) =>
+          talent.totalExp >= filter.exp[0] && talent.totalExp <= filter.exp[1]
+      );
+    }
+    setFilteredTalents(filterTalent);
+  }, [filter, talents]);
+
   return (
     <div className="p-5">
       <div className="flex justify-between">
@@ -29,9 +76,13 @@ const Talents = () => {
         <Sort />
       </div>
       <div className="mt-10 grid grid-cols-4 gap-5">
-        {talents.map((talent, index) => (
-          <TalentCard key={index} applicantId={talent?.id.toString()} />
-        ))}
+        {filteredTalents.length > 0 ? (
+          filteredTalents.map((talent, index) => (
+            <TalentCard key={index} applicantId={talent?.id.toString()} />
+          ))
+        ) : (
+          <div className="text-2xl font-semibold">No Talents Found</div>
+        )}
       </div>
     </div>
   );

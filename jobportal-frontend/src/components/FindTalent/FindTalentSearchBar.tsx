@@ -68,6 +68,7 @@ const FindTalentSearchBar = () => {
           size={"xs"}
           max={50}
           min={1}
+          minRange={1}
           value={value}
           onChange={setValue}
           onChangeEnd={(e) => handleChange("exp", e)}
