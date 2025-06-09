@@ -1,10 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Divider, RangeSlider } from "@mantine/core";
 import { dropdownData } from "../../Data/JobsData";
 import { MultiSelect } from "./MultiSelect";
 import { useState } from "react";
+import { updateFilter } from "../../redux/Slice/filterSlice";
+import { useDispatch } from "react-redux";
 
 const SearchBar = () => {
+  const dispatch = useDispatch();
+
   const [value, setValue] = useState<[number, number]>([1, 100]);
+
+  const handleChange = (name: string, e: any) => {
+    dispatch(
+      updateFilter({
+        [name]: e,
+      })
+    );
+  };
 
   return (
     <div className="flex px-5 py-8 items-center !text-mine-shaft-100">
@@ -30,8 +43,12 @@ const SearchBar = () => {
         <RangeSlider
           color="bright-sun.4"
           size={"xs"}
+          max={100}
+          min={1}
+          minRange={1}
           value={value}
           onChange={setValue}
+          onChangeEnd={(e) => handleChange("Package", e)}
           labelTransitionProps={{
             transition: "skew-down",
             duration: 150,

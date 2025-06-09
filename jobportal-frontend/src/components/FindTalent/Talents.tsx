@@ -5,10 +5,13 @@ import TalentCard from "../FindJobs/TalentCard";
 import { errorNotification } from "../../Services/NotificationService";
 import { getAllProfile } from "../../Services/ProfileService";
 import { profileUserServiceType } from "../../types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { resetFilter } from "../../redux/Slice/filterSlice";
 
 const Talents = () => {
   const [talents, setTalents] = useState<profileUserServiceType[]>([]);
+
+  const dispatch = useDispatch();
 
   const filter = useSelector((state: any) => state.filter);
 
@@ -17,6 +20,7 @@ const Talents = () => {
   >([]);
 
   useEffect(() => {
+    dispatch(resetFilter({}));
     const fetchData = async () => {
       try {
         const res = await getAllProfile();
