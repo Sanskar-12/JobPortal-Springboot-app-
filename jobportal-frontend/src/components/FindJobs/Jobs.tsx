@@ -101,7 +101,7 @@ const Jobs = () => {
     <div className="p-5">
       <div className="flex justify-between">
         <div className="text-2xl font-semibold">Recommended Jobs</div>
-        <Sort />
+        <Sort sort={"job"} />
       </div>
       <div className="mt-10 grid grid-cols-4 gap-5">
         {filteredJobs.map((job, index) => (

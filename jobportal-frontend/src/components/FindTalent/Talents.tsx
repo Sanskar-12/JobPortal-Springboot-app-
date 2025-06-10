@@ -14,6 +14,7 @@ const Talents = () => {
   const dispatch = useDispatch();
 
   const filter = useSelector((state: any) => state.filter);
+  const sort = useSelector((state: any) => state.sort);
 
   const [filteredTalents, setFilteredTalents] = useState<
     profileUserServiceType[]
@@ -32,6 +33,18 @@ const Talents = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (sort === "Experience (Low to High)") {
+      setTalents(
+        [...talents].sort((a, b) => Number(a.totalExp) - Number(b.totalExp))
+      );
+    } else if (sort === "Experience (High to Low)") {
+      setTalents(
+        [...talents].sort((a, b) => Number(b.totalExp) - Number(a.totalExp))
+      );
+    }
+  }, [sort]);
 
   useEffect(() => {
     let filterTalent = talents;
@@ -77,7 +90,7 @@ const Talents = () => {
     <div className="p-5">
       <div className="flex justify-between">
         <div className="text-2xl font-semibold">Recommended Talents</div>
-        <Sort />
+        <Sort sort={"talent"} />
       </div>
       <div className="mt-10 grid grid-cols-4 gap-5">
         {filteredTalents.length > 0 ? (

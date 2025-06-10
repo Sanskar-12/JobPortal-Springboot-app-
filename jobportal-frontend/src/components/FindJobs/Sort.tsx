@@ -11,7 +11,17 @@ const opt = [
   "Salary (High to Low)",
 ];
 
-const Sort = () => {
+const talentSort = [
+  "Relevance",
+  "Experience (Low to High)",
+  "Experience (High to Low)",
+];
+
+interface SortProps {
+  sort: string;
+}
+
+const Sort = ({ sort }: SortProps) => {
   const [selectedItem, setSelectedItem] = useState<string | null>("Relevance");
 
   const dispatch = useDispatch();
@@ -20,11 +30,18 @@ const Sort = () => {
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
 
-  const options = opt.map((item) => (
-    <Combobox.Option value={item} key={item} className="text-xs">
-      {item}
-    </Combobox.Option>
-  ));
+  const options =
+    sort === "job"
+      ? opt.map((item) => (
+          <Combobox.Option value={item} key={item} className="text-xs">
+            {item}
+          </Combobox.Option>
+        ))
+      : talentSort.map((item) => (
+          <Combobox.Option value={item} key={item} className="text-xs">
+            {item}
+          </Combobox.Option>
+        ));
 
   return (
     <>
