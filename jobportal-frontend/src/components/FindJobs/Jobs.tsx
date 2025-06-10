@@ -14,6 +14,7 @@ const Jobs = () => {
   const dispatch = useDispatch();
 
   const filter = useSelector((state: any) => state.filter);
+  const sort = useSelector((state: any) => state.sort);
 
   const [filteredJobs, setFilteredJobs] = useState<JobDetails[]>([]);
 
@@ -30,6 +31,29 @@ const Jobs = () => {
     };
     fetchJobs();
   }, []);
+
+  useEffect(() => {
+    if (sort === "Most Recent") {
+      setJobList(
+        [...jobList].sort(
+          (a, b) =>
+            new Date(b.postTime).getTime() - new Date(a.postTime).getTime()
+        )
+      );
+    } else if (sort === "Salary (Low to High)") {
+      setJobList(
+        [...jobList].sort(
+          (a, b) => Number(a.packageOffered) - Number(b.packageOffered)
+        )
+      );
+    } else if (sort === "Salary (High to Low)") {
+      setJobList(
+        [...jobList].sort(
+          (a, b) => Number(b.packageOffered) - Number(a.packageOffered)
+        )
+      );
+    }
+  }, [sort]);
 
   useEffect(() => {
     let filterJobs = jobList;

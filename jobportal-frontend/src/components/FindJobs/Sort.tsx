@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Combobox, useCombobox } from "@mantine/core";
 import { IconAdjustments } from "@tabler/icons-react";
+import { useDispatch } from "react-redux";
+import { updateSort } from "../../redux/Slice/sortSlice";
 
 const opt = [
   "Relevance",
@@ -11,6 +13,9 @@ const opt = [
 
 const Sort = () => {
   const [selectedItem, setSelectedItem] = useState<string | null>("Relevance");
+
+  const dispatch = useDispatch();
+
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
@@ -30,6 +35,7 @@ const Sort = () => {
         withinPortal={false}
         onOptionSubmit={(val) => {
           setSelectedItem(val);
+          dispatch(updateSort(val));
           combobox.closeDropdown();
         }}
       >
