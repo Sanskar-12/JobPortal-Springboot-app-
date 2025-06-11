@@ -21,6 +21,7 @@ const TalentProfile = () => {
     company: "",
     location: "",
     about: "",
+    totalExp: 1,
     skills: [],
     picture: "",
     savedJobs: [],
